@@ -2,6 +2,7 @@ package com.barbertime.barbertime_backend.entities;
 
 import com.barbertime.barbertime_backend.enums.EStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -18,8 +19,19 @@ import java.time.LocalTime;
 public class Appointment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty
     private LocalDate date;
+
+    @NotEmpty
     private LocalTime time;
+
     @Enumerated(EnumType.STRING)
     private EStatus status;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Customer customer;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private BarberShop barberShop;
 }

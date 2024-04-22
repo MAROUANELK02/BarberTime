@@ -16,6 +16,11 @@ import java.time.LocalDate;
 public class Holiday {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idHoliday;
+
     private LocalDate holidayDate;
+
     private String reason;
+
+    @ManyToOne
+    private BarberShop barberShop;
 }

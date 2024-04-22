@@ -15,7 +15,9 @@ import lombok.*;
 public class Service {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idService;
+
     @Enumerated(EnumType.STRING)
     private EService service;
+
     private double price;
 }

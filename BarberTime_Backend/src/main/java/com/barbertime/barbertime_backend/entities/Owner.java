@@ -11,10 +11,7 @@ import lombok.*;
 @Setter
 @Builder
 @ToString
-public class Owner {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String telNumber;
+public class Owner extends User {
+    @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)
+    private BarberShop barberShop;
 }

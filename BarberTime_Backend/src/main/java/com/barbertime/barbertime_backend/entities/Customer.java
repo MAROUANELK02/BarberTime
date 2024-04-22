@@ -1,7 +1,11 @@
 package com.barbertime.barbertime_backend.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -11,10 +15,7 @@ import lombok.*;
 @Setter
 @Builder
 @ToString
-public class Customer {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCustomer;
-    private String firstName;
-    private String lastName;
-    private String telNumber;
+public class Customer extends User {
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    private List<Appointment> appointments;
 }
