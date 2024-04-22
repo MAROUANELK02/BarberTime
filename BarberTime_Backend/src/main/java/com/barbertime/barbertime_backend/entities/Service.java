@@ -17,7 +17,7 @@ public class Service {
     private Long idService;
 
     @Enumerated(EnumType.STRING)
-    private EService service;
+    private EService serviceName;
 
     private double price;
 }

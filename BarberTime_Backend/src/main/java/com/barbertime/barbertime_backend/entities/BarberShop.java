@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 public class BarberShop {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idBarber;
+    private Long idBarberShop;
 
     @NotEmpty
     @Size(min = 4, max = 40)
