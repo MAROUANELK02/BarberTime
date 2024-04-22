@@ -23,15 +23,19 @@ public class BarberShop {
 
     @NotEmpty
     @Size(min = 4, max = 40)
+    @Column(unique = true)
     private String name;
 
     @NotEmpty
     @Size(min = 4, max = 100)
+    @Column(unique = true)
     private String address;
 
     @Enumerated(EnumType.STRING)
     private ENeighborhood neighborhood;
 
+    @NotEmpty
+    @Column(unique = true)
     private String authorizationNumber;
 
     private int capacity;
