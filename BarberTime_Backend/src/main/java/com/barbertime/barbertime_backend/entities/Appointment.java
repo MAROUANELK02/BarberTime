@@ -29,7 +29,7 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private EStatus status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.EAGER)

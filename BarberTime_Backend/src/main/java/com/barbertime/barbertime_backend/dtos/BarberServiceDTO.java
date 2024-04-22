@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 @Builder
-public class ServiceDTO {
+public class BarberServiceDTO {
     private Long idService;
     private EService serviceName;
     private double price;

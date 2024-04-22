@@ -15,6 +15,5 @@ public class AppointmentDTO {
     private LocalDate date;
     private LocalTime time;
     private EStatus status;
-    private CustomerDTO customerDTO;
     private BarberShopDTO barberShopDTO;
 }

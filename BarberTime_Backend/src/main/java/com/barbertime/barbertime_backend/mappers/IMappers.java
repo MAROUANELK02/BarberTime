@@ -20,6 +20,6 @@ public interface IMappers {
     Role toRole(RoleDTO roleDTO);
     UserDTO toUserDTO(User user);
     User toUser(UserDTO userDTO);
-    ServiceDTO toServiceDTO(Service service);
-    Service toService(ServiceDTO serviceDTO);
+    BarberServiceDTO toBarberServiceDTO(BarberService barberService);
+    BarberService toBarberService(BarberServiceDTO barberServiceDTO);
 }

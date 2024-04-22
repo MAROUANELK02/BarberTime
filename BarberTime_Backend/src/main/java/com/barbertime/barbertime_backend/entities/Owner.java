@@ -1,6 +1,8 @@
 package com.barbertime.barbertime_backend.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Entity
@@ -12,6 +14,11 @@ import lombok.*;
 @Builder
 @ToString
 public class Owner extends User {
+    @NotEmpty
+    @Size(min = 4)
+    @Column(unique = true)
+    private String cin;
+
     @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)
     private BarberShop barberShop;
 }

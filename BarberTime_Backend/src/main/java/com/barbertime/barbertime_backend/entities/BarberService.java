@@ -13,7 +13,7 @@ import lombok.*;
 @Setter
 @Builder
 @ToString
-public class Service {
+public class BarberService {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idService;
 

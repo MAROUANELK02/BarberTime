@@ -13,6 +13,7 @@ public class BarberShopDTO {
     private Long idBarberShop;
     private String name;
     private String address;
+    private String phone;
     private ENeighborhood neighborhood;
     private String authorizationNumber;
     private int capacity;

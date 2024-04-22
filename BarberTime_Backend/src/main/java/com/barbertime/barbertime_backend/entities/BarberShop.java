@@ -31,6 +31,10 @@ public class BarberShop {
     @Column(unique = true)
     private String address;
 
+    @Size(min = 10, max = 20)
+    @Column(unique = true)
+    private String phone;
+
     @Enumerated(EnumType.STRING)
     private ENeighborhood neighborhood;
 
@@ -55,5 +59,5 @@ public class BarberShop {
     private List<Holiday> holidays;
 
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
-    private List<Service> services;
+    private List<BarberService> barberServices;
 }

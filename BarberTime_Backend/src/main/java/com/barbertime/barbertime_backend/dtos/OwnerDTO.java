@@ -7,4 +7,5 @@ import lombok.*;
 @Data
 @Builder
 public class OwnerDTO extends UserDTO {
+    private String cin;
 }
