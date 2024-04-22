@@ -6,5 +6,4 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 public class OwnerDTO extends UserDTO {
-    private BarberShopDTO barberShopDTO;
 }

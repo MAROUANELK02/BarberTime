@@ -18,9 +18,5 @@ public class BarberShopDTO {
     private String authorizationNumber;
     private int capacity;
     private LocalDate dayOff;
-    private List<AppointmentDTO> appointmentsDTO;
     private OwnerDTO ownerDTO;
-    private List<HairdresserDTO> hairdressersDTO;
-    private List<HolidayDTO> holidaysDTO;
-    private List<Service> services;
 }
