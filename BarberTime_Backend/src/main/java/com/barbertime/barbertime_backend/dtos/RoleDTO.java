@@ -6,6 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class RoleDTO {
     private Long idRole;
     private ERole roleName;

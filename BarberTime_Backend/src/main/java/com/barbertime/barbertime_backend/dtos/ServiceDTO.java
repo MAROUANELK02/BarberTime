@@ -6,6 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class ServiceDTO {
     private Long idService;
     private EService serviceName;

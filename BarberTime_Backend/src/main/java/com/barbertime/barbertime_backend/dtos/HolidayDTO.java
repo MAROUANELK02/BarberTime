@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class HolidayDTO {
     private Long idHoliday;
     private LocalDate holidayDate;

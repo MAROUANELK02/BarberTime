@@ -5,6 +5,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class HairdresserDTO {
     private Long idHairdresser;
     private String firstName;
