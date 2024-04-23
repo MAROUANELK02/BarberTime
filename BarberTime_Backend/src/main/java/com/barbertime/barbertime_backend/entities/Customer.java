@@ -18,4 +18,6 @@ import java.util.List;
 public class Customer extends User {
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Appointment> appointments;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    private List<Review> reviews;
 }
