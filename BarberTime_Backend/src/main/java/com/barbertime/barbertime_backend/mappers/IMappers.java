@@ -22,4 +22,6 @@ public interface IMappers {
     User toUser(UserDTO userDTO);
     BarberServiceDTO toBarberServiceDTO(BarberService barberService);
     BarberService toBarberService(BarberServiceDTO barberServiceDTO);
+    ReviewDTO toReviewDTO(Review review);
+    Review toReview(ReviewDTO reviewDTO);
 }

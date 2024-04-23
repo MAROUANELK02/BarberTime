@@ -189,4 +189,26 @@ public class IMappersImpl implements IMappers {
                 .price(barberServiceDTO.getPrice())
                 .build();
     }
+
+    @Override
+    public ReviewDTO toReviewDTO(Review review) {
+        return ReviewDTO.builder()
+                .idReview(review.getIdReview())
+                .rating(review.getRating())
+                .comment(review.getComment())
+                .customerDTO(toCustomerDTO(review.getCustomer()))
+                .barberShopDTO(toBarberShopDTO(review.getBarberShop()))
+                .build();
+    }
+
+    @Override
+    public Review toReview(ReviewDTO reviewDTO) {
+        return Review.builder()
+                .idReview(reviewDTO.getIdReview())
+                .rating(reviewDTO.getRating())
+                .comment(reviewDTO.getComment())
+                .customer(toCustomer(reviewDTO.getCustomerDTO()))
+                .barberShop(toBarberShop(reviewDTO.getBarberShopDTO()))
+                .build();
+    }
 }
