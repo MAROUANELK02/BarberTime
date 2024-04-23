@@ -4,6 +4,7 @@ import com.barbertime.barbertime_backend.enums.ENeighborhood;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +19,7 @@ public class BarberShopDTO {
     private String authorizationNumber;
     private int capacity;
     private LocalDate dayOff;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private OwnerDTO ownerDTO;
 }

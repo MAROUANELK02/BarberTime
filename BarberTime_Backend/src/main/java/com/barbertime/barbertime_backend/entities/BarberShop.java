@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -45,6 +46,12 @@ public class BarberShop {
     private int capacity;
 
     private LocalDate dayOff;
+
+    @NotEmpty
+    private LocalTime startTime;
+
+    @NotEmpty
+    private LocalTime endTime;
 
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
     private List<Appointment> appointments;

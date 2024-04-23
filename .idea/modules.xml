@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/BarberTime.iml" filepath="$PROJECT_DIR$/.idea/BarberTime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BarberTime_Backend/BarberTime_Backend.iml" filepath="$PROJECT_DIR$/BarberTime_Backend/BarberTime_Backend.iml" />
     </modules>
   </component>
 </project>
