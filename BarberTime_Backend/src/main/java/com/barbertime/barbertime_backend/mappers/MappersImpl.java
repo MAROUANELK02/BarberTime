@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
 
 @Service
-public class IMappersImpl implements IMappers {
+public class MappersImpl implements Mappers {
     @Override
     public AppointmentDTO toAppointmentDTO(Appointment appointment) {
         return AppointmentDTO.builder()
@@ -42,6 +42,9 @@ public class IMappersImpl implements IMappers {
                 .capacity(barberShop.getCapacity())
                 .dayOff(barberShop.getDayOff())
                 .ownerDTO(toOwnerDTO(barberShop.getOwner()))
+                .startTime(barberShop.getStartTime())
+                .endTime(barberShop.getEndTime())
+                .ratings(barberShop.getRatings())
                 .build();
     }
 
@@ -56,6 +59,9 @@ public class IMappersImpl implements IMappers {
                 .authorizationNumber(barberShopDTO.getAuthorizationNumber())
                 .capacity(barberShopDTO.getCapacity())
                 .dayOff(barberShopDTO.getDayOff())
+                .startTime(barberShopDTO.getStartTime())
+                .endTime(barberShopDTO.getEndTime())
+                .ratings(barberShopDTO.getRatings())
                 .owner(toOwner(barberShopDTO.getOwnerDTO()))
                 .build();
     }

@@ -3,7 +3,7 @@ package com.barbertime.barbertime_backend.mappers;
 import com.barbertime.barbertime_backend.dtos.*;
 import com.barbertime.barbertime_backend.entities.*;
 
-public interface IMappers {
+public interface Mappers {
     AppointmentDTO toAppointmentDTO(Appointment appointment);
     Appointment toAppointment(AppointmentDTO appointmentDTO);
     BarberShopDTO toBarberShopDTO(BarberShop barberShop);

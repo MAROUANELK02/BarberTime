@@ -53,6 +53,8 @@ public class BarberShop {
     @NotEmpty
     private LocalTime endTime;
 
+    private int ratings;
+
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
     private List<Appointment> appointments;
 

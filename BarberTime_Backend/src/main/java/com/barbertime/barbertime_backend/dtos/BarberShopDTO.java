@@ -21,5 +21,6 @@ public class BarberShopDTO {
     private LocalDate dayOff;
     private LocalTime startTime;
     private LocalTime endTime;
+    private int ratings;
     private OwnerDTO ownerDTO;
 }
