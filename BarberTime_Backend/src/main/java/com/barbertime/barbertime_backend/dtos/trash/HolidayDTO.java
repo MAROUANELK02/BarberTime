@@ -1,8 +1,10 @@
+/*
 package com.barbertime.barbertime_backend.dtos;
 
+import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import lombok.*;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 public class HolidayDTO {
     private Long idHoliday;
-    private LocalDate holidayDate;
+    private Date holidayDate;
     private String reason;
-    private BarberShopDTO barberShopDTO;
-}
+    private BarberShopResDTO barberShopDTO;
+}*/

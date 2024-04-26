@@ -5,5 +5,5 @@ import com.barbertime.barbertime_backend.enums.ERole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    Role findByRoleNameContains(ERole roleName);
+    Role findByRoleName(ERole roleName);
 }

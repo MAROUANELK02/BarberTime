@@ -1,3 +1,4 @@
+/*
 package com.barbertime.barbertime_backend.dtos;
 
 import lombok.*;
@@ -7,4 +8,4 @@ import lombok.*;
 @Data
 public class OwnerDTO extends UserDTO {
     private String cin;
-}
+}*/

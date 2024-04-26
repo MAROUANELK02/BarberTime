@@ -19,24 +19,24 @@ public class User {
     @Id @GeneratedValue(strategy = GenerationType.TABLE)
     private Long idUser;
 
-    @NotEmpty
+    //@NotEmpty
     @Size(min = 4, max = 40)
     private String firstName;
 
-    @NotEmpty
+    //@NotEmpty
     @Size(min = 4, max = 40)
     private String lastName;
 
-    @NotEmpty
+    //@NotEmpty
     @Size(min = 10)
     private String telNumber;
 
     @Email
-    @NotEmpty
+    //@NotEmpty
     @Column(unique = true)
     private String email;
 
-    @NotEmpty
+    //@NotEmpty
     @Column(unique = true)
     private String username;
 
@@ -45,4 +45,15 @@ public class User {
 
     @ManyToOne
     private Role role;
+
+    public User(Long userId, String firstName, String lastName, String telNumber, String email, String username, String password) {
+        this.idUser = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.telNumber = telNumber;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
 }

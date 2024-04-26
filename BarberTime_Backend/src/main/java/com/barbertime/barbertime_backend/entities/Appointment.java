@@ -4,9 +4,12 @@ import com.barbertime.barbertime_backend.enums.EStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "appointments")
@@ -20,11 +23,15 @@ public class Appointment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAppointment;
 
-    @NotEmpty
-    private LocalDate date;
+    //@NotEmpty
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date date;
 
-    @NotEmpty
-    private LocalTime time;
+    //@NotEmpty
+    @Temporal(TemporalType.TIME)
+    @DateTimeFormat(pattern = "HH:mm")
+    private Time time;
 
     @Enumerated(EnumType.STRING)
     private EStatus status;

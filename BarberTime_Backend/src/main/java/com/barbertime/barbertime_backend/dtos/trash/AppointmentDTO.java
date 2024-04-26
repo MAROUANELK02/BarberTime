@@ -1,10 +1,14 @@
+/*
 package com.barbertime.barbertime_backend.dtos;
 
+import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import lombok.*;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,8 +16,8 @@ import java.time.LocalTime;
 @Builder
 public class AppointmentDTO {
     private Long idAppointment;
-    private LocalDate date;
-    private LocalTime time;
+    private Date date;
+    private Time time;
     private EStatus status;
-    private BarberShopDTO barberShopDTO;
-}
+    private BarberShopResDTO barberShopDTO;
+}*/

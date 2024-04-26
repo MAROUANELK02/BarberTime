@@ -20,6 +20,6 @@ public class BarberService {
     @Enumerated(EnumType.STRING)
     private EService serviceName;
 
-    @NotEmpty
+    //@NotEmpty
     private double price;
 }

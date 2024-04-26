@@ -1,3 +1,4 @@
+/*
 package com.barbertime.barbertime_backend.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,4 +17,4 @@ public class UserDTO {
     @JsonIgnore
     private String password;
     private RoleDTO roleDTO;
-}
+}*/

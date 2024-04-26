@@ -1,27 +1,29 @@
 package com.barbertime.barbertime_backend.mappers;
 
 import com.barbertime.barbertime_backend.dtos.*;
+import com.barbertime.barbertime_backend.dtos.req.*;
+import com.barbertime.barbertime_backend.dtos.res.*;
 import com.barbertime.barbertime_backend.entities.*;
 
 public interface Mappers {
-    AppointmentDTO toAppointmentDTO(Appointment appointment);
-    Appointment toAppointment(AppointmentDTO appointmentDTO);
-    BarberShopDTO toBarberShopDTO(BarberShop barberShop);
-    BarberShop toBarberShop(BarberShopDTO barberShopDTO);
-    CustomerDTO toCustomerDTO(Customer customer);
-    Customer toCustomer(CustomerDTO customerDTO);
-    HairdresserDTO toHairdresserDTO(Hairdresser hairdresser);
-    Hairdresser toHairdresser(HairdresserDTO hairdresserDTO);
-    HolidayDTO toHolidayDTO(Holiday holiday);
-    Holiday toHoliday(HolidayDTO holidayDTO);
-    OwnerDTO toOwnerDTO(Owner owner);
-    Owner toOwner(OwnerDTO ownerDTO);
+    AppointmentResDTO toAppointmentResDTO(Appointment appointment);
+    Appointment toAppointment(AppointmentReqDTO appointmentDTO);
+    BarberShopResDTO toBarberShopResDTO(BarberShop barberShop);
+    BarberShop toBarberShop(BarberShopReqDTO barberShopDTO);
+    CustomerResDTO toCustomerResDTO(Customer customer);
+    Customer toCustomer(CustomerReqDTO customerDTO);
+    HairdresserResDTO toHairdresserResDTO(Hairdresser hairdresser);
+    Hairdresser toHairdresser(HairdresserReqDTO hairdresserReqDTO);
+    HolidayResDTO toHolidayResDTO(Holiday holiday);
+    Holiday toHoliday(HolidayReqDTO holidayDTO);
+    OwnerResDTO toOwnerResDTO(Owner owner);
+    Owner toOwner(OwnerReqDTO ownerDTO);
     RoleDTO toRoleDTO(Role role);
     Role toRole(RoleDTO roleDTO);
-    UserDTO toUserDTO(User user);
-    User toUser(UserDTO userDTO);
+    UserResDTO toUserResDTO(User user);
+    User toUser(UserReqDTO userDTO);
     BarberServiceDTO toBarberServiceDTO(BarberService barberService);
     BarberService toBarberService(BarberServiceDTO barberServiceDTO);
-    ReviewDTO toReviewDTO(Review review);
-    Review toReview(ReviewDTO reviewDTO);
+    ReviewResDTO toReviewResDTO(Review review);
+    Review toReview(ReviewReqDTO reviewDTO);
 }

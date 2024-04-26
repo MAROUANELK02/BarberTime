@@ -1,6 +1,8 @@
 package com.barbertime.barbertime_backend.mappers;
 
 import com.barbertime.barbertime_backend.dtos.*;
+import com.barbertime.barbertime_backend.dtos.req.*;
+import com.barbertime.barbertime_backend.dtos.res.*;
 import com.barbertime.barbertime_backend.entities.*;
 import org.springframework.stereotype.Service;
 
@@ -8,19 +10,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class MappersImpl implements Mappers {
+
     @Override
-    public AppointmentDTO toAppointmentDTO(Appointment appointment) {
-        return AppointmentDTO.builder()
+    public AppointmentResDTO toAppointmentResDTO(Appointment appointment) {
+        return AppointmentResDTO.builder()
                 .idAppointment(appointment.getIdAppointment())
                 .date(appointment.getDate())
                 .time(appointment.getTime())
                 .status(appointment.getStatus())
-                .barberShopDTO(toBarberShopDTO(appointment.getBarberShop()))
+                .barberShopDTO(toBarberShopResDTO(appointment.getBarberShop()))
                 .build();
     }
 
     @Override
-    public Appointment toAppointment(AppointmentDTO appointmentDTO) {
+    public Appointment toAppointment(AppointmentReqDTO appointmentDTO) {
         return Appointment.builder()
                 .idAppointment(appointmentDTO.getIdAppointment())
                 .date(appointmentDTO.getDate())
@@ -31,8 +34,8 @@ public class MappersImpl implements Mappers {
     }
 
     @Override
-    public BarberShopDTO toBarberShopDTO(BarberShop barberShop) {
-        return BarberShopDTO.builder()
+    public BarberShopResDTO toBarberShopResDTO(BarberShop barberShop) {
+        return BarberShopResDTO.builder()
                 .idBarberShop(barberShop.getIdBarberShop())
                 .name(barberShop.getName())
                 .address(barberShop.getAddress())
@@ -41,15 +44,16 @@ public class MappersImpl implements Mappers {
                 .authorizationNumber(barberShop.getAuthorizationNumber())
                 .capacity(barberShop.getCapacity())
                 .dayOff(barberShop.getDayOff())
-                .ownerDTO(toOwnerDTO(barberShop.getOwner()))
+                .ownerDTO(toOwnerResDTO(barberShop.getOwner()))
                 .startTime(barberShop.getStartTime())
                 .endTime(barberShop.getEndTime())
                 .ratings(barberShop.getRatings())
+                .ownerDTO(toOwnerResDTO(barberShop.getOwner()))
                 .build();
     }
 
     @Override
-    public BarberShop toBarberShop(BarberShopDTO barberShopDTO) {
+    public BarberShop toBarberShop(BarberShopReqDTO barberShopDTO) {
         return BarberShop.builder()
                 .idBarberShop(barberShopDTO.getIdBarberShop())
                 .name(barberShopDTO.getName())
@@ -57,59 +61,60 @@ public class MappersImpl implements Mappers {
                 .phone(barberShopDTO.getPhone())
                 .neighborhood(barberShopDTO.getNeighborhood())
                 .authorizationNumber(barberShopDTO.getAuthorizationNumber())
-                .capacity(barberShopDTO.getCapacity())
                 .dayOff(barberShopDTO.getDayOff())
                 .startTime(barberShopDTO.getStartTime())
                 .endTime(barberShopDTO.getEndTime())
-                .ratings(barberShopDTO.getRatings())
                 .owner(toOwner(barberShopDTO.getOwnerDTO()))
                 .build();
     }
 
     @Override
-    public CustomerDTO toCustomerDTO(Customer customer) {
-        return new CustomerDTO(customer.getAppointments().stream().map(this::toAppointmentDTO)
+    public CustomerResDTO toCustomerResDTO(Customer customer) {
+        RoleDTO roleDTO = toRoleDTO(customer.getRole());
+        return new CustomerResDTO(customer.getIdUser(), customer.getFirstName(),
+                customer.getLastName(), customer.getTelNumber(), customer.getEmail(),
+                customer.getUsername(),roleDTO,
+                customer.getAppointments().stream().map(this::toAppointmentResDTO)
                 .collect(Collectors.toList()));
     }
 
     @Override
-    public Customer toCustomer(CustomerDTO customerDTO) {
-        return new Customer(customerDTO.getAppointmentsDTO().stream().map(this::toAppointment)
-                .collect(Collectors.toList()));
+    public Customer toCustomer(CustomerReqDTO customerDTO) {
+        return new Customer(customerDTO.getIdUser(), customerDTO.getFirstName(),
+                customerDTO.getLastName(), customerDTO.getTelNumber(), customerDTO.getEmail(),
+                customerDTO.getUsername(), customerDTO.getPassword());
     }
 
     @Override
-    public HairdresserDTO toHairdresserDTO(Hairdresser hairdresser) {
-        return HairdresserDTO.builder()
+    public HairdresserResDTO toHairdresserResDTO(Hairdresser hairdresser) {
+        return HairdresserResDTO.builder()
                 .idHairdresser(hairdresser.getIdHairdresser())
                 .firstName(hairdresser.getFirstName())
                 .lastName(hairdresser.getLastName())
-                .barberShopDTO(toBarberShopDTO(hairdresser.getBarberShop()))
+                .barberShopDTO(toBarberShopResDTO(hairdresser.getBarberShop()))
                 .build();
     }
 
     @Override
-    public Hairdresser toHairdresser(HairdresserDTO hairdresserDTO) {
+    public Hairdresser toHairdresser(HairdresserReqDTO hairdresserReqDTO) {
         return Hairdresser.builder()
-                .idHairdresser(hairdresserDTO.getIdHairdresser())
-                .firstName(hairdresserDTO.getFirstName())
-                .lastName(hairdresserDTO.getLastName())
-                .barberShop(toBarberShop(hairdresserDTO.getBarberShopDTO()))
+                .firstName(hairdresserReqDTO.getFirstName())
+                .lastName(hairdresserReqDTO.getLastName())
                 .build();
     }
 
     @Override
-    public HolidayDTO toHolidayDTO(Holiday holiday) {
-        return HolidayDTO.builder()
+    public HolidayResDTO toHolidayResDTO(Holiday holiday) {
+        return HolidayResDTO.builder()
                 .idHoliday(holiday.getIdHoliday())
                 .holidayDate(holiday.getHolidayDate())
                 .reason(holiday.getReason())
-                .barberShopDTO(toBarberShopDTO(holiday.getBarberShop()))
+                .barberShopDTO(toBarberShopResDTO(holiday.getBarberShop()))
                 .build();
     }
 
     @Override
-    public Holiday toHoliday(HolidayDTO holidayDTO) {
+    public Holiday toHoliday(HolidayReqDTO holidayDTO) {
         return Holiday.builder()
                 .idHoliday(holidayDTO.getIdHoliday())
                 .holidayDate(holidayDTO.getHolidayDate())
@@ -119,13 +124,18 @@ public class MappersImpl implements Mappers {
     }
 
     @Override
-    public OwnerDTO toOwnerDTO(Owner owner) {
-        return new OwnerDTO(owner.getCin());
+    public OwnerResDTO toOwnerResDTO(Owner owner) {
+        RoleDTO roleDTO = toRoleDTO(owner.getRole());
+        return new OwnerResDTO(owner.getIdUser(), owner.getFirstName(),
+                owner.getLastName(), owner.getTelNumber(), owner.getEmail(),
+                owner.getUsername(), roleDTO, owner.getCin());
     }
 
     @Override
-    public Owner toOwner(OwnerDTO ownerDTO) {
-        return new Owner(ownerDTO.getCin());
+    public Owner toOwner(OwnerReqDTO ownerDTO) {
+        return new Owner(ownerDTO.getIdUser(), ownerDTO.getFirstName(),
+                ownerDTO.getLastName(), ownerDTO.getTelNumber(), ownerDTO.getEmail(),
+                ownerDTO.getUsername(), ownerDTO.getPassword(), ownerDTO.getCin());
     }
 
     @Override
@@ -145,17 +155,17 @@ public class MappersImpl implements Mappers {
     }
 
     @Override
-    public UserDTO toUserDTO(User user) {
-        return new UserDTO(user.getIdUser(), user.getFirstName(),
-                user.getLastName(), user.getTelNumber(), user.getEmail(), user.getUsername(), user.getPassword(),
-                toRoleDTO(user.getRole()));
+    public UserResDTO toUserResDTO(User user) {
+        return new UserResDTO(user.getIdUser(), user.getFirstName(),
+                user.getLastName(), user.getTelNumber(), user.getEmail(),
+                user.getUsername(), toRoleDTO(user.getRole()));
     }
 
     @Override
-    public User toUser(UserDTO userDTO) {
+    public User toUser(UserReqDTO userDTO) {
         return new User(userDTO.getIdUser(), userDTO.getFirstName(),
-                userDTO.getLastName(), userDTO.getTelNumber(), userDTO.getEmail(), userDTO.getUsername(), userDTO.getPassword(),
-                toRole(userDTO.getRoleDTO()));
+                userDTO.getLastName(), userDTO.getTelNumber(), userDTO.getEmail(),
+                userDTO.getUsername(), userDTO.getPassword());
     }
 
     @Override
@@ -177,18 +187,18 @@ public class MappersImpl implements Mappers {
     }
 
     @Override
-    public ReviewDTO toReviewDTO(Review review) {
-        return ReviewDTO.builder()
+    public ReviewResDTO toReviewResDTO(Review review) {
+        return ReviewResDTO.builder()
                 .idReview(review.getIdReview())
                 .rating(review.getRating())
                 .comment(review.getComment())
-                .customerDTO(toCustomerDTO(review.getCustomer()))
-                .barberShopDTO(toBarberShopDTO(review.getBarberShop()))
+                .customerDTO(toCustomerResDTO(review.getCustomer()))
+                .barberShopDTO(toBarberShopResDTO(review.getBarberShop()))
                 .build();
     }
 
     @Override
-    public Review toReview(ReviewDTO reviewDTO) {
+    public Review toReview(ReviewReqDTO reviewDTO) {
         return Review.builder()
                 .idReview(reviewDTO.getIdReview())
                 .rating(reviewDTO.getRating())

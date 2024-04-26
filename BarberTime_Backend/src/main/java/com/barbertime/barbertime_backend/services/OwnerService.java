@@ -1,34 +1,33 @@
 package com.barbertime.barbertime_backend.services;
 
-import com.barbertime.barbertime_backend.dtos.AppointmentDTO;
-import com.barbertime.barbertime_backend.dtos.BarberShopDTO;
-import com.barbertime.barbertime_backend.dtos.HairdresserDTO;
-import com.barbertime.barbertime_backend.dtos.OwnerDTO;
+import com.barbertime.barbertime_backend.dtos.req.BarberShopReqDTO;
+import com.barbertime.barbertime_backend.dtos.req.HairdresserReqDTO;
+import com.barbertime.barbertime_backend.dtos.req.OwnerReqDTO;
+import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
+import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
+import com.barbertime.barbertime_backend.dtos.res.OwnerResDTO;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
-import javax.management.ServiceNotFoundException;
 import java.time.LocalDate;
-import java.util.List;
 
 public interface OwnerService {
-    OwnerDTO createOwner(OwnerDTO ownerDTO);
-    BarberShopDTO createBarberShop(BarberShopDTO barberShopDTO);
-    BarberShopDTO updateBarberShop(BarberShopDTO barberShopDTO);
+    OwnerResDTO createOwner(OwnerReqDTO ownerDTO);
+    BarberShopResDTO createBarberShop(BarberShopReqDTO barberShopDTO);
+    BarberShopResDTO updateBarberShop(BarberShopReqDTO barberShopDTO);
     void deleteBarberShop(Long idBarberShop) throws BarberShopNotFoundException;
-    BarberShopDTO getBarberShopByOwnerId(Long idOwner) throws OwnerNotFoundException;
-    void addDayOff(LocalDate dayOff, Long idBarberShop) throws BarberShopNotFoundException;
-    void removeDayOff(LocalDate dayOff, Long idBarberShop) throws BarberShopNotFoundException;
-    void updateDayOff(LocalDate newDayOff, Long idBarberShop) throws BarberShopNotFoundException;
-    Page<AppointmentDTO> getAppointmentsAllByBarberShop(Long barberId, int page, int size);
-    Page<AppointmentDTO> getAppointmentsByBarberShopAndDate(Long barberId, LocalDate date, int page, int size);
+    BarberShopResDTO getBarberShopByOwnerId(Long idOwner) throws OwnerNotFoundException;
+    void addDayOff(String dayOff, Long idBarberShop) throws BarberShopNotFoundException;
+    void removeDayOff(String dayOff, Long idBarberShop) throws BarberShopNotFoundException;
+    void updateDayOff(String newDayOff, Long idBarberShop) throws BarberShopNotFoundException;
+    Page<AppointmentResDTO> getAppointmentsAllByBarberShop(Long barberId, int page, int size);
+    Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(Long barberId, LocalDate date, int page, int size);
     void changeAppointmentStatus(Long idAppointment, EStatus status) throws AppointmentNotFoundException;
     void addService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException;
     void removeService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException;
-    void addHairdresser(HairdresserDTO hairdresserDTO);
-    void updateHairdresser(HairdresserDTO hairdresserDTO);
+    void addHairdresser(HairdresserReqDTO hairdresserDTO);
+    void updateHairdresser(HairdresserReqDTO hairdresserDTO);
     void assignHairdresserToBarberShop(Long idHairdresser, Long idBarberShop) throws BarberShopNotFoundException, HairdresserNotFoundException;
     void removeHairdresserFromBarberShop(Long idHairdresser, Long idBarberShop) throws BarberShopNotFoundException, HairdresserNotFoundException;
 }

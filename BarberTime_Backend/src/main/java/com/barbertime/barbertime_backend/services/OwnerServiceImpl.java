@@ -1,11 +1,15 @@
 package com.barbertime.barbertime_backend.services;
 
-import com.barbertime.barbertime_backend.dtos.AppointmentDTO;
-import com.barbertime.barbertime_backend.dtos.BarberShopDTO;
-import com.barbertime.barbertime_backend.dtos.HairdresserDTO;
-import com.barbertime.barbertime_backend.dtos.OwnerDTO;
+import com.barbertime.barbertime_backend.dtos.req.BarberShopReqDTO;
+import com.barbertime.barbertime_backend.dtos.req.HairdresserReqDTO;
+import com.barbertime.barbertime_backend.dtos.req.OwnerReqDTO;
+import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
+import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
+import com.barbertime.barbertime_backend.dtos.res.OwnerResDTO;
 import com.barbertime.barbertime_backend.entities.Appointment;
 import com.barbertime.barbertime_backend.entities.BarberShop;
+import com.barbertime.barbertime_backend.entities.Owner;
+import com.barbertime.barbertime_backend.entities.Role;
 import com.barbertime.barbertime_backend.enums.ERole;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
@@ -35,32 +39,36 @@ public class OwnerServiceImpl implements OwnerService {
     private Mappers mappers;
 
     @Override
-    public OwnerDTO createOwner(OwnerDTO ownerDTO) {
+    public OwnerResDTO createOwner(OwnerReqDTO ownerDTO) {
         log.info("Creating owner");
-        ownerDTO.setRoleDTO(mappers.toRoleDTO(roleRepository.findByRoleNameContains(ERole.ROLE_OWNER)));
-        ownerRepository.save(mappers.toOwner(ownerDTO));
+        Owner owner = mappers.toOwner(ownerDTO);
+        owner.setRole(roleRepository.findByRoleName(ERole.ROLE_OWNER));
+        ownerRepository.save(owner);
         log.info("Owner created");
-        return ownerDTO;
+        return mappers.toOwnerResDTO(owner);
     }
 
     @Override
-    public BarberShopDTO createBarberShop(BarberShopDTO barberShopDTO) {
+    public BarberShopResDTO createBarberShop(BarberShopReqDTO barberShopDTO) {
         log.info("Creating barber shop");
         BarberShop barberShop = mappers.toBarberShop(barberShopDTO);
         createOwner(barberShopDTO.getOwnerDTO());
-        barberShop.setOwner(ownerRepository.findByCin(barberShopDTO.getOwnerDTO().getCin()));
+        Owner owner = ownerRepository.findByCin(barberShopDTO.getOwnerDTO().getCin());
+        barberShop.setOwner(owner);
         barberShopRepository.save(barberShop);
+        owner.setBarberShop(barberShop);
+        ownerRepository.save(owner);
         log.info("Barber shop created");
-        return barberShopDTO;
+        return mappers.toBarberShopResDTO(barberShop);
     }
 
     @Override
-    public BarberShopDTO updateBarberShop(BarberShopDTO barberShopDTO) {
+    public BarberShopResDTO updateBarberShop(BarberShopReqDTO barberShopDTO) {
         log.info("Updating barber shop");
         BarberShop barberShop = mappers.toBarberShop(barberShopDTO);
         barberShopRepository.save(barberShop);
         log.info("Barber shop updated");
-        return barberShopDTO;
+        return mappers.toBarberShopResDTO(barberShop);
     }
 
     @Override
@@ -75,17 +83,17 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public BarberShopDTO getBarberShopByOwnerId(Long idOwner) throws OwnerNotFoundException {
+    public BarberShopResDTO getBarberShopByOwnerId(Long idOwner) throws OwnerNotFoundException {
         log.info("Getting barber shop by owner id");
         try {
-            return mappers.toBarberShopDTO(barberShopRepository.findByOwnerIdUser(idOwner));
+            return mappers.toBarberShopResDTO(barberShopRepository.findByOwnerIdUser(idOwner));
         }catch (Exception e){
             throw new OwnerNotFoundException("Barber Shop not found");
         }
     }
 
     @Override
-    public void addDayOff(LocalDate dayOff, Long idBarberShop) throws BarberShopNotFoundException {
+    public void addDayOff(String dayOff, Long idBarberShop) throws BarberShopNotFoundException {
         log.info("Adding day off");
         BarberShop barberShop = barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
@@ -95,7 +103,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void removeDayOff(LocalDate dayOff, Long idBarberShop) throws BarberShopNotFoundException {
+    public void removeDayOff(String dayOff, Long idBarberShop) throws BarberShopNotFoundException {
         log.info("Removing day off");
         BarberShop barberShop = barberShopRepository.findById(idBarberShop).orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         barberShop.setDayOff(null);
@@ -104,7 +112,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void updateDayOff(LocalDate newDayOff, Long idBarberShop) throws BarberShopNotFoundException {
+    public void updateDayOff(String newDayOff, Long idBarberShop) throws BarberShopNotFoundException {
         log.info("Updating day off");
         BarberShop barberShop = barberShopRepository.findById(idBarberShop).orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         barberShop.setDayOff(newDayOff);
@@ -113,10 +121,10 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Page<AppointmentDTO> getAppointmentsAllByBarberShop(Long barberId, int page, int size) {
+    public Page<AppointmentResDTO> getAppointmentsAllByBarberShop(Long barberId, int page, int size) {
         log.info("Getting appointments by barber shop");
         try {
-            return appointmentRepository.findAllByBarberShopIdBarberShop(barberId, PageRequest.of(page, size)).map(mappers::toAppointmentDTO);
+            return appointmentRepository.findAllByBarberShopIdBarberShop(barberId, PageRequest.of(page, size)).map(mappers::toAppointmentResDTO);
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -124,10 +132,10 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Page<AppointmentDTO> getAppointmentsByBarberShopAndDate(Long barberId, LocalDate date, int page, int size) {
+    public Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(Long barberId, LocalDate date, int page, int size) {
         log.info("Getting appointments by barber shop and date");
         try {
-            return appointmentRepository.findAllByBarberShopIdBarberShopAndDate(barberId, date, PageRequest.of(page, size)).map(mappers::toAppointmentDTO);
+            return appointmentRepository.findAllByBarberShopIdBarberShopAndDate(barberId, date, PageRequest.of(page, size)).map(mappers::toAppointmentResDTO);
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -170,14 +178,14 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void addHairdresser(HairdresserDTO hairdresserDTO) {
+    public void addHairdresser(HairdresserReqDTO hairdresserDTO) {
         log.info("Adding hairdresser");
         hairdresserRepository.save(mappers.toHairdresser(hairdresserDTO));
         log.info("Hairdresser added");
     }
 
     @Override
-    public void updateHairdresser(HairdresserDTO hairdresserDTO) {
+    public void updateHairdresser(HairdresserReqDTO hairdresserDTO) {
         log.info("Updating hairdresser");
         hairdresserRepository.save(mappers.toHairdresser(hairdresserDTO));
         log.info("Hairdresser updated");

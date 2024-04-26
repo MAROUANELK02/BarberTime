@@ -1,5 +1,8 @@
+/*
 package com.barbertime.barbertime_backend.dtos;
 
+import com.barbertime.barbertime_backend.dtos.req.BarberShopReqDTO;
+import com.barbertime.barbertime_backend.dtos.req.CustomerReqDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +16,7 @@ public class ReviewDTO {
     private Long idReview;
     private String comment;
     private int rating;
-    private CustomerDTO customerDTO;
-    private BarberShopDTO barberShopDTO;
+    private CustomerReqDTO customerDTO;
+    private BarberShopReqDTO barberShopDTO;
 }
+*/

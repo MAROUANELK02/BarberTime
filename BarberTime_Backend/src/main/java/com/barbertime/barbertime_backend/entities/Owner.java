@@ -13,7 +13,7 @@ import lombok.*;
 @Setter
 @ToString
 public class Owner extends User {
-    @NotEmpty
+    //@NotEmpty
     @Size(min = 4)
     @Column(unique = true)
     private String cin;
@@ -23,6 +23,12 @@ public class Owner extends User {
     private BarberShop barberShop;
 
     public Owner(String cin) {
+        this.cin = cin;
+    }
+
+    public Owner(Long userId, String firstName, String lastName, String telNumber, String email,
+                 String username, String password, String cin) {
+        super(userId, firstName, lastName, telNumber, email, username, password);
         this.cin = cin;
     }
 }

@@ -23,4 +23,9 @@ public class Customer extends User {
     public Customer(List<Appointment> appointments) {
         this.appointments = appointments;
     }
+
+    public Customer(Long userId, String firstName, String lastName, String telNumber, String email,
+                    String username, String password) {
+        super(userId, firstName, lastName, telNumber, email, username, password);
+    }
 }

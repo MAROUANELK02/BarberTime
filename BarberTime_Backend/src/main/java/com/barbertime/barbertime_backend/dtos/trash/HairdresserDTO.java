@@ -1,3 +1,4 @@
+/*
 package com.barbertime.barbertime_backend.dtos;
 
 import lombok.*;
@@ -12,3 +13,4 @@ public class HairdresserDTO {
     private String lastName;
     private BarberShopDTO barberShopDTO;
 }
+*/
