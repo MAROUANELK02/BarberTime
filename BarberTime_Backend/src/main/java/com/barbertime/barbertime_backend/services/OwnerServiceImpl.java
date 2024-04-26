@@ -31,7 +31,7 @@ public class OwnerServiceImpl implements OwnerService {
     private HolidayRepository holidayRepository;
     private OwnerRepository ownerRepository;
     private RoleRepository roleRepository;
-    private ServiceRepository serviceRepository;
+    private BarberServiceRepository barberServiceRepository;
     private UserRepository userRepository;
     private Mappers mappers;
 
@@ -152,7 +152,7 @@ public class OwnerServiceImpl implements OwnerService {
         log.info("Adding service");
         BarberShop barberShop = barberShopRepository.findById(barberShopId)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
-        barberShop.getBarberServices().add(serviceRepository.findById(idService)
+        barberShop.getBarberServices().add(barberServiceRepository.findById(idService)
                 .orElseThrow(() -> new BarberShopServiceNotFoundException("Service not found")));
         barberShopRepository.save(barberShop);
         log.info("Service added");
@@ -163,7 +163,7 @@ public class OwnerServiceImpl implements OwnerService {
         log.info("Removing service");
         BarberShop barberShop = barberShopRepository.findById(barberShopId)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
-        barberShop.getBarberServices().remove(serviceRepository.findById(idService)
+        barberShop.getBarberServices().remove(barberServiceRepository.findById(idService)
                 .orElseThrow(() -> new BarberShopServiceNotFoundException("Service not found")));
         barberShopRepository.save(barberShop);
         log.info("Service removed");
