@@ -11,7 +11,6 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 @ToString
 public class Owner extends User {
     @NotEmpty
@@ -19,6 +18,11 @@ public class Owner extends User {
     @Column(unique = true)
     private String cin;
 
-    @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idBarberShop")
     private BarberShop barberShop;
+
+    public Owner(String cin) {
+        this.cin = cin;
+    }
 }

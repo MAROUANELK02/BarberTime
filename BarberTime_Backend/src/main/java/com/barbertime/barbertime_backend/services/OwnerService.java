@@ -25,7 +25,7 @@ public interface OwnerService {
     Page<AppointmentDTO> getAppointmentsAllByBarberShop(Long barberId, int page, int size);
     Page<AppointmentDTO> getAppointmentsByBarberShopAndDate(Long barberId, LocalDate date, int page, int size);
     void changeAppointmentStatus(Long idAppointment, EStatus status) throws AppointmentNotFoundException;
-    void addService(Long barberShopId, Long idService) throws BarberShopNotFoundException, ServiceNotFoundException, BarberShopServiceNotFoundException;
+    void addService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException;
     void removeService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException;
     void addHairdresser(HairdresserDTO hairdresserDTO);
     void updateHairdresser(HairdresserDTO hairdresserDTO);

@@ -7,7 +7,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
 public class CustomerDTO extends UserDTO {
     private List<AppointmentDTO> appointmentsDTO;
 }

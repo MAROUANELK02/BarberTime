@@ -68,16 +68,14 @@ public class MappersImpl implements Mappers {
 
     @Override
     public CustomerDTO toCustomerDTO(Customer customer) {
-        return CustomerDTO.builder()
-                .appointmentsDTO(customer.getAppointments().stream().map(this::toAppointmentDTO).collect(Collectors.toList()))
-                .build();
+        return new CustomerDTO(customer.getAppointments().stream().map(this::toAppointmentDTO)
+                .collect(Collectors.toList()));
     }
 
     @Override
     public Customer toCustomer(CustomerDTO customerDTO) {
-        return Customer.builder()
-                .appointments(customerDTO.getAppointmentsDTO().stream().map(this::toAppointment).collect(Collectors.toList()))
-                .build();
+        return new Customer(customerDTO.getAppointmentsDTO().stream().map(this::toAppointment)
+                .collect(Collectors.toList()));
     }
 
     @Override
@@ -122,16 +120,12 @@ public class MappersImpl implements Mappers {
 
     @Override
     public OwnerDTO toOwnerDTO(Owner owner) {
-        return OwnerDTO.builder()
-                .cin(owner.getCin())
-                .build();
+        return new OwnerDTO(owner.getCin());
     }
 
     @Override
     public Owner toOwner(OwnerDTO ownerDTO) {
-        return Owner.builder()
-                .cin(ownerDTO.getCin())
-                .build();
+        return new Owner(ownerDTO.getCin());
     }
 
     @Override
@@ -152,30 +146,16 @@ public class MappersImpl implements Mappers {
 
     @Override
     public UserDTO toUserDTO(User user) {
-        return UserDTO.builder()
-                .idUser(user.getIdUser())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .telNumber(user.getTelNumber())
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .roleDTO(toRoleDTO(user.getRole()))
-                .build();
+        return new UserDTO(user.getIdUser(), user.getFirstName(),
+                user.getLastName(), user.getTelNumber(), user.getEmail(), user.getUsername(), user.getPassword(),
+                toRoleDTO(user.getRole()));
     }
 
     @Override
     public User toUser(UserDTO userDTO) {
-        return User.builder()
-                .idUser(userDTO.getIdUser())
-                .firstName(userDTO.getFirstName())
-                .lastName(userDTO.getLastName())
-                .telNumber(userDTO.getTelNumber())
-                .email(userDTO.getEmail())
-                .username(userDTO.getUsername())
-                .password(userDTO.getPassword())
-                .role(toRole(userDTO.getRoleDTO()))
-                .build();
+        return new User(userDTO.getIdUser(), userDTO.getFirstName(),
+                userDTO.getLastName(), userDTO.getTelNumber(), userDTO.getEmail(), userDTO.getUsername(), userDTO.getPassword(),
+                toRole(userDTO.getRoleDTO()));
     }
 
     @Override

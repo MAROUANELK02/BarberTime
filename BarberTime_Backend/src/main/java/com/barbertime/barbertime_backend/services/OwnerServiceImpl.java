@@ -6,6 +6,7 @@ import com.barbertime.barbertime_backend.dtos.HairdresserDTO;
 import com.barbertime.barbertime_backend.dtos.OwnerDTO;
 import com.barbertime.barbertime_backend.entities.Appointment;
 import com.barbertime.barbertime_backend.entities.BarberShop;
+import com.barbertime.barbertime_backend.enums.ERole;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
 import com.barbertime.barbertime_backend.mappers.Mappers;
@@ -24,20 +25,19 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Slf4j
 public class OwnerServiceImpl implements OwnerService {
+    private RoleRepository roleRepository;
     private AppointmentRepository appointmentRepository;
     private BarberShopRepository barberShopRepository;
-    private CustomerReposirtory customerReposirtory;
     private HairdresserRepository hairdresserRepository;
     private HolidayRepository holidayRepository;
     private OwnerRepository ownerRepository;
-    private RoleRepository roleRepository;
     private BarberServiceRepository barberServiceRepository;
-    private UserRepository userRepository;
     private Mappers mappers;
 
     @Override
     public OwnerDTO createOwner(OwnerDTO ownerDTO) {
         log.info("Creating owner");
+        ownerDTO.setRoleDTO(mappers.toRoleDTO(roleRepository.findByRoleNameContains(ERole.ROLE_OWNER)));
         ownerRepository.save(mappers.toOwner(ownerDTO));
         log.info("Owner created");
         return ownerDTO;

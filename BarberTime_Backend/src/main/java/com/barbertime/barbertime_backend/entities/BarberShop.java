@@ -67,7 +67,7 @@ public class BarberShop {
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
     private List<Holiday> holidays;
 
-    @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<BarberService> barberServices;
 
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)

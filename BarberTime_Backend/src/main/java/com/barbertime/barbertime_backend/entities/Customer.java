@@ -13,11 +13,14 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 @ToString
 public class Customer extends User {
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Appointment> appointments;
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Review> reviews;
+
+    public Customer(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
 }
