@@ -10,7 +10,7 @@ import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public interface OwnerService {
     OwnerResDTO createOwner(OwnerReqDTO ownerDTO);
@@ -22,7 +22,7 @@ public interface OwnerService {
     void removeDayOff(String dayOff, Long idBarberShop) throws BarberShopNotFoundException;
     void updateDayOff(String newDayOff, Long idBarberShop) throws BarberShopNotFoundException;
     Page<AppointmentResDTO> getAppointmentsAllByBarberShop(Long barberId, int page, int size);
-    Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(Long barberId, LocalDate date, int page, int size);
+    Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(Long barberId, Date date, int page, int size);
     void changeAppointmentStatus(Long idAppointment, EStatus status) throws AppointmentNotFoundException;
     void addService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException;
     void removeService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException;

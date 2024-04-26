@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @RestController
 @AllArgsConstructor
@@ -86,7 +87,7 @@ public class OwnerRestController {
 
     @GetMapping("/barberShop/{barberId}/appointmentsPerDate")
     public Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(@PathVariable(name = "barberId") Long barberId,
-                                                                   @RequestBody LocalDate date,
+                                                                   @RequestBody Date date,
                                                                    @RequestParam int page,
                                                                    @RequestParam int size) {
         return ownerService.getAppointmentsByBarberShopAndDate(barberId, date, page, size);

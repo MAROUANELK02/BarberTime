@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Service
 @Transactional
@@ -132,7 +133,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(Long barberId, LocalDate date, int page, int size) {
+    public Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(Long barberId, Date date, int page, int size) {
         log.info("Getting appointments by barber shop and date");
         try {
             return appointmentRepository.findAllByBarberShopIdBarberShopAndDate(barberId, date, PageRequest.of(page, size)).map(mappers::toAppointmentResDTO);

@@ -1,14 +1,19 @@
 package com.barbertime.barbertime_backend.services;
 
-import com.barbertime.barbertime_backend.entities.BarberService;
-import com.barbertime.barbertime_backend.entities.Role;
+import com.barbertime.barbertime_backend.dtos.BarberServiceDTO;
+import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
+import com.barbertime.barbertime_backend.dtos.res.CustomerResDTO;
+import com.barbertime.barbertime_backend.dtos.res.OwnerResDTO;
+import com.barbertime.barbertime_backend.entities.*;
 import com.barbertime.barbertime_backend.enums.ERole;
 import com.barbertime.barbertime_backend.enums.EService;
-import com.barbertime.barbertime_backend.repositories.BarberServiceRepository;
-import com.barbertime.barbertime_backend.repositories.RoleRepository;
+import com.barbertime.barbertime_backend.mappers.Mappers;
+import com.barbertime.barbertime_backend.repositories.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -19,7 +24,11 @@ import java.util.Random;
 @Slf4j
 public class AdminServiceImpl implements AdminService {
     private BarberServiceRepository barberServiceRepository;
+    private CustomerReposirtory customerReposirtory;
+    private BarberShopRepository barberShopRepository;
+    private OwnerRepository ownerRepository;
     private RoleRepository roleRepository;
+    private Mappers mappers;
 
     @Override
     public void saveAllServices() {
@@ -44,5 +53,29 @@ public class AdminServiceImpl implements AdminService {
                             .build());
         }
         log.info("All roles saved");
+    }
+
+    @Override
+    public Page<CustomerResDTO> getAllCustomers(int page, int size) {
+        log.info("Getting all customers");
+        return customerReposirtory.findAll(PageRequest.of(page, size)).map(mappers::toCustomerResDTO);
+    }
+
+    @Override
+    public Page<OwnerResDTO> getAllOwners(int page, int size) {
+        log.info("Getting all owners");
+        return ownerRepository.findAll(PageRequest.of(page, size)).map(mappers::toOwnerResDTO);
+    }
+
+    @Override
+    public Page<BarberShopResDTO> getAllBarberShops(int page, int size) {
+        log.info("Getting all barber shops");
+        return barberShopRepository.findAll(PageRequest.of(page, size)).map(mappers::toBarberShopResDTO);
+    }
+
+    @Override
+    public Page<BarberServiceDTO> getAllBarberServices(int page, int size) {
+        log.info("Getting all barber services");
+        return barberServiceRepository.findAll(PageRequest.of(page, size)).map(mappers::toBarberServiceDTO);
     }
 }
