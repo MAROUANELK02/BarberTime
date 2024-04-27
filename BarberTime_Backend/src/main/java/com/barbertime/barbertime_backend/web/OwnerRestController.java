@@ -4,6 +4,7 @@ import com.barbertime.barbertime_backend.dtos.req.BarberShopReqDTO;
 import com.barbertime.barbertime_backend.dtos.req.HairdresserReqDTO;
 import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
+import com.barbertime.barbertime_backend.dtos.res.HairdresserResDTO;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
 import com.barbertime.barbertime_backend.mappers.Mappers;
@@ -27,9 +28,13 @@ public class OwnerRestController {
     }
 
     @PatchMapping("/barberShop/{idBarberShop}")
-    public BarberShopResDTO updateBarberShop(@RequestParam(name = "idBarberShop") Long idBarberShop,
+    public BarberShopResDTO updateBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
                                              @RequestBody BarberShopReqDTO barberShopDTO) {
-        return ownerService.updateBarberShop(idBarberShop, barberShopDTO);
+        try {
+            return ownerService.updateBarberShop(idBarberShop, barberShopDTO);
+        } catch (BarberShopNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @DeleteMapping("/barberShop/{idBarberShop}")
@@ -52,7 +57,7 @@ public class OwnerRestController {
 
     @PostMapping("/barberShop/{idBarberShop}/dayOff")
     public void addDayOff(@PathVariable(name = "idBarberShop") Long idBarberShop,
-                          @RequestBody String dayOff) {
+                          @RequestParam String dayOff) {
         try {
             ownerService.addDayOff(dayOff, idBarberShop);
         } catch (BarberShopNotFoundException e) {
@@ -60,7 +65,7 @@ public class OwnerRestController {
         }
     }
 
-    @DeleteMapping("/barberShop/{idBarberShop}")
+    @DeleteMapping("/barberShop/{idBarberShop}/dayOff")
     public void removeDayOff(@PathVariable(name = "idBarberShop") Long idBarberShop) {
         try {
             ownerService.removeDayOff(idBarberShop);
@@ -71,7 +76,7 @@ public class OwnerRestController {
 
     @PatchMapping("/barberShop/{idBarberShop}/dayOff")
     public void updateDayOff(@PathVariable(name = "idBarberShop") Long idBarberShop,
-                             @RequestBody String newDayOff) {
+                             @RequestParam String newDayOff) {
         try {
             ownerService.updateDayOff(newDayOff, idBarberShop);
         } catch (BarberShopNotFoundException e) {
@@ -125,14 +130,18 @@ public class OwnerRestController {
     }
 
     @PostMapping("/hairdresser")
-    public void addHairdresser(@RequestBody HairdresserReqDTO hairdresserDTO) {
-        ownerService.addHairdresser(hairdresserDTO);
+    public HairdresserResDTO addHairdresser(@RequestBody HairdresserReqDTO hairdresserDTO) {
+        return ownerService.addHairdresser(hairdresserDTO);
     }
 
     @PatchMapping("/hairdresser/{idHairdresser}")
-    public void updateHairdresser(@RequestParam(name = "idHairdresser") Long idHairdresser,
+    public HairdresserResDTO updateHairdresser(@PathVariable(name = "idHairdresser") Long idHairdresser,
                                   @RequestBody HairdresserReqDTO hairdresserDTO) {
-        ownerService.updateHairdresser(idHairdresser, hairdresserDTO);
+        try {
+            return ownerService.updateHairdresser(idHairdresser, hairdresserDTO);
+        } catch (HairdresserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping("/hairdresser/{idHairdresser}/barberShop/{idBarberShop}")

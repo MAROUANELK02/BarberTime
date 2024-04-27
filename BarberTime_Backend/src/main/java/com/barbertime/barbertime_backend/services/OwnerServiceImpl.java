@@ -5,6 +5,7 @@ import com.barbertime.barbertime_backend.dtos.req.HairdresserReqDTO;
 import com.barbertime.barbertime_backend.dtos.req.OwnerReqDTO;
 import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
+import com.barbertime.barbertime_backend.dtos.res.HairdresserResDTO;
 import com.barbertime.barbertime_backend.dtos.res.OwnerResDTO;
 import com.barbertime.barbertime_backend.entities.*;
 import com.barbertime.barbertime_backend.enums.ERole;
@@ -61,13 +62,17 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public BarberShopResDTO updateBarberShop(Long idBarberShop,BarberShopReqDTO barberShopDTO) {
+    public BarberShopResDTO updateBarberShop(Long idBarberShop,BarberShopReqDTO barberShopDTO) throws BarberShopNotFoundException {
         log.info("Updating barber shop");
+        BarberShop barberFound = barberShopRepository.findById(idBarberShop)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         BarberShop barberShop = mappers.toBarberShop(barberShopDTO);
-        barberShop.setIdBarberShop(idBarberShop);
-        barberShopRepository.save(barberShop);
+        barberShop.setIdBarberShop(barberFound.getIdBarberShop());
+        barberShop.setBarberServices(barberFound.getBarberServices());
+        barberShop.setOwner(barberFound.getOwner());
+        BarberShop save = barberShopRepository.save(barberShop);
         log.info("Barber shop updated");
-        return mappers.toBarberShopResDTO(barberShop);
+        return mappers.toBarberShopResDTO(save);
     }
 
     @Override
@@ -176,19 +181,23 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void addHairdresser(HairdresserReqDTO hairdresserDTO) {
+    public HairdresserResDTO addHairdresser(HairdresserReqDTO hairdresserDTO) {
         log.info("Adding hairdresser");
-        hairdresserRepository.save(mappers.toHairdresser(hairdresserDTO));
+        Hairdresser save = hairdresserRepository.save(mappers.toHairdresser(hairdresserDTO));
         log.info("Hairdresser added");
+        return mappers.toHairdresserResDTO(save);
     }
 
     @Override
-    public void updateHairdresser(Long idHairdresser, HairdresserReqDTO hairdresserDTO) {
+    public HairdresserResDTO updateHairdresser(Long idHairdresser, HairdresserReqDTO hairdresserDTO) throws HairdresserNotFoundException {
         log.info("Updating hairdresser");
-        Hairdresser hairdresser = mappers.toHairdresser(hairdresserDTO);
-        hairdresser.setIdHairdresser(idHairdresser);
-        hairdresserRepository.save(hairdresser);
+        Hairdresser hairdresser = hairdresserRepository.findById(idHairdresser)
+                .orElseThrow(() -> new HairdresserNotFoundException("Hairdresser not found"));
+        hairdresser.setFirstName(hairdresserDTO.getFirstName());
+        hairdresser.setLastName(hairdresserDTO.getLastName());
+        Hairdresser save = hairdresserRepository.save(hairdresser);
         log.info("Hairdresser updated");
+        return mappers.toHairdresserResDTO(save);
     }
 
     @Override
@@ -208,9 +217,14 @@ public class OwnerServiceImpl implements OwnerService {
         log.info("Removing hairdresser from barber shop");
         BarberShop barberShop = barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
-        barberShop.getHairdressers().remove(hairdresserRepository.findById(idHairdresser)
-                .orElseThrow(() -> new HairdresserNotFoundException("Hairdresser not found")));
-        barberShopRepository.save(barberShop);
+        Hairdresser hairdresser = hairdresserRepository.findById(idHairdresser)
+                .orElseThrow(() -> new HairdresserNotFoundException("Hairdresser not found"));
+        if (barberShop.getIdBarberShop() != hairdresser.getBarberShop().getIdBarberShop()) {
+            throw new HairdresserNotFoundException("Hairdresser not found in this barber shop");
+        }else {
+            hairdresser.setBarberShop(null);
+        }
+        hairdresserRepository.save(hairdresser);
         log.info("Hairdresser removed from barber shop");
     }
 }

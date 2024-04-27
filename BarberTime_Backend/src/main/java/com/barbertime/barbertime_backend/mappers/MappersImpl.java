@@ -4,12 +4,19 @@ import com.barbertime.barbertime_backend.dtos.*;
 import com.barbertime.barbertime_backend.dtos.req.*;
 import com.barbertime.barbertime_backend.dtos.res.*;
 import com.barbertime.barbertime_backend.entities.*;
+import com.barbertime.barbertime_backend.repositories.HairdresserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
 @Service
 public class MappersImpl implements Mappers {
+
+    private final HairdresserRepository hairdresserRepository;
+
+    public MappersImpl(HairdresserRepository hairdresserRepository) {
+        this.hairdresserRepository = hairdresserRepository;
+    }
 
     @Override
     public AppointmentResDTO toAppointmentResDTO(Appointment appointment) {
@@ -91,12 +98,20 @@ public class MappersImpl implements Mappers {
 
     @Override
     public HairdresserResDTO toHairdresserResDTO(Hairdresser hairdresser) {
-        return HairdresserResDTO.builder()
+        HairdresserResDTO build = HairdresserResDTO.builder()
                 .idHairdresser(hairdresser.getIdHairdresser())
                 .firstName(hairdresser.getFirstName())
                 .lastName(hairdresser.getLastName())
-                .barberShopDTO(toBarberShopResDTO(hairdresser.getBarberShop()))
                 .build();
+        if(hairdresser.getBarberShop() != null) {
+            build.setBarberShopDTO(toBarberShopResDTO(hairdresser.getBarberShop()));
+        }
+        else {
+            hairdresserRepository.findById(hairdresser.getIdHairdresser())
+                    .ifPresent(hairdresser1 ->
+                            build.setBarberShopDTO(toBarberShopResDTO(hairdresser1.getBarberShop())));
+        }
+        return build;
     }
 
     @Override
