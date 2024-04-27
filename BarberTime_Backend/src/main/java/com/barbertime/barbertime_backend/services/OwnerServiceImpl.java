@@ -61,9 +61,10 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public BarberShopResDTO updateBarberShop(BarberShopReqDTO barberShopDTO) {
+    public BarberShopResDTO updateBarberShop(Long idBarberShop,BarberShopReqDTO barberShopDTO) {
         log.info("Updating barber shop");
         BarberShop barberShop = mappers.toBarberShop(barberShopDTO);
+        barberShop.setIdBarberShop(idBarberShop);
         barberShopRepository.save(barberShop);
         log.info("Barber shop updated");
         return mappers.toBarberShopResDTO(barberShop);
@@ -101,7 +102,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void removeDayOff(String dayOff, Long idBarberShop) throws BarberShopNotFoundException {
+    public void removeDayOff(Long idBarberShop) throws BarberShopNotFoundException {
         log.info("Removing day off");
         BarberShop barberShop = barberShopRepository.findById(idBarberShop).orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         barberShop.setDayOff(null);
@@ -112,9 +113,8 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void updateDayOff(String newDayOff, Long idBarberShop) throws BarberShopNotFoundException {
         log.info("Updating day off");
-        BarberShop barberShop = barberShopRepository.findById(idBarberShop).orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
-        barberShop.setDayOff(newDayOff);
-        barberShopRepository.save(barberShop);
+        removeDayOff(idBarberShop);
+        addDayOff(newDayOff, idBarberShop);
         log.info("Day off updated");
     }
 
@@ -183,9 +183,11 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void updateHairdresser(HairdresserReqDTO hairdresserDTO) {
+    public void updateHairdresser(Long idHairdresser, HairdresserReqDTO hairdresserDTO) {
         log.info("Updating hairdresser");
-        hairdresserRepository.save(mappers.toHairdresser(hairdresserDTO));
+        Hairdresser hairdresser = mappers.toHairdresser(hairdresserDTO);
+        hairdresser.setIdHairdresser(idHairdresser);
+        hairdresserRepository.save(hairdresser);
         log.info("Hairdresser updated");
     }
 

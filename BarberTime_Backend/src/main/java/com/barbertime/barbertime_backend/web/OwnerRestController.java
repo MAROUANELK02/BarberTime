@@ -26,9 +26,10 @@ public class OwnerRestController {
         return ownerService.createBarberShop(barberShopDTO);
     }
 
-    @PatchMapping("/barberShop")
-    public BarberShopResDTO updateBarberShop(@RequestBody BarberShopReqDTO barberShopDTO) {
-        return ownerService.updateBarberShop(barberShopDTO);
+    @PatchMapping("/barberShop/{idBarberShop}")
+    public BarberShopResDTO updateBarberShop(@RequestParam(name = "idBarberShop") Long idBarberShop,
+                                             @RequestBody BarberShopReqDTO barberShopDTO) {
+        return ownerService.updateBarberShop(idBarberShop, barberShopDTO);
     }
 
     @DeleteMapping("/barberShop/{idBarberShop}")
@@ -59,11 +60,10 @@ public class OwnerRestController {
         }
     }
 
-    @DeleteMapping("/barberShop/{idBarberShop}/dayOff")
-    public void removeDayOff(@PathVariable(name = "idBarberShop") Long idBarberShop,
-                             @RequestBody String dayOff) {
+    @DeleteMapping("/barberShop/{idBarberShop}")
+    public void removeDayOff(@PathVariable(name = "idBarberShop") Long idBarberShop) {
         try {
-            ownerService.removeDayOff(dayOff, idBarberShop);
+            ownerService.removeDayOff(idBarberShop);
         } catch (BarberShopNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -81,15 +81,16 @@ public class OwnerRestController {
 
     @GetMapping("/barberShop/{barberId}/appointments")
     public Page<AppointmentResDTO> getAppointmentsAllByBarberShop(@PathVariable(name = "barberId") Long barberId,
-                                                                      @RequestParam int page, @RequestParam int size) {
+                                                                  @RequestParam int page,
+                                                                  @RequestParam int size) {
         return ownerService.getAppointmentsAllByBarberShop(barberId, page, size);
     }
 
     @GetMapping("/barberShop/{barberId}/appointmentsPerDate")
     public Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(@PathVariable(name = "barberId") Long barberId,
-                                                                   @RequestBody Date date,
-                                                                   @RequestParam int page,
-                                                                   @RequestParam int size) {
+                                                                      @RequestBody Date date,
+                                                                      @RequestParam int page,
+                                                                      @RequestParam int size) {
         return ownerService.getAppointmentsByBarberShopAndDate(barberId, date, page, size);
     }
 
@@ -128,9 +129,10 @@ public class OwnerRestController {
         ownerService.addHairdresser(hairdresserDTO);
     }
 
-    @PatchMapping("/hairdresser")
-    public void updateHairdresser(@RequestBody HairdresserReqDTO hairdresserDTO) {
-        ownerService.updateHairdresser(hairdresserDTO);
+    @PatchMapping("/hairdresser/{idHairdresser}")
+    public void updateHairdresser(@RequestParam(name = "idHairdresser") Long idHairdresser,
+                                  @RequestBody HairdresserReqDTO hairdresserDTO) {
+        ownerService.updateHairdresser(idHairdresser, hairdresserDTO);
     }
 
     @PostMapping("/hairdresser/{idHairdresser}/barberShop/{idBarberShop}")

@@ -15,11 +15,11 @@ import java.util.Date;
 public interface OwnerService {
     OwnerResDTO createOwner(OwnerReqDTO ownerDTO);
     BarberShopResDTO createBarberShop(BarberShopReqDTO barberShopDTO);
-    BarberShopResDTO updateBarberShop(BarberShopReqDTO barberShopDTO);
+    BarberShopResDTO updateBarberShop(Long idBarberShop,BarberShopReqDTO barberShopDTO);
     void deleteBarberShop(Long idBarberShop) throws BarberShopNotFoundException;
     BarberShopResDTO getBarberShopByOwnerId(Long idOwner) throws OwnerNotFoundException;
     void addDayOff(String dayOff, Long idBarberShop) throws BarberShopNotFoundException;
-    void removeDayOff(String dayOff, Long idBarberShop) throws BarberShopNotFoundException;
+    void removeDayOff(Long idBarberShop) throws BarberShopNotFoundException;
     void updateDayOff(String newDayOff, Long idBarberShop) throws BarberShopNotFoundException;
     Page<AppointmentResDTO> getAppointmentsAllByBarberShop(Long barberId, int page, int size);
     Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(Long barberId, Date date, int page, int size);
@@ -27,7 +27,7 @@ public interface OwnerService {
     void addService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException;
     void removeService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException;
     void addHairdresser(HairdresserReqDTO hairdresserDTO);
-    void updateHairdresser(HairdresserReqDTO hairdresserDTO);
+    void updateHairdresser(Long idHairdresser, HairdresserReqDTO hairdresserDTO);
     void assignHairdresserToBarberShop(Long idHairdresser, Long idBarberShop) throws BarberShopNotFoundException, HairdresserNotFoundException;
     void removeHairdresserFromBarberShop(Long idHairdresser, Long idBarberShop) throws BarberShopNotFoundException, HairdresserNotFoundException;
 }
