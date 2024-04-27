@@ -24,12 +24,12 @@ public class BarberShop {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idBarberShop;
 
-    //@NotEmpty
+    @NotEmpty
     @Size(min = 4, max = 40)
     @Column(unique = true)
     private String name;
 
-    //@NotEmpty
+    @NotEmpty
     @Size(min = 4, max = 100)
     @Column(unique = true)
     private String address;
@@ -41,7 +41,7 @@ public class BarberShop {
     @Enumerated(EnumType.STRING)
     private ENeighborhood neighborhood;
 
-    //@NotEmpty
+    @NotEmpty
     @Column(unique = true)
     private String authorizationNumber;
 
@@ -49,11 +49,11 @@ public class BarberShop {
 
     private String dayOff;
 
-    //@NotEmpty
+    @NotEmpty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime startTime;
 
-    //@NotEmpty
+    @NotEmpty
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime endTime;
 
@@ -62,7 +62,7 @@ public class BarberShop {
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
     private List<Appointment> appointments;
 
-    @OneToOne(mappedBy = "barberShop")
+    @OneToOne
     private Owner owner;
 
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
@@ -71,7 +71,7 @@ public class BarberShop {
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
     private List<Holiday> holidays;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<BarberService> barberServices;
 
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)

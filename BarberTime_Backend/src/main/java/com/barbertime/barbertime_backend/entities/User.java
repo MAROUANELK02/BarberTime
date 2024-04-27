@@ -9,41 +9,41 @@ import lombok.*;
 
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.TABLE)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
 
-    //@NotEmpty
+    @NotEmpty
     @Size(min = 4, max = 40)
     private String firstName;
 
-    //@NotEmpty
+    @NotEmpty
     @Size(min = 4, max = 40)
     private String lastName;
 
-    //@NotEmpty
+    @NotEmpty
     @Size(min = 10)
     private String telNumber;
 
     @Email
-    //@NotEmpty
+    @NotEmpty
     @Column(unique = true)
     private String email;
 
-    //@NotEmpty
+    @NotEmpty
     @Column(unique = true)
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
     public User(Long userId, String firstName, String lastName, String telNumber, String email, String username, String password) {

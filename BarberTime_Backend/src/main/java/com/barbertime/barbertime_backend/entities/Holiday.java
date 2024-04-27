@@ -20,7 +20,7 @@ public class Holiday {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idHoliday;
 
-    //@NotEmpty
+    @NotEmpty
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date holidayDate;

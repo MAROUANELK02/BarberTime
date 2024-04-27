@@ -13,13 +13,12 @@ import lombok.*;
 @Setter
 @ToString
 public class Owner extends User {
-    //@NotEmpty
+    @NotEmpty
     @Size(min = 4)
     @Column(unique = true)
     private String cin;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idBarberShop")
+    @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)
     private BarberShop barberShop;
 
     public Owner(String cin) {

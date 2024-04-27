@@ -35,7 +35,7 @@ public class MappersImpl implements Mappers {
 
     @Override
     public BarberShopResDTO toBarberShopResDTO(BarberShop barberShop) {
-        return BarberShopResDTO.builder()
+        BarberShopResDTO build = BarberShopResDTO.builder()
                 .idBarberShop(barberShop.getIdBarberShop())
                 .name(barberShop.getName())
                 .address(barberShop.getAddress())
@@ -50,6 +50,10 @@ public class MappersImpl implements Mappers {
                 .ratings(barberShop.getRatings())
                 .ownerDTO(toOwnerResDTO(barberShop.getOwner()))
                 .build();
+        if(barberShop.getBarberServices() != null)
+            build.setServices(barberShop.getBarberServices().stream().map(this::toBarberServiceDTO)
+                    .collect(Collectors.toList()));
+        return build;
     }
 
     @Override

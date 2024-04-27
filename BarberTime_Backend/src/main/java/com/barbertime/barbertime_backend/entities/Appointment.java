@@ -23,12 +23,12 @@ public class Appointment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAppointment;
 
-    //@NotEmpty
+    @NotEmpty
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    //@NotEmpty
+    @NotEmpty
     @Temporal(TemporalType.TIME)
     @DateTimeFormat(pattern = "HH:mm")
     private Time time;

@@ -15,8 +15,10 @@ import java.util.List;
 @Setter
 @ToString
 public class Customer extends User {
+
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Appointment> appointments;
+
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Review> reviews;
 

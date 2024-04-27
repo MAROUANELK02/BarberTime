@@ -17,7 +17,7 @@ public class Hairdresser {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idHairdresser;
 
-    //@NotEmpty
+    @NotEmpty
     @Size(min = 4, max = 40)
     private String firstName;
 

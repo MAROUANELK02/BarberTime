@@ -1,5 +1,6 @@
 package com.barbertime.barbertime_backend.dtos.res;
 
+import com.barbertime.barbertime_backend.dtos.BarberServiceDTO;
 import com.barbertime.barbertime_backend.enums.ENeighborhood;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +28,5 @@ public class BarberShopResDTO {
     private LocalTime endTime;
     private int ratings;
     private OwnerResDTO ownerDTO;
+    private List<BarberServiceDTO> services;
 }

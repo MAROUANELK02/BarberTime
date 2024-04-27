@@ -6,10 +6,7 @@ import com.barbertime.barbertime_backend.dtos.req.OwnerReqDTO;
 import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.OwnerResDTO;
-import com.barbertime.barbertime_backend.entities.Appointment;
-import com.barbertime.barbertime_backend.entities.BarberShop;
-import com.barbertime.barbertime_backend.entities.Owner;
-import com.barbertime.barbertime_backend.entities.Role;
+import com.barbertime.barbertime_backend.entities.*;
 import com.barbertime.barbertime_backend.enums.ERole;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
@@ -197,9 +194,10 @@ public class OwnerServiceImpl implements OwnerService {
         log.info("Assigning hairdresser to barber shop");
         BarberShop barberShop = barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
-        barberShop.getHairdressers().add(hairdresserRepository.findById(idHairdresser)
-                .orElseThrow(() -> new HairdresserNotFoundException("Hairdresser not found")));
-        barberShopRepository.save(barberShop);
+        Hairdresser hairdresser = hairdresserRepository.findById(idHairdresser)
+                .orElseThrow(() -> new HairdresserNotFoundException("Hairdresser not found"));
+        hairdresser.setBarberShop(barberShop);
+        hairdresserRepository.save(hairdresser);
         log.info("Hairdresser assigned to barber shop");
     }
 

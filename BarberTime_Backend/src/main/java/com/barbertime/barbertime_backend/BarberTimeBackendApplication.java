@@ -18,7 +18,7 @@ public class BarberTimeBackendApplication {
         SpringApplication.run(BarberTimeBackendApplication.class, args);
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
             adminService.saveAllServices();

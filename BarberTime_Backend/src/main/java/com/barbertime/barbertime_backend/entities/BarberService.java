@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "services")
 @AllArgsConstructor
@@ -20,6 +22,6 @@ public class BarberService {
     @Enumerated(EnumType.STRING)
     private EService serviceName;
 
-    //@NotEmpty
+    @NotEmpty
     private double price;
 }
