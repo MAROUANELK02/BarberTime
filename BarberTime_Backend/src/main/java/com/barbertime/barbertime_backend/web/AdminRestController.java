@@ -21,19 +21,19 @@ public class AdminRestController {
 
     @GetMapping("/owners")
     public void getAllOwners(@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "3") int size) {
+                             @RequestParam(defaultValue = "3") int size) {
         adminService.getAllOwners(page, size);
     }
 
     @GetMapping("/barberShops")
     public void getAllBarberShops(@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "3") int size) {
+                                  @RequestParam(defaultValue = "3") int size) {
         adminService.getAllBarberShops(page, size);
     }
 
     @GetMapping("/barberServices")
     public void getAllBarberServices(@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "3") int size) {
+                                     @RequestParam(defaultValue = "3") int size) {
         adminService.getAllBarberServices(page, size);
     }
 }
