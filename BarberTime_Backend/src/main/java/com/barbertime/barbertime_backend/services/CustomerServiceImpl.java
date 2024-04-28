@@ -59,12 +59,19 @@ public class CustomerServiceImpl implements CustomerService {
     public AppointmentResDTO saveAppointment(Long idCustomer, Long idBarber, AppointmentReqDTO appointmentReqDTO) throws CustomerNotFoundException, BarberShopNotFoundException {
         log.info("Saving appointment");
         Appointment appointment = mappers.toAppointment(appointmentReqDTO);
+
         holidayRepository.findAllByBarberShopIdBarberShop(idBarber).forEach(holiday -> {
             if(holiday.getHolidayDate().equals(appointment.getDate()))
                 throw new RuntimeException("Barber shop is closed on this date");
         });
+
         BarberShop barberShop = barberShopRepository.findById(idBarber)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+
+        if(appointment.getTime().isBefore(barberShop.getStartTime()) || appointment.getTime()
+                .isAfter(barberShop.getEndTime().minusHours(1)))
+            throw new RuntimeException("Barber shop is closed on this time");
+
         Customer customer = customerRepository.findById(idCustomer)
                 .orElseThrow(() -> new CustomerNotFoundException(idCustomer));
         appointment.setBarberShop(barberShop);
