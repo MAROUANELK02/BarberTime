@@ -7,6 +7,7 @@ import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.CustomerResDTO;
 import com.barbertime.barbertime_backend.dtos.res.ReviewResDTO;
+import com.barbertime.barbertime_backend.enums.ENeighborhood;
 import com.barbertime.barbertime_backend.exceptions.BarberShopNotFoundException;
 import com.barbertime.barbertime_backend.exceptions.CustomerNotFoundException;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ public interface CustomerService {
     CustomerResDTO updateCustomer(CustomerReqDTO customerDTO);
     void deleteCustomer(Long idCustomer);
     Page<BarberShopResDTO> getAllBarberShops(int page, int size);
+    Page<BarberShopResDTO> getAllBarberShopsByLocation(ENeighborhood location, int page, int size);
     ReviewResDTO addReview(ReviewReqDTO reviewReqDTO, Long customerId, Long barberShopId) throws CustomerNotFoundException, BarberShopNotFoundException;
     Page<ReviewResDTO> getReviews(Long idCustomer, int page, int size);
 }

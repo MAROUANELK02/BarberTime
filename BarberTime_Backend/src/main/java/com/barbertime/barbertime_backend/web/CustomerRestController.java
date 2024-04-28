@@ -7,6 +7,7 @@ import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.CustomerResDTO;
 import com.barbertime.barbertime_backend.dtos.res.ReviewResDTO;
+import com.barbertime.barbertime_backend.enums.ENeighborhood;
 import com.barbertime.barbertime_backend.exceptions.BarberShopNotFoundException;
 import com.barbertime.barbertime_backend.exceptions.CustomerNotFoundException;
 import com.barbertime.barbertime_backend.services.CustomerService;
@@ -66,6 +67,13 @@ public class CustomerRestController {
     public Page<BarberShopResDTO> getAllBarberShops(@RequestParam int page,
                                                     @RequestParam int size) {
         return customerService.getAllBarberShops(page, size);
+    }
+
+    @GetMapping("/barberShops/location")
+    public Page<BarberShopResDTO> getAllBarberShopsByLocation(@RequestParam ENeighborhood location,
+                                                              @RequestParam int page,
+                                                              @RequestParam int size) {
+        return customerService.getAllBarberShopsByLocation(location, page, size);
     }
 
     @PostMapping("/review")

@@ -11,6 +11,7 @@ import com.barbertime.barbertime_backend.entities.Appointment;
 import com.barbertime.barbertime_backend.entities.BarberShop;
 import com.barbertime.barbertime_backend.entities.Customer;
 import com.barbertime.barbertime_backend.entities.Review;
+import com.barbertime.barbertime_backend.enums.ENeighborhood;
 import com.barbertime.barbertime_backend.enums.ERole;
 import com.barbertime.barbertime_backend.exceptions.BarberShopNotFoundException;
 import com.barbertime.barbertime_backend.exceptions.CustomerNotFoundException;
@@ -114,6 +115,13 @@ public class CustomerServiceImpl implements CustomerService {
     public Page<BarberShopResDTO> getAllBarberShops(int page, int size) {
         log.info("Getting all barber shops");
         return barberShopRepository.findAll(PageRequest.of(page, size)).map(mappers::toBarberShopResDTO);
+    }
+
+    @Override
+    public Page<BarberShopResDTO> getAllBarberShopsByLocation(ENeighborhood location, int page, int size) {
+        log.info("Getting all barber shops by location");
+        return barberShopRepository.findAllByNeighborhood(location, PageRequest.of(page, size))
+                .map(mappers::toBarberShopResDTO);
     }
 
     @Override
