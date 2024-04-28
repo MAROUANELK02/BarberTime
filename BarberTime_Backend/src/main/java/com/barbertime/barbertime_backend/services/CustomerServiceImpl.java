@@ -37,6 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     private RoleRepository roleRepository;
     private BarberShopRepository barberShopRepository;
     private ReviewRepository reviewRepository;
+    private HolidayRepository holidayRepository;
 
     @Override
     public CustomerResDTO createCustomer(CustomerReqDTO customerDTO) {
@@ -58,6 +59,10 @@ public class CustomerServiceImpl implements CustomerService {
     public AppointmentResDTO saveAppointment(Long idCustomer, Long idBarber, AppointmentReqDTO appointmentReqDTO) throws CustomerNotFoundException, BarberShopNotFoundException {
         log.info("Saving appointment");
         Appointment appointment = mappers.toAppointment(appointmentReqDTO);
+        holidayRepository.findAllByBarberShopIdBarberShop(idBarber).forEach(holiday -> {
+            if(holiday.getHolidayDate().equals(appointment.getDate()))
+                throw new RuntimeException("Barber shop is closed on this date");
+        });
         BarberShop barberShop = barberShopRepository.findById(idBarber)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         Customer customer = customerRepository.findById(idCustomer)
