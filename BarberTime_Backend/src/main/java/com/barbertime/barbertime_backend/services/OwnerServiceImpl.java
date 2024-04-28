@@ -136,17 +136,13 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void removeHolidayFromBarberShops(Long idHoliday, Long idBarberShop) throws HolidayNotFoundException {
         log.info("Removing holiday from barber shop");
-        try {
-            Holiday holiday = holidayRepository.findById(idHoliday)
+        Holiday holiday = holidayRepository.findById(idHoliday)
                     .orElseThrow(() -> new HolidayNotFoundException("Holiday not found"));
-            if(holiday.getBarberShop().getIdBarberShop().equals(idBarberShop)) {
+        if(holiday.getBarberShop().getIdBarberShop().equals(idBarberShop)) {
                 holidayRepository.deleteById(idHoliday);
                 log.info("Holiday removed from barber shop");
-            }else {
+        }else {
                 throw new HolidayNotFoundException("Holiday not found in this barber shop");
-            }
-        }catch (Exception e){
-            throw new HolidayNotFoundException("Holiday not found");
         }
     }
 

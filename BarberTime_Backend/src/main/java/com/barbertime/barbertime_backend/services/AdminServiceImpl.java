@@ -58,7 +58,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Page<CustomerResDTO> getAllCustomers(int page, int size) {
         log.info("Getting all customers");
-        return customerReposirtory.findAll(PageRequest.of(page, size)).map(mappers::toCustomerResDTO);
+        Page<CustomerResDTO> map = customerReposirtory.findAll(PageRequest.of(page, size)).map(mappers::toCustomerResDTO);
+        System.out.println(map.getContent());
+        return map;
     }
 
     @Override
