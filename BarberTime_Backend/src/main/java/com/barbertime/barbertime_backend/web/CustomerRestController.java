@@ -89,8 +89,8 @@ public class CustomerRestController {
 
     @GetMapping("/reviews/{idCustomer}")
     public Page<ReviewResDTO> getReviews(@PathVariable(name = "idCustomer") Long idCustomer,
-                                         @RequestParam int page,
-                                         @RequestParam int size) {
+                                         @RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "3") int size) {
         return customerService.getReviews(idCustomer, page, size);
     }
 
