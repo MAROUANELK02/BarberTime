@@ -156,7 +156,7 @@ public class OwnerServiceImpl implements OwnerService {
         BarberShop barberShop = barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         List<HolidayResDTO> holidayResDTOS = new ArrayList<>();
-        for (LocalDate date = holidayRangeReqDTO.getStartDate(); date.isBefore(holidayRangeReqDTO.getEndDate()); date = date.plusDays(1)) {
+        for (LocalDate date = holidayRangeReqDTO.getStartDate(); !date.isAfter(holidayRangeReqDTO.getEndDate()); date = date.plusDays(1)) {
             HolidayReqDTO holidayReqDTO = new HolidayReqDTO();
             holidayReqDTO.setHolidayDate(date);
             holidayReqDTO.setReason(holidayRangeReqDTO.getReason());
