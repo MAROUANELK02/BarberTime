@@ -113,7 +113,7 @@ public class OwnerRestController {
     public void addService(@PathVariable(name = "barberShopId") Long barberShopId,
                            @PathVariable(name = "idService") Long idService) {
         try {
-            ownerService.addService(barberShopId, idService);
+            ownerService.assignServiceToBarberShop(barberShopId, idService);
         } catch (BarberShopNotFoundException | BarberShopServiceNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -123,15 +123,10 @@ public class OwnerRestController {
     public void removeService(@PathVariable(name = "barberShopId") Long barberShopId,
                               @PathVariable(name = "idService") Long idService) {
         try {
-            ownerService.removeService(barberShopId, idService);
+            ownerService.removeServiceFromBarberShop(barberShopId, idService);
         } catch (BarberShopNotFoundException | BarberShopServiceNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @PostMapping("/hairdresser")
-    public HairdresserResDTO addHairdresser(@RequestBody HairdresserReqDTO hairdresserDTO) {
-        return ownerService.addHairdresser(hairdresserDTO);
     }
 
     @PatchMapping("/hairdresser/{idHairdresser}")
@@ -144,11 +139,11 @@ public class OwnerRestController {
         }
     }
 
-    @PostMapping("/hairdresser/{idHairdresser}/barberShop/{idBarberShop}")
-    public void assignHairdresserToBarberShop(@PathVariable(name = "idHairdresser") Long idHairdresser,
+    @PostMapping("/hairdresser/barberShop/{idBarberShop}")
+    public HairdresserResDTO assignHairdresserToBarberShop(@RequestBody HairdresserReqDTO hairdresserReqDTO,
                                               @PathVariable(name = "idBarberShop") Long idBarberShop) {
         try {
-            ownerService.assignHairdresserToBarberShop(idHairdresser, idBarberShop);
+            return ownerService.assignHairdresserToBarberShop(hairdresserReqDTO, idBarberShop);
         } catch (BarberShopNotFoundException | HairdresserNotFoundException e) {
             throw new RuntimeException(e);
         }

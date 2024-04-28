@@ -159,7 +159,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void addService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException {
+    public void assignServiceToBarberShop(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException {
         log.info("Adding service");
         BarberShop barberShop = barberShopRepository.findById(barberShopId)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
@@ -170,7 +170,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void removeService(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException {
+    public void removeServiceFromBarberShop(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException {
         log.info("Removing service");
         BarberShop barberShop = barberShopRepository.findById(barberShopId)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
@@ -181,11 +181,11 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public HairdresserResDTO addHairdresser(HairdresserReqDTO hairdresserDTO) {
+    public Hairdresser addHairdresser(HairdresserReqDTO hairdresserDTO) {
         log.info("Adding hairdresser");
         Hairdresser save = hairdresserRepository.save(mappers.toHairdresser(hairdresserDTO));
         log.info("Hairdresser added");
-        return mappers.toHairdresserResDTO(save);
+        return save;
     }
 
     @Override
@@ -201,15 +201,15 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void assignHairdresserToBarberShop(Long idHairdresser, Long idBarberShop) throws BarberShopNotFoundException, HairdresserNotFoundException {
+    public HairdresserResDTO assignHairdresserToBarberShop(HairdresserReqDTO hairdresserDTO, Long idBarberShop) throws BarberShopNotFoundException, HairdresserNotFoundException {
         log.info("Assigning hairdresser to barber shop");
+        Hairdresser hairdresser = addHairdresser(hairdresserDTO);
         BarberShop barberShop = barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
-        Hairdresser hairdresser = hairdresserRepository.findById(idHairdresser)
-                .orElseThrow(() -> new HairdresserNotFoundException("Hairdresser not found"));
         hairdresser.setBarberShop(barberShop);
-        hairdresserRepository.save(hairdresser);
+        Hairdresser save = hairdresserRepository.save(hairdresser);
         log.info("Hairdresser assigned to barber shop");
+        return mappers.toHairdresserResDTO(save);
     }
 
     @Override
