@@ -23,6 +23,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -123,6 +125,16 @@ public class CustomerServiceImpl implements CustomerService {
         review.setBarberShop(barberShopRepository.findById(barberShopId)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found")));
         Review save = reviewRepository.save(review);
+        BarberShop barberShop = barberShopRepository.findById(barberShopId).orElse(null);
+        List<Review> reviews = reviewRepository.findAllByBarberShopIdBarberShop(barberShopId);
+        int ratings = 0;
+        if(!reviews.isEmpty() && barberShop != null) {
+            for (Review r : reviews) {
+                ratings += r.getRating();
+            }
+            barberShop.setRatings(ratings / reviews.size());
+            barberShopRepository.save(barberShop);
+        }
         log.info("Review added");
         return mappers.toReviewResDTO(save);
     }
