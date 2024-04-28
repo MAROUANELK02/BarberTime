@@ -8,9 +8,11 @@ import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.CustomerResDTO;
 import com.barbertime.barbertime_backend.dtos.res.ReviewResDTO;
 import com.barbertime.barbertime_backend.entities.Appointment;
+import com.barbertime.barbertime_backend.entities.BarberShop;
 import com.barbertime.barbertime_backend.entities.Customer;
 import com.barbertime.barbertime_backend.entities.Review;
 import com.barbertime.barbertime_backend.enums.ERole;
+import com.barbertime.barbertime_backend.exceptions.BarberShopNotFoundException;
 import com.barbertime.barbertime_backend.exceptions.CustomerNotFoundException;
 import com.barbertime.barbertime_backend.mappers.Mappers;
 import com.barbertime.barbertime_backend.repositories.*;
@@ -50,15 +52,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public AppointmentResDTO saveAppointment(Long idCustomer, AppointmentReqDTO appointmentReqDTO) throws CustomerNotFoundException {
+    public AppointmentResDTO saveAppointment(Long idCustomer, Long idBarber, AppointmentReqDTO appointmentReqDTO) throws CustomerNotFoundException, BarberShopNotFoundException {
         log.info("Saving appointment");
         Appointment appointment = mappers.toAppointment(appointmentReqDTO);
+        BarberShop barberShop = barberShopRepository.findById(idBarber)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         Customer customer = customerRepository.findById(idCustomer)
                 .orElseThrow(() -> new CustomerNotFoundException(idCustomer));
+        appointment.setBarberShop(barberShop);
         appointment.setCustomer(customer);
         Appointment save = appointmentRepository.save(appointment);
-        customer.getAppointments().add(save);
-        customerRepository.save(customer);
         log.info("Appointment saved");
         return mappers.toAppointmentResDTO(save);
     }
@@ -72,7 +75,26 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResDTO updateCustomer(CustomerReqDTO customerDTO) {
         log.info("Updating customer");
-        return mappers.toCustomerResDTO(customerRepository.save(mappers.toCustomer(customerDTO)));
+        try {
+            Customer customerFound = customerRepository.findById(customerDTO.getIdUser())
+                    .orElseThrow(() -> new CustomerNotFoundException(customerDTO.getIdUser()));
+            if(customerDTO.getFirstName() != null)
+                customerFound.setFirstName(customerDTO.getFirstName());
+            if(customerDTO.getLastName() != null)
+                customerFound.setLastName(customerDTO.getLastName());
+            if(customerDTO.getEmail() != null)
+                customerFound.setEmail(customerDTO.getEmail());
+            if(customerDTO.getTelNumber() != null)
+                customerFound.setTelNumber(customerDTO.getTelNumber());
+            if(customerDTO.getUsername() != null)
+                customerFound.setUsername(customerDTO.getUsername());
+            if(customerDTO.getPassword() != null)
+                customerFound.setPassword(customerDTO.getPassword());
+            Customer save = customerRepository.save(customerFound);
+            return mappers.toCustomerResDTO(save);
+        } catch (CustomerNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -93,12 +115,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ReviewResDTO addReview(ReviewReqDTO reviewReqDTO) {
+    public ReviewResDTO addReview(ReviewReqDTO reviewReqDTO, Long customerId, Long barberShopId) throws CustomerNotFoundException, BarberShopNotFoundException {
         log.info("Adding review");
         Review review = mappers.toReview(reviewReqDTO);
+        review.setCustomer(customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException(customerId)));
+        review.setBarberShop(barberShopRepository.findById(barberShopId)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found")));
         Review save = reviewRepository.save(review);
-        review.getCustomer().getReviews().add(save);
-        review.getBarberShop().getReviews().add(save);
         log.info("Review added");
         return mappers.toReviewResDTO(save);
     }

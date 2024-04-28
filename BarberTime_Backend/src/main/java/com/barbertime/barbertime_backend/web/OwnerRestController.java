@@ -93,7 +93,7 @@ public class OwnerRestController {
 
     @GetMapping("/barberShop/{barberId}/appointmentsPerDate")
     public Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(@PathVariable(name = "barberId") Long barberId,
-                                                                      @RequestBody Date date,
+                                                                      @RequestParam LocalDate date,
                                                                       @RequestParam int page,
                                                                       @RequestParam int size) {
         return ownerService.getAppointmentsByBarberShopAndDate(barberId, date, page, size);
@@ -110,7 +110,7 @@ public class OwnerRestController {
     }
 
     @PostMapping("/barberShop/{barberShopId}/service/{idService}")
-    public void addService(@PathVariable(name = "barberShopId") Long barberShopId,
+    public void assignServiceToBarberShop(@PathVariable(name = "barberShopId") Long barberShopId,
                            @PathVariable(name = "idService") Long idService) {
         try {
             ownerService.assignServiceToBarberShop(barberShopId, idService);
@@ -120,7 +120,7 @@ public class OwnerRestController {
     }
 
     @DeleteMapping("/barberShop/{barberShopId}/service/{idService}")
-    public void removeService(@PathVariable(name = "barberShopId") Long barberShopId,
+    public void removeServiceFromBarberShop(@PathVariable(name = "barberShopId") Long barberShopId,
                               @PathVariable(name = "idService") Long idService) {
         try {
             ownerService.removeServiceFromBarberShop(barberShopId, idService);

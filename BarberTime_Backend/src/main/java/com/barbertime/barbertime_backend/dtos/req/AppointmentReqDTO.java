@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -15,8 +17,7 @@ import java.util.Date;
 @Builder
 public class AppointmentReqDTO {
     private Long idAppointment;
-    private Date date;
-    private Time time;
+    private LocalDate date;
+    private LocalTime time;
     private EStatus status;
-    private BarberShopReqDTO barberShopDTO;
 }

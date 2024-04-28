@@ -13,6 +13,4 @@ public class ReviewReqDTO {
     private Long idReview;
     private String comment;
     private int rating;
-    private CustomerReqDTO customerDTO;
-    private BarberShopReqDTO barberShopDTO;
 }

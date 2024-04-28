@@ -25,6 +25,7 @@ public class MappersImpl implements Mappers {
                 .date(appointment.getDate())
                 .time(appointment.getTime())
                 .status(appointment.getStatus())
+                .customerDTO(toCustomerResDTO(appointment.getCustomer()))
                 .barberShopDTO(toBarberShopResDTO(appointment.getBarberShop()))
                 .build();
     }
@@ -36,7 +37,6 @@ public class MappersImpl implements Mappers {
                 .date(appointmentDTO.getDate())
                 .time(appointmentDTO.getTime())
                 .status(appointmentDTO.getStatus())
-                .barberShop(toBarberShop(appointmentDTO.getBarberShopDTO()))
                 .build();
     }
 
@@ -84,9 +84,7 @@ public class MappersImpl implements Mappers {
         RoleDTO roleDTO = toRoleDTO(customer.getRole());
         return new CustomerResDTO(customer.getIdUser(), customer.getFirstName(),
                 customer.getLastName(), customer.getTelNumber(), customer.getEmail(),
-                customer.getUsername(),roleDTO,
-                customer.getAppointments().stream().map(this::toAppointmentResDTO)
-                .collect(Collectors.toList()));
+                customer.getUsername(), roleDTO);
     }
 
     @Override
@@ -222,8 +220,6 @@ public class MappersImpl implements Mappers {
                 .idReview(reviewDTO.getIdReview())
                 .rating(reviewDTO.getRating())
                 .comment(reviewDTO.getComment())
-                .customer(toCustomer(reviewDTO.getCustomerDTO()))
-                .barberShop(toBarberShop(reviewDTO.getBarberShopDTO()))
                 .build();
     }
 }
