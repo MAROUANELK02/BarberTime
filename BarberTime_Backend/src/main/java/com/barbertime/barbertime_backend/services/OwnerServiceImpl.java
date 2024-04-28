@@ -1,12 +1,7 @@
 package com.barbertime.barbertime_backend.services;
 
-import com.barbertime.barbertime_backend.dtos.req.BarberShopReqDTO;
-import com.barbertime.barbertime_backend.dtos.req.HairdresserReqDTO;
-import com.barbertime.barbertime_backend.dtos.req.OwnerReqDTO;
-import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
-import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
-import com.barbertime.barbertime_backend.dtos.res.HairdresserResDTO;
-import com.barbertime.barbertime_backend.dtos.res.OwnerResDTO;
+import com.barbertime.barbertime_backend.dtos.req.*;
+import com.barbertime.barbertime_backend.dtos.res.*;
 import com.barbertime.barbertime_backend.entities.*;
 import com.barbertime.barbertime_backend.enums.ERole;
 import com.barbertime.barbertime_backend.enums.EStatus;
@@ -21,7 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -109,7 +106,8 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void removeDayOff(Long idBarberShop) throws BarberShopNotFoundException {
         log.info("Removing day off");
-        BarberShop barberShop = barberShopRepository.findById(idBarberShop).orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+        BarberShop barberShop = barberShopRepository.findById(idBarberShop)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         barberShop.setDayOff(null);
         barberShopRepository.save(barberShop);
         log.info("Day off removed");
@@ -124,38 +122,79 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
+    public HolidayResDTO addHolidayToBarberShop(HolidayReqDTO holidayReqDTO, Long idBarberShop) throws BarberShopNotFoundException {
+        log.info("Adding holiday to barber shop");
+        BarberShop barberShop = barberShopRepository.findById(idBarberShop)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+        Holiday holiday = mappers.toHoliday(holidayReqDTO);
+        holiday.setBarberShop(barberShop);
+        Holiday save = holidayRepository.save(holiday);
+        log.info("Holiday added to barber shop");
+        return mappers.toHolidayResDTO(save);
+    }
+
+    @Override
+    public void removeHolidayFromBarberShops(Long idHoliday, Long idBarberShop) throws HolidayNotFoundException {
+        log.info("Removing holiday from barber shop");
+        try {
+            Holiday holiday = holidayRepository.findById(idHoliday)
+                    .orElseThrow(() -> new HolidayNotFoundException("Holiday not found"));
+            if(holiday.getBarberShop().getIdBarberShop().equals(idBarberShop)) {
+                holidayRepository.deleteById(idHoliday);
+                log.info("Holiday removed from barber shop");
+            }else {
+                throw new HolidayNotFoundException("Holiday not found in this barber shop");
+            }
+        }catch (Exception e){
+            throw new HolidayNotFoundException("Holiday not found");
+        }
+    }
+
+    @Override
+    public List<HolidayResDTO> addHolidayRangeToBarberShop(HolidayRangeReqDTO holidayRangeReqDTO, Long idBarberShop) throws BarberShopNotFoundException {
+        log.info("Adding holiday range to barber shop");
+        BarberShop barberShop = barberShopRepository.findById(idBarberShop)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+        List<HolidayResDTO> holidayResDTOS = new ArrayList<>();
+        for (LocalDate date = holidayRangeReqDTO.getStartDate(); date.isBefore(holidayRangeReqDTO.getEndDate()); date = date.plusDays(1)) {
+            HolidayReqDTO holidayReqDTO = new HolidayReqDTO();
+            holidayReqDTO.setHolidayDate(date);
+            holidayReqDTO.setReason(holidayRangeReqDTO.getReason());
+            holidayResDTOS.add(addHolidayToBarberShop(holidayReqDTO, idBarberShop));
+        }
+        log.info("Holiday range added to barber shop");
+        return holidayResDTOS;
+    }
+
+    @Override
+    public Page<HolidayResDTO> getHolidaysByBarberShop(Long idBarberShop, int page, int size) {
+        log.info("Getting holidays by barber shop");
+        return holidayRepository.findAllByBarberShopIdBarberShop(idBarberShop,
+                        PageRequest.of(page, size)).map(mappers::toHolidayResDTO);
+    }
+
+    @Override
     public Page<AppointmentResDTO> getAppointmentsAllByBarberShop(Long barberId, int page, int size) {
         log.info("Getting appointments by barber shop");
-        try {
-            return appointmentRepository.findAllByBarberShopIdBarberShop(barberId, PageRequest.of(page, size)).map(mappers::toAppointmentResDTO);
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return Page.empty();
+        return appointmentRepository.findAllByBarberShopIdBarberShop(barberId,
+                            PageRequest.of(page, size)).map(mappers::toAppointmentResDTO);
     }
 
     @Override
     public Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(Long barberId, LocalDate date, int page, int size) {
         log.info("Getting appointments by barber shop and date");
-        try {
-            return appointmentRepository.findAllByBarberShopIdBarberShopAndDate(barberId, date, PageRequest.of(page, size)).map(mappers::toAppointmentResDTO);
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return Page.empty();
+        return appointmentRepository.findAllByBarberShopIdBarberShopAndDate(barberId, date,
+                            PageRequest.of(page, size)).map(mappers::toAppointmentResDTO);
     }
 
     @Override
     public void changeAppointmentStatus(Long idAppointment, EStatus status) throws AppointmentNotFoundException {
         log.info("Changing appointment status");
-        try {
-            Appointment appointmentNotFound = appointmentRepository.findById(idAppointment).orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
-            appointmentNotFound.setStatus(status);
-            appointmentRepository.save(appointmentNotFound);
-            log.info("Appointment status changed");
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        Appointment appointmentFound = appointmentRepository.findById(idAppointment)
+                    .orElseThrow(() -> new AppointmentNotFoundException("Appointment not found"));
+        appointmentFound.setStatus(status);
+        appointmentRepository.save(appointmentFound);
+        log.info("Appointment status changed");
     }
 
     @Override

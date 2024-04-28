@@ -1,5 +1,6 @@
 package com.barbertime.barbertime_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -21,9 +22,8 @@ public class Holiday {
     private Long idHoliday;
 
     @NotEmpty
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date holidayDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate holidayDate;
 
     private String reason;
 

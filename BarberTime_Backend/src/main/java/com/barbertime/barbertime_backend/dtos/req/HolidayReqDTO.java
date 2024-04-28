@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +13,6 @@ import java.util.Date;
 @Builder
 public class HolidayReqDTO {
     private Long idHoliday;
-    private Date holidayDate;
+    private LocalDate holidayDate;
     private String reason;
-    private BarberShopReqDTO barberShopDTO;
 }

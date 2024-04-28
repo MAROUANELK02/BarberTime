@@ -1,4 +1,4 @@
-package com.barbertime.barbertime_backend.dtos.res;
+package com.barbertime.barbertime_backend.dtos.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,15 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class HolidayResDTO {
-    private Long idHoliday;
-    private LocalDate holidayDate;
+public class HolidayRangeReqDTO {
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String reason;
-    private BarberShopResDTO barberShopDTO;
 }

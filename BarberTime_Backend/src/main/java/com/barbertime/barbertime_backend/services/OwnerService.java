@@ -1,19 +1,14 @@
 package com.barbertime.barbertime_backend.services;
 
-import com.barbertime.barbertime_backend.dtos.req.BarberShopReqDTO;
-import com.barbertime.barbertime_backend.dtos.req.HairdresserReqDTO;
-import com.barbertime.barbertime_backend.dtos.req.OwnerReqDTO;
-import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
-import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
-import com.barbertime.barbertime_backend.dtos.res.HairdresserResDTO;
-import com.barbertime.barbertime_backend.dtos.res.OwnerResDTO;
+import com.barbertime.barbertime_backend.dtos.req.*;
+import com.barbertime.barbertime_backend.dtos.res.*;
 import com.barbertime.barbertime_backend.entities.Hairdresser;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
 public interface OwnerService {
     OwnerResDTO createOwner(OwnerReqDTO ownerDTO);
@@ -24,6 +19,10 @@ public interface OwnerService {
     void addDayOff(String dayOff, Long idBarberShop) throws BarberShopNotFoundException;
     void removeDayOff(Long idBarberShop) throws BarberShopNotFoundException;
     void updateDayOff(String newDayOff, Long idBarberShop) throws BarberShopNotFoundException;
+    HolidayResDTO addHolidayToBarberShop(HolidayReqDTO holidayReqDTO, Long idBarberShop) throws BarberShopNotFoundException;
+    void removeHolidayFromBarberShops(Long idHoliday, Long idBarberShop) throws HolidayNotFoundException;
+    List<HolidayResDTO> addHolidayRangeToBarberShop(HolidayRangeReqDTO holidayRangeReqDTO, Long idBarberShop) throws BarberShopNotFoundException;
+    Page<HolidayResDTO> getHolidaysByBarberShop(Long idBarberShop, int page, int size);
     Page<AppointmentResDTO> getAppointmentsAllByBarberShop(Long barberId, int page, int size);
     Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(Long barberId, LocalDate date, int page, int size);
     void changeAppointmentStatus(Long idAppointment, EStatus status) throws AppointmentNotFoundException;

@@ -2,9 +2,11 @@ package com.barbertime.barbertime_backend.web;
 
 import com.barbertime.barbertime_backend.dtos.req.BarberShopReqDTO;
 import com.barbertime.barbertime_backend.dtos.req.HairdresserReqDTO;
+import com.barbertime.barbertime_backend.dtos.req.HolidayRangeReqDTO;
 import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.HairdresserResDTO;
+import com.barbertime.barbertime_backend.dtos.res.HolidayResDTO;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
 import com.barbertime.barbertime_backend.mappers.Mappers;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -38,7 +42,7 @@ public class OwnerRestController {
     }
 
     @DeleteMapping("/barberShop/{idBarberShop}")
-    public void deleteBarberShop(@PathVariable Long idBarberShop) {
+    public void deleteBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop) {
         try {
             ownerService.deleteBarberShop(idBarberShop);
         } catch (BarberShopNotFoundException e) {
@@ -86,22 +90,23 @@ public class OwnerRestController {
 
     @GetMapping("/barberShop/{barberId}/appointments")
     public Page<AppointmentResDTO> getAppointmentsAllByBarberShop(@PathVariable(name = "barberId") Long barberId,
-                                                                  @RequestParam int page,
-                                                                  @RequestParam int size) {
+                                                                  @RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(defaultValue = "3") int size) {
         return ownerService.getAppointmentsAllByBarberShop(barberId, page, size);
     }
 
     @GetMapping("/barberShop/{barberId}/appointmentsPerDate")
     public Page<AppointmentResDTO> getAppointmentsByBarberShopAndDate(@PathVariable(name = "barberId") Long barberId,
-                                                                      @RequestParam LocalDate date,
-                                                                      @RequestParam int page,
-                                                                      @RequestParam int size) {
-        return ownerService.getAppointmentsByBarberShopAndDate(barberId, date, page, size);
+                                                                      @RequestParam("date") Optional<LocalDate> date,
+                                                                      @RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "3") int size) {
+        LocalDate dateValue = date.orElse(LocalDate.now());
+        return ownerService.getAppointmentsByBarberShopAndDate(barberId, dateValue, page, size);
     }
 
     @PatchMapping("/appointment/{idAppointment}/status")
     public void changeAppointmentStatus(@PathVariable(name = "idAppointment") Long idAppointment,
-                                        @RequestBody EStatus status) {
+                                        @RequestParam(defaultValue = "COMPLETED") EStatus status) {
         try {
             ownerService.changeAppointmentStatus(idAppointment, status);
         } catch (AppointmentNotFoundException e) {
@@ -111,7 +116,7 @@ public class OwnerRestController {
 
     @PostMapping("/barberShop/{barberShopId}/service/{idService}")
     public void assignServiceToBarberShop(@PathVariable(name = "barberShopId") Long barberShopId,
-                           @PathVariable(name = "idService") Long idService) {
+                                          @PathVariable(name = "idService") Long idService) {
         try {
             ownerService.assignServiceToBarberShop(barberShopId, idService);
         } catch (BarberShopNotFoundException | BarberShopServiceNotFoundException e) {
@@ -121,7 +126,7 @@ public class OwnerRestController {
 
     @DeleteMapping("/barberShop/{barberShopId}/service/{idService}")
     public void removeServiceFromBarberShop(@PathVariable(name = "barberShopId") Long barberShopId,
-                              @PathVariable(name = "idService") Long idService) {
+                                            @PathVariable(name = "idService") Long idService) {
         try {
             ownerService.removeServiceFromBarberShop(barberShopId, idService);
         } catch (BarberShopNotFoundException | BarberShopServiceNotFoundException e) {
@@ -131,7 +136,7 @@ public class OwnerRestController {
 
     @PatchMapping("/hairdresser/{idHairdresser}")
     public HairdresserResDTO updateHairdresser(@PathVariable(name = "idHairdresser") Long idHairdresser,
-                                  @RequestBody HairdresserReqDTO hairdresserDTO) {
+                                               @RequestBody HairdresserReqDTO hairdresserDTO) {
         try {
             return ownerService.updateHairdresser(idHairdresser, hairdresserDTO);
         } catch (HairdresserNotFoundException e) {
@@ -141,7 +146,7 @@ public class OwnerRestController {
 
     @PostMapping("/hairdresser/barberShop/{idBarberShop}")
     public HairdresserResDTO assignHairdresserToBarberShop(@RequestBody HairdresserReqDTO hairdresserReqDTO,
-                                              @PathVariable(name = "idBarberShop") Long idBarberShop) {
+                                                           @PathVariable(name = "idBarberShop") Long idBarberShop) {
         try {
             return ownerService.assignHairdresserToBarberShop(hairdresserReqDTO, idBarberShop);
         } catch (BarberShopNotFoundException | HairdresserNotFoundException e) {
@@ -155,6 +160,26 @@ public class OwnerRestController {
         try {
             ownerService.removeHairdresserFromBarberShop(idHairdresser, idBarberShop);
         } catch (BarberShopNotFoundException | HairdresserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("/holiday/{idBarberShop}")
+    public List<HolidayResDTO> addHolidayRangeToBarberShop(@RequestBody HolidayRangeReqDTO holidayReqDTO,
+                                                      @PathVariable(name = "idBarberShop") Long idBarberShop) {
+        try {
+            return ownerService.addHolidayRangeToBarberShop(holidayReqDTO, idBarberShop);
+        } catch (BarberShopNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping("/holiday/{idHoliday}/barberShop/{idBarberShop}")
+    public void removeHolidayFromBarberShops(@PathVariable(name = "idHoliday") Long idHoliday,
+                                             @PathVariable(name = "idBarberShop") Long idBarberShop) {
+        try {
+            ownerService.removeHolidayFromBarberShops(idHoliday, idBarberShop);
+        } catch (HolidayNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

@@ -21,10 +21,6 @@ public class Owner extends User {
     @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)
     private BarberShop barberShop;
 
-    public Owner(String cin) {
-        this.cin = cin;
-    }
-
     public Owner(Long userId, String firstName, String lastName, String telNumber, String email,
                  String username, String password, String cin) {
         super(userId, firstName, lastName, telNumber, email, username, password);
