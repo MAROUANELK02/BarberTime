@@ -206,7 +206,8 @@ public class OwnerServiceImpl implements OwnerService {
         Hairdresser hairdresser = addHairdresser(hairdresserDTO);
         BarberShop barberShop = barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
-        hairdresser.setBarberShop(barberShop);
+        barberShop.setCapacity(barberShop.getCapacity() + 1);
+        hairdresser.setBarberShop(barberShopRepository.save(barberShop));
         Hairdresser save = hairdresserRepository.save(hairdresser);
         log.info("Hairdresser assigned to barber shop");
         return mappers.toHairdresserResDTO(save);
@@ -219,12 +220,12 @@ public class OwnerServiceImpl implements OwnerService {
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         Hairdresser hairdresser = hairdresserRepository.findById(idHairdresser)
                 .orElseThrow(() -> new HairdresserNotFoundException("Hairdresser not found"));
-        if (barberShop.getIdBarberShop() != hairdresser.getBarberShop().getIdBarberShop()) {
+        if (!barberShop.getIdBarberShop().equals(hairdresser.getBarberShop().getIdBarberShop())) {
             throw new HairdresserNotFoundException("Hairdresser not found in this barber shop");
         }else {
-            hairdresser.setBarberShop(null);
+            barberShop.setCapacity(barberShop.getCapacity() - 1);
+            hairdresserRepository.delete(hairdresser);
+            log.info("Hairdresser removed from barber shop");
         }
-        hairdresserRepository.save(hairdresser);
-        log.info("Hairdresser removed from barber shop");
     }
 }
