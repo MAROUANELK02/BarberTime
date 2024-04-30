@@ -224,4 +224,16 @@ public class OwnerRestController {
         return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
 
+    @PostMapping("/barberShop/{idBarberShop}/images")
+    public void saveImagesOfBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
+                                      @RequestBody MultipartFile[] images) {
+        try {
+            for (MultipartFile image : images) {
+                ownerService.saveImageOfBarberShop(idBarberShop, image);
+            }
+        } catch (BarberShopNotFoundException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
