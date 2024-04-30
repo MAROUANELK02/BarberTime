@@ -6,15 +6,12 @@ import com.barbertime.barbertime_backend.repositories.FileDataRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
@@ -36,11 +33,27 @@ public class ImagesServiceImpl implements ImagesService {
         return Files.readAllBytes(new File(filePath).toPath());
     }
 
-    @Override
+    /*@Override
     public void uploadImageToStorage(BarberShop barberShop, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         String storagePath = "C:/Users/lasma/Documents/PI/BarberTime/BarberTime_Backend/src/main/resources/static/images/";
         File newFile = new File(storagePath + fileName);
+
+        file.transferTo(newFile);
+
+        fileDataRepository.save(FileData.builder()
+                .name(fileName)
+                .type(file.getContentType())
+                .filePath(newFile.getPath())
+                .barberShop(barberShop)
+                .build());
+    }*/
+
+    @Override
+    public void uploadImageToStorage(BarberShop barberShop, MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        String classpathResource = "static/images/" + fileName;
+        File newFile = new File(getClass().getClassLoader().getResource(classpathResource).getFile());
 
         file.transferTo(newFile);
 
