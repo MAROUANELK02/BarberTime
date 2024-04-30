@@ -1,6 +1,7 @@
 package com.barbertime.barbertime_backend.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -16,7 +17,7 @@ public class Review {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReview;
 
-    @NotEmpty
+    @NotBlank
     private String comment;
 
     @Size(min = 1, max = 5)

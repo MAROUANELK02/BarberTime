@@ -5,6 +5,7 @@ import com.barbertime.barbertime_backend.dtos.req.*;
 import com.barbertime.barbertime_backend.dtos.res.*;
 import com.barbertime.barbertime_backend.entities.*;
 import com.barbertime.barbertime_backend.repositories.HairdresserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -59,6 +60,9 @@ public class MappersImpl implements Mappers {
                 .build();
         if(barberShop.getBarberServices() != null)
             build.setServices(barberShop.getBarberServices().stream().map(this::toBarberServiceDTO)
+                    .collect(Collectors.toList()));
+        if(barberShop.getImages() != null)
+            build.setImages(barberShop.getImages().stream().map(this::toFileDataResDTO)
                     .collect(Collectors.toList()));
         return build;
     }
@@ -171,20 +175,6 @@ public class MappersImpl implements Mappers {
     }
 
     @Override
-    public UserResDTO toUserResDTO(User user) {
-        return new UserResDTO(user.getIdUser(), user.getFirstName(),
-                user.getLastName(), user.getTelNumber(), user.getEmail(),
-                user.getUsername(), toRoleDTO(user.getRole()));
-    }
-
-    @Override
-    public User toUser(UserReqDTO userDTO) {
-        return new User(userDTO.getIdUser(), userDTO.getFirstName(),
-                userDTO.getLastName(), userDTO.getTelNumber(), userDTO.getEmail(),
-                userDTO.getUsername(), userDTO.getPassword());
-    }
-
-    @Override
     public BarberServiceDTO toBarberServiceDTO(BarberService barberService) {
         return BarberServiceDTO.builder()
                 .idService(barberService.getIdService())
@@ -220,5 +210,12 @@ public class MappersImpl implements Mappers {
                 .rating(reviewDTO.getRating())
                 .comment(reviewDTO.getComment())
                 .build();
+    }
+
+    @Override
+    public FileDataResDTO toFileDataResDTO(FileData fileData) {
+        FileDataResDTO fileDataResDTO = new FileDataResDTO();
+        BeanUtils.copyProperties(fileData, fileDataResDTO);
+        return fileDataResDTO;
     }
 }

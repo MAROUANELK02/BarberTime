@@ -29,4 +29,5 @@ public class BarberShopResDTO {
     private int ratings;
     private OwnerResDTO ownerDTO;
     private List<BarberServiceDTO> services;
+    private List<FileDataResDTO> images;
 }

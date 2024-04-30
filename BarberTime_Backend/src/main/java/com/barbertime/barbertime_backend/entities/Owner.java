@@ -1,6 +1,7 @@
 package com.barbertime.barbertime_backend.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -13,7 +14,7 @@ import lombok.*;
 @Setter
 @ToString
 public class Owner extends User {
-    @NotEmpty
+    @NotBlank
     @Size(min = 4)
     @Column(unique = true)
     private String cin;

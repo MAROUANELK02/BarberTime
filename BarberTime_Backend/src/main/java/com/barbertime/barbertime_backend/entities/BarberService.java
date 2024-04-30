@@ -3,6 +3,7 @@ package com.barbertime.barbertime_backend.entities;
 import com.barbertime.barbertime_backend.enums.EService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -22,6 +23,6 @@ public class BarberService {
     @Enumerated(EnumType.STRING)
     private EService serviceName;
 
-    @NotEmpty
+    @NotNull
     private double price;
 }

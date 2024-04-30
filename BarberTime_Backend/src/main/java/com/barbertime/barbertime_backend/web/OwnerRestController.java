@@ -14,7 +14,9 @@ import com.barbertime.barbertime_backend.services.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -189,6 +191,25 @@ public class OwnerRestController {
                                                        @RequestParam(defaultValue = "0") int page,
                                                        @RequestParam(defaultValue = "3") int size) {
         return ownerService.getHolidaysByBarberShop(idBarberShop, page, size);
+    }
+
+    @PostMapping("/barberShop/{idBarberShop}/image")
+    public void saveImageOfBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
+                                      @RequestBody MultipartFile image) {
+        try {
+            ownerService.saveImageOfBarberShop(idBarberShop, image);
+        } catch (BarberShopNotFoundException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/barberShop/{idBarberShop}/images")
+    public List<byte[]> getImagesOfBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop) {
+        try {
+            return ownerService.getImagesOfBarberShop(idBarberShop);
+        } catch (BarberShopNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

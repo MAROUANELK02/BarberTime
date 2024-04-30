@@ -14,10 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,6 +33,8 @@ public class OwnerServiceImpl implements OwnerService {
     private HolidayRepository holidayRepository;
     private OwnerRepository ownerRepository;
     private BarberServiceRepository barberServiceRepository;
+    private FileDataRepository fileDataRepository;
+    private ImagesService imagesService;
     private Mappers mappers;
 
     @Override
@@ -56,6 +59,35 @@ public class OwnerServiceImpl implements OwnerService {
         ownerRepository.save(owner);
         log.info("Barber shop created");
         return mappers.toBarberShopResDTO(barberShop);
+    }
+
+    @Override
+    public void saveImageOfBarberShop(Long idBarberShop, MultipartFile image) throws BarberShopNotFoundException, IOException {
+        log.info("Saving image of barber shop");
+        BarberShop barberShop = barberShopRepository.findById(idBarberShop)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+        imagesService.uploadImageToStorage(barberShop, image);
+        log.info("Image of barber shop saved");
+    }
+
+    @Override
+    public List<byte[]> getImagesOfBarberShop(Long idBarberShop) throws BarberShopNotFoundException {
+        log.info("Getting images of barber shop");
+        BarberShop barberShop = barberShopRepository.findById(idBarberShop)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+        List<FileData> images = fileDataRepository.findAllByBarberShopIdBarberShop(barberShop.getIdBarberShop());
+        if (images.isEmpty()) {
+            throw new BarberShopNotFoundException("No images found for this barber shop");
+        }
+        List<byte[]> imagesBytes = new ArrayList<>();
+        for (FileData image : images) {
+            try {
+                imagesBytes.add(imagesService.downloadImageFromStorage(image.getId()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return imagesBytes;
     }
 
     @Override
