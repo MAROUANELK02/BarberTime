@@ -13,6 +13,10 @@ import com.barbertime.barbertime_backend.mappers.Mappers;
 import com.barbertime.barbertime_backend.services.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -210,6 +214,14 @@ public class OwnerRestController {
         } catch (BarberShopNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/image/{idImage}")
+    public ResponseEntity<byte[]> getImageById(@PathVariable(name = "idImage") Long idImage) {
+        byte[] image = ownerService.getImageById(idImage);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>(image, headers, HttpStatus.OK);
     }
 
 }

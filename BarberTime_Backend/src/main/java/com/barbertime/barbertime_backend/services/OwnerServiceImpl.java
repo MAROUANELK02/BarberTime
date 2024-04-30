@@ -91,6 +91,17 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
+    public byte[] getImageById(Long idImage) {
+        log.info("Getting image by id");
+        try {
+            return imagesService.downloadImageFromStorage(idImage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
     public BarberShopResDTO updateBarberShop(Long idBarberShop,BarberShopReqDTO barberShopDTO) throws BarberShopNotFoundException {
         log.info("Updating barber shop");
         BarberShop barberFound = barberShopRepository.findById(idBarberShop)

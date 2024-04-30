@@ -17,6 +17,7 @@ public interface OwnerService {
     BarberShopResDTO createBarberShop(BarberShopReqDTO barberShopDTO);
     void saveImageOfBarberShop(Long idBarberShop, MultipartFile image) throws BarberShopNotFoundException, IOException;
     List<byte[]> getImagesOfBarberShop(Long idBarberShop) throws BarberShopNotFoundException;
+    byte[] getImageById(Long idImage);
     BarberShopResDTO updateBarberShop(Long idBarberShop,BarberShopReqDTO barberShopDTO) throws BarberShopNotFoundException;
     void deleteBarberShop(Long idBarberShop) throws BarberShopNotFoundException;
     BarberShopResDTO getBarberShopByOwnerId(Long idOwner) throws OwnerNotFoundException;
