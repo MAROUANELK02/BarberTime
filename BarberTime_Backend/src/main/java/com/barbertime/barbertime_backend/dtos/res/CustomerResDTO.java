@@ -1,7 +1,6 @@
 package com.barbertime.barbertime_backend.dtos.res;
 
 import com.barbertime.barbertime_backend.dtos.RoleDTO;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

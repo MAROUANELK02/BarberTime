@@ -218,4 +218,11 @@ public class MappersImpl implements Mappers {
         BeanUtils.copyProperties(fileData, fileDataResDTO);
         return fileDataResDTO;
     }
+
+    @Override
+    public Admin toAdmin(AdminDTO adminDTO) {
+        return new Admin(adminDTO.getIdUser(), adminDTO.getFirstName(),
+                adminDTO.getLastName(), adminDTO.getTelNumber(), adminDTO.getEmail(),
+                adminDTO.getUsername(), adminDTO.getPassword());
+    }
 }

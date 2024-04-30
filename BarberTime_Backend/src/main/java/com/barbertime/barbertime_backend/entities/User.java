@@ -6,7 +6,6 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Table(name = "users")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @AllArgsConstructor
 @NoArgsConstructor

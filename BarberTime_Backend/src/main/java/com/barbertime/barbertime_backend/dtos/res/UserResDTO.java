@@ -1,7 +1,6 @@
 package com.barbertime.barbertime_backend.dtos.res;
 
 import com.barbertime.barbertime_backend.dtos.RoleDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

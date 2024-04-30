@@ -33,22 +33,6 @@ public class ImagesServiceImpl implements ImagesService {
         return Files.readAllBytes(new File(filePath).toPath());
     }
 
-    /*@Override
-    public void uploadImageToStorage(BarberShop barberShop, MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
-        String storagePath = "C:/Users/lasma/Documents/PI/BarberTime/BarberTime_Backend/src/main/resources/static/images/";
-        File newFile = new File(storagePath + fileName);
-
-        file.transferTo(newFile);
-
-        fileDataRepository.save(FileData.builder()
-                .name(fileName)
-                .type(file.getContentType())
-                .filePath(newFile.getPath())
-                .barberShop(barberShop)
-                .build());
-    }*/
-
     @Override
     public void uploadImageToStorage(BarberShop barberShop, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();

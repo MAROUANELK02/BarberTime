@@ -1,5 +1,6 @@
 package com.barbertime.barbertime_backend.services;
 
+import com.barbertime.barbertime_backend.dtos.AdminDTO;
 import com.barbertime.barbertime_backend.dtos.BarberServiceDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.CustomerResDTO;
@@ -28,6 +29,7 @@ public class AdminServiceImpl implements AdminService {
     private BarberShopRepository barberShopRepository;
     private OwnerRepository ownerRepository;
     private RoleRepository roleRepository;
+    private AdminRepository adminRepository;
     private Mappers mappers;
 
     @Override
@@ -53,6 +55,15 @@ public class AdminServiceImpl implements AdminService {
                             .build());
         }
         log.info("All roles saved");
+    }
+
+    @Override
+    public void saveAdmin(AdminDTO adminDTO) {
+        log.info("Saving admin");
+        Admin admin = mappers.toAdmin(adminDTO);
+        admin.setRole(roleRepository.findByRoleName(ERole.ROLE_ADMIN));
+        adminRepository.save(admin);
+        log.info("Admin saved");
     }
 
     @Override

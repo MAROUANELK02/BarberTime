@@ -25,4 +25,5 @@ public interface Mappers {
     ReviewResDTO toReviewResDTO(Review review);
     Review toReview(ReviewReqDTO reviewDTO);
     FileDataResDTO toFileDataResDTO(FileData fileData);
+    Admin toAdmin(AdminDTO adminDTO);
 }
