@@ -17,11 +17,11 @@ public abstract class User {
     private Long idUser;
 
     @NotBlank
-    @Size(min = 4, max = 40)
+    @Size(min = 3, max = 30)
     private String firstName;
 
     @NotBlank
-    @Size(min = 4, max = 40)
+    @Size(min = 3, max = 30)
     private String lastName;
 
     @NotBlank

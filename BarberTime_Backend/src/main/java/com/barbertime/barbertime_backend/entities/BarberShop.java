@@ -28,23 +28,22 @@ public class BarberShop {
 
     @NotBlank
     @Size(min = 4, max = 40)
-    @Column(unique = true)
+    //@Column(unique = true)
     private String name;
 
     @NotBlank
     @Size(min = 4, max = 100)
-    @Column(unique = true)
     private String address;
 
     @Size(min = 10, max = 20)
-    @Column(unique = true)
+    //@Column(unique = true)
     private String phone;
 
     @Enumerated(EnumType.STRING)
     private ENeighborhood neighborhood;
 
     @NotBlank
-    @Column(unique = true)
+    //@Column(unique = true)
     private String authorizationNumber;
 
     private int capacity;
