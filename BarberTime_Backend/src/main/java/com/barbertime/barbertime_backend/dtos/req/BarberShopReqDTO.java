@@ -13,7 +13,6 @@ import java.time.LocalTime;
 @Data
 @Builder
 public class BarberShopReqDTO {
-    private Long idBarberShop;
     private String name;
     private String address;
     private String phone;
@@ -23,18 +22,4 @@ public class BarberShopReqDTO {
     private LocalTime startTime;
     private LocalTime endTime;
     private OwnerReqDTO ownerDTO;
-
-    public BarberShopReqDTO(String name, String address, String phone, ENeighborhood neighborhood,
-                             String authorizationNumber, String dayOff, LocalTime startTime, LocalTime endTime,
-                             OwnerReqDTO ownerDTO) {
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.neighborhood = neighborhood;
-        this.authorizationNumber = authorizationNumber;
-        this.dayOff = dayOff;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.ownerDTO = ownerDTO;
-    }
 }

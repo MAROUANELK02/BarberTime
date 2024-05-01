@@ -69,7 +69,6 @@ public class MappersImpl implements Mappers {
     @Override
     public BarberShop toBarberShop(BarberShopReqDTO barberShopDTO) {
         return BarberShop.builder()
-                .idBarberShop(barberShopDTO.getIdBarberShop())
                 .name(barberShopDTO.getName())
                 .address(barberShopDTO.getAddress())
                 .phone(barberShopDTO.getPhone())

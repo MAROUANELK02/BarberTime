@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class HolidayReqDTO {
-    private Long idHoliday;
     private LocalDate holidayDate;
     private String reason;
 }

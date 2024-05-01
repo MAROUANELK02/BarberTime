@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserResDTO {
+public abstract class UserResDTO {
     private Long idUser;
     private String firstName;
     private String lastName;

@@ -10,12 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class ReviewReqDTO {
-    private Long idReview;
     private String comment;
     private int rating;
-
-    public ReviewReqDTO(String comment, int rating) {
-        this.comment = comment;
-        this.rating = rating;
-    }
 }
