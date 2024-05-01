@@ -73,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RuntimeException("Barber shop is closed on this time");
 
         Customer customer = customerRepository.findById(idCustomer)
-                .orElseThrow(() -> new CustomerNotFoundException(idCustomer));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
         appointment.setBarberShop(barberShop);
         appointment.setCustomer(customer);
         Appointment save = appointmentRepository.save(appointment);
@@ -84,15 +84,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResDTO getCustomer(Long idCustomer) throws CustomerNotFoundException {
         return mappers.toCustomerResDTO(customerRepository.findById(idCustomer)
-                .orElseThrow(() -> new CustomerNotFoundException(idCustomer)));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found")));
     }
 
     @Override
-    public CustomerResDTO updateCustomer(CustomerReqDTO customerDTO) {
+    public CustomerResDTO updateCustomer(Long customerId, CustomerReqDTO customerDTO) {
         log.info("Updating customer");
         try {
-            Customer customerFound = customerRepository.findById(customerDTO.getIdUser())
-                    .orElseThrow(() -> new CustomerNotFoundException(customerDTO.getIdUser()));
+            Customer customerFound = customerRepository.findById(customerId)
+                    .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
             if(customerDTO.getFirstName() != null)
                 customerFound.setFirstName(customerDTO.getFirstName());
             if(customerDTO.getLastName() != null)
@@ -141,7 +141,7 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Adding review");
         Review review = mappers.toReview(reviewReqDTO);
         review.setCustomer(customerRepository.findById(customerId)
-                .orElseThrow(() -> new CustomerNotFoundException(customerId)));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found")));
         review.setBarberShop(barberShopRepository.findById(barberShopId)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found")));
         Review save = reviewRepository.save(review);

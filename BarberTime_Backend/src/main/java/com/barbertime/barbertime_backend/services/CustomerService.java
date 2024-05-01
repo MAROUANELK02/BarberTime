@@ -17,7 +17,7 @@ public interface CustomerService {
     Page<AppointmentResDTO> getAppointments(Long idCustomer, int page, int size);
     AppointmentResDTO saveAppointment(Long idCustomer, Long idBarber, AppointmentReqDTO appointmentReqDTO) throws CustomerNotFoundException, BarberShopNotFoundException;
     CustomerResDTO getCustomer(Long idCustomer) throws CustomerNotFoundException;
-    CustomerResDTO updateCustomer(CustomerReqDTO customerDTO);
+    CustomerResDTO updateCustomer(Long customerId, CustomerReqDTO customerDTO);
     void deleteCustomer(Long idCustomer);
     Page<BarberShopResDTO> getAllBarberShops(int page, int size);
     Page<BarberShopResDTO> getAllBarberShopsByLocation(ENeighborhood location, int page, int size);

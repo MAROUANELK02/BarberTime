@@ -53,9 +53,10 @@ public class CustomerRestController {
         }
     }
 
-    @PatchMapping("/")
-    public CustomerResDTO updateCustomer(@RequestBody CustomerReqDTO customerDTO) {
-        return customerService.updateCustomer(customerDTO);
+    @PatchMapping("/{idCustomer}")
+    public CustomerResDTO updateCustomer(@PathVariable(name = "idCustomer") Long idCustomer,
+            @RequestBody CustomerReqDTO customerDTO) {
+        return customerService.updateCustomer(idCustomer, customerDTO);
     }
 
     @DeleteMapping("/{idCustomer}")
