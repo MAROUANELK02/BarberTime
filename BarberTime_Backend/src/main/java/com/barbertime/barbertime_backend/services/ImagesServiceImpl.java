@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -39,14 +40,17 @@ public class ImagesServiceImpl implements ImagesService {
 
     @Override
     public void uploadImageToStorage(BarberShop barberShop, MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
+        String originalFileName = file.getOriginalFilename();
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        String newFileName = UUID.randomUUID().toString() + fileExtension;
+
         String storagePath = "C:/Users/lasma/Documents/PI/BarberTime/BarberTime_Backend/src/main/resources/static/images/";
-        File newFile = new File(storagePath + fileName);
+        File newFile = new File(storagePath + newFileName);
 
         file.transferTo(newFile);
 
         fileDataRepository.save(FileData.builder()
-                .name(fileName)
+                .name(newFileName)
                 .type(file.getContentType())
                 .filePath(newFile.getPath())
                 .barberShop(barberShop)
