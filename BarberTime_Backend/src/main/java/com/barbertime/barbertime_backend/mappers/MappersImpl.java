@@ -91,7 +91,7 @@ public class MappersImpl implements Mappers {
 
     @Override
     public Customer toCustomer(CustomerReqDTO customerDTO) {
-        return new Customer(customerDTO.getIdUser(), customerDTO.getFirstName(),
+        return new Customer(customerDTO.getFirstName(),
                 customerDTO.getLastName(), customerDTO.getTelNumber(), customerDTO.getEmail(),
                 customerDTO.getUsername(), customerDTO.getPassword());
     }
@@ -135,7 +135,6 @@ public class MappersImpl implements Mappers {
     @Override
     public Holiday toHoliday(HolidayReqDTO holidayDTO) {
         return Holiday.builder()
-                .idHoliday(holidayDTO.getIdHoliday())
                 .holidayDate(holidayDTO.getHolidayDate())
                 .reason(holidayDTO.getReason())
                 .build();
@@ -151,7 +150,7 @@ public class MappersImpl implements Mappers {
 
     @Override
     public Owner toOwner(OwnerReqDTO ownerDTO) {
-        return new Owner(ownerDTO.getIdUser(), ownerDTO.getFirstName(),
+        return new Owner(ownerDTO.getFirstName(),
                 ownerDTO.getLastName(), ownerDTO.getTelNumber(), ownerDTO.getEmail(),
                 ownerDTO.getUsername(), ownerDTO.getPassword(), ownerDTO.getCin());
     }
@@ -204,7 +203,6 @@ public class MappersImpl implements Mappers {
     @Override
     public Review toReview(ReviewReqDTO reviewDTO) {
         return Review.builder()
-                .idReview(reviewDTO.getIdReview())
                 .rating(reviewDTO.getRating())
                 .comment(reviewDTO.getComment())
                 .build();
@@ -219,7 +217,7 @@ public class MappersImpl implements Mappers {
 
     @Override
     public Admin toAdmin(AdminDTO adminDTO) {
-        return new Admin(adminDTO.getIdUser(), adminDTO.getFirstName(),
+        return new Admin(adminDTO.getFirstName(),
                 adminDTO.getLastName(), adminDTO.getTelNumber(), adminDTO.getEmail(),
                 adminDTO.getUsername(), adminDTO.getPassword());
     }

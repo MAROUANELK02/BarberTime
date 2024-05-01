@@ -50,4 +50,13 @@ public abstract class User {
         this.password = password;
     }
 
+    public User(String firstName, String lastName, String telNumber, String email, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.telNumber = telNumber;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
 }
