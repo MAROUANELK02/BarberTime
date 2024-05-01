@@ -15,6 +15,12 @@ public class OwnerReqDTO extends UserReqDTO {
         super(idUser, firstName, lastName, telNumber, email, username, password);
     }
 
+    public OwnerReqDTO(String firstName, String lastName, String telNumber, String email,
+                       String username, String password, String cin) {
+        super(firstName, lastName, telNumber, email, username, password);
+        this.cin = cin;
+    }
+
     public OwnerReqDTO(Long idUser, String firstName, String lastName, String telNumber, String email,
                        String username, String password, String cin) {
         super(idUser, firstName, lastName, telNumber, email, username, password);

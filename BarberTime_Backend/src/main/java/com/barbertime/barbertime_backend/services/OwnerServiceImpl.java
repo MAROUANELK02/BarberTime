@@ -238,13 +238,13 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public void assignServiceToBarberShop(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException {
-        log.info("Adding service");
+        log.info("Adding service to barber shop");
         BarberShop barberShop = barberShopRepository.findById(barberShopId)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         barberShop.getBarberServices().add(barberServiceRepository.findById(idService)
                 .orElseThrow(() -> new BarberShopServiceNotFoundException("Service not found")));
         barberShopRepository.save(barberShop);
-        log.info("Service added");
+        log.info("Service added to barber shop");
     }
 
     @Override

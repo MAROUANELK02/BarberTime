@@ -29,11 +29,9 @@ public abstract class User {
     private String telNumber;
 
     @Email
-    @Column(unique = true)
     private String email;
 
     @NotBlank
-    @Column(unique = true)
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -12,4 +12,9 @@ public class AdminDTO extends UserReqDTO {
                           String username, String password) {
         super(idUser, firstName, lastName, telNumber, email, username, password);
     }
+
+    public AdminDTO(String firstName, String lastName, String telNumber, String email,
+                          String username, String password) {
+        super(firstName, lastName, telNumber, email, username, password);
+    }
 }

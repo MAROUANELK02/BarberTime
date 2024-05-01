@@ -10,4 +10,9 @@ public class CustomerReqDTO extends UserReqDTO {
                           String username, String password) {
         super(idUser, firstName, lastName, telNumber, email, username, password);
     }
+
+    public CustomerReqDTO(String firstName, String lastName, String telNumber, String email,
+                          String username, String password) {
+        super(firstName, lastName, telNumber, email, username, password);
+    }
 }
