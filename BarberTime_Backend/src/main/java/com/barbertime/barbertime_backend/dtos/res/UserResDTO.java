@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -15,5 +17,5 @@ public abstract class UserResDTO {
     private String telNumber;
     private String email;
     private String username;
-    private RoleDTO roleDTO;
+    private List<RoleDTO> roleDTO;
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public class CustomerResDTO extends UserResDTO {
 
     public CustomerResDTO(Long id, String firstName, String lastName, String phoneNumber,
-                          String email, String username, RoleDTO roleDTO) {
+                          String email, String username, List<RoleDTO> roleDTO) {
         super(id, firstName, lastName, phoneNumber, email, username, roleDTO);
     }
 

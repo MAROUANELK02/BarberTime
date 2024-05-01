@@ -8,6 +8,7 @@ import com.barbertime.barbertime_backend.repositories.HairdresserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,7 +84,9 @@ public class MappersImpl implements Mappers {
 
     @Override
     public CustomerResDTO toCustomerResDTO(Customer customer) {
-        RoleDTO roleDTO = toRoleDTO(customer.getRole());
+        List<RoleDTO> roleDTO = customer.getRole().stream()
+                .map(this::toRoleDTO)
+                .collect(Collectors.toList());
         return new CustomerResDTO(customer.getIdUser(), customer.getFirstName(),
                 customer.getLastName(), customer.getTelNumber(), customer.getEmail(),
                 customer.getUsername(), roleDTO);
@@ -142,7 +145,9 @@ public class MappersImpl implements Mappers {
 
     @Override
     public OwnerResDTO toOwnerResDTO(Owner owner) {
-        RoleDTO roleDTO = toRoleDTO(owner.getRole());
+        List<RoleDTO> roleDTO = owner.getRole().stream()
+                .map(this::toRoleDTO)
+                .collect(Collectors.toList());
         return new OwnerResDTO(owner.getIdUser(), owner.getFirstName(),
                 owner.getLastName(), owner.getTelNumber(), owner.getEmail(),
                 owner.getUsername(), roleDTO, owner.getCin());

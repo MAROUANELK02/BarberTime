@@ -4,5 +4,7 @@ import com.barbertime.barbertime_backend.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsernameContaining(String username);
+    User findByUsername(String username);
+    User findByEmailContains(String email);
+    Boolean existsByEmail(String email);
 }
