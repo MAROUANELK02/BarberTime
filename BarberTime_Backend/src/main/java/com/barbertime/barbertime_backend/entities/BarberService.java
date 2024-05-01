@@ -21,6 +21,7 @@ public class BarberService {
     private Long idService;
 
     @Enumerated(EnumType.STRING)
+    @Column(unique = true)
     private EService serviceName;
 
     @NotNull

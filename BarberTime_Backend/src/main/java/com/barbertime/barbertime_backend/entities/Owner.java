@@ -15,6 +15,7 @@ import lombok.*;
 public class Owner extends User {
     @NotBlank
     @Size(min = 4)
+    @Column(unique = true)
     private String cin;
 
     @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)

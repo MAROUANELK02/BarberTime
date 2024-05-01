@@ -27,20 +27,24 @@ public class BarberShop {
     private Long idBarberShop;
 
     @NotBlank
+    @Column(unique = true)
     @Size(min = 4, max = 40)
     private String name;
 
     @NotBlank
+    @Column(unique = true)
     @Size(min = 4, max = 100)
     private String address;
 
     @Size(min = 10, max = 20)
+    @Column(unique = true)
     private String phone;
 
     @Enumerated(EnumType.STRING)
     private ENeighborhood neighborhood;
 
     @NotBlank
+    @Column(unique = true)
     private String authorizationNumber;
 
     private int capacity;

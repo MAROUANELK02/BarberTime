@@ -226,7 +226,7 @@ public class OwnerRestController {
 
     @PostMapping("/barberShop/{idBarberShop}/images")
     public void saveImagesOfBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
-                                      @RequestBody MultipartFile[] images) {
+                                      @RequestBody List<MultipartFile> images) {
         try {
             for (MultipartFile image : images) {
                 ownerService.saveImageOfBarberShop(idBarberShop, image);

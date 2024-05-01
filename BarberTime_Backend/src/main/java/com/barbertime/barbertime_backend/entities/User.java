@@ -32,6 +32,7 @@ public abstract class User {
     private String email;
 
     @NotBlank
+    @Column(unique = true)
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -39,16 +40,6 @@ public abstract class User {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
-
-    public User(Long userId, String firstName, String lastName, String telNumber, String email, String username, String password) {
-        this.idUser = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.telNumber = telNumber;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
 
     public User(String firstName, String lastName, String telNumber, String email, String username, String password) {
         this.firstName = firstName;

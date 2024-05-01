@@ -12,6 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -36,6 +40,22 @@ public class ImagesServiceImpl implements ImagesService {
     @Override
     public void uploadImageToStorage(BarberShop barberShop, MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
+        String storagePath = "C:/Users/lasma/Documents/PI/BarberTime/BarberTime_Backend/src/main/resources/static/images/";
+        File newFile = new File(storagePath + fileName);
+
+        file.transferTo(newFile);
+
+        fileDataRepository.save(FileData.builder()
+                .name(fileName)
+                .type(file.getContentType())
+                .filePath(newFile.getPath())
+                .barberShop(barberShop)
+                .build());
+    }
+
+    /*@Override
+    public void uploadImageToStorage(BarberShop barberShop, MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
         String classpathResource = "static/images/" + fileName;
         File newFile = new File(getClass().getClassLoader().getResource(classpathResource).getFile());
 
@@ -47,5 +67,5 @@ public class ImagesServiceImpl implements ImagesService {
                 .filePath(newFile.getPath())
                 .barberShop(barberShop)
                 .build());
-    }
+    }*/
 }
