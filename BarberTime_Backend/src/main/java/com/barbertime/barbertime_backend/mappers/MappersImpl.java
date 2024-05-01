@@ -34,7 +34,6 @@ public class MappersImpl implements Mappers {
     @Override
     public Appointment toAppointment(AppointmentReqDTO appointmentDTO) {
         return Appointment.builder()
-                .idAppointment(appointmentDTO.getIdAppointment())
                 .date(appointmentDTO.getDate())
                 .time(appointmentDTO.getTime())
                 .status(appointmentDTO.getStatus())

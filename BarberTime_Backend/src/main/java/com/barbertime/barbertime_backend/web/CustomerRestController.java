@@ -28,8 +28,8 @@ public class CustomerRestController {
 
     @GetMapping("/appointments/{idCustomer}")
     public Page<AppointmentResDTO> getAppointments(@PathVariable(name = "idCustomer") Long idCustomer,
-                                                   @RequestParam int page,
-                                                   @RequestParam int size) {
+                                                   @RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "3") int size) {
         return customerService.getAppointments(idCustomer, page, size);
     }
 
@@ -64,15 +64,15 @@ public class CustomerRestController {
     }
 
     @GetMapping("/barberShops")
-    public Page<BarberShopResDTO> getAllBarberShops(@RequestParam int page,
-                                                    @RequestParam int size) {
+    public Page<BarberShopResDTO> getAllBarberShops(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "3") int size) {
         return customerService.getAllBarberShops(page, size);
     }
 
     @GetMapping("/barberShops/location")
     public Page<BarberShopResDTO> getAllBarberShopsByLocation(@RequestParam ENeighborhood location,
-                                                              @RequestParam int page,
-                                                              @RequestParam int size) {
+                                                              @RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "3") int size) {
         return customerService.getAllBarberShopsByLocation(location, page, size);
     }
 

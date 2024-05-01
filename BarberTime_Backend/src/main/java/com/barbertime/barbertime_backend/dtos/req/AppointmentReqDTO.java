@@ -14,14 +14,7 @@ import java.time.LocalTime;
 @Data
 @Builder
 public class AppointmentReqDTO {
-    private Long idAppointment;
     private LocalDate date;
     private LocalTime time;
     private EStatus status;
-
-    public AppointmentReqDTO(LocalDate date, LocalTime time, EStatus status) {
-        this.date = date;
-        this.time = time;
-        this.status = status;
-    }
 }
