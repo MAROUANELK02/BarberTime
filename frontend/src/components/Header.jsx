@@ -1,31 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 
 const Header = () => {
+  const [login, setLogin] = useState(false);
   return (
-    <Navbar bg="dark" expand="lg" variant="dark">
+    <Navbar bg="light" expand="lg" variant="light">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse
         id="basic-navbar-nav"
         className="justify-content-md-center"
       >
         <Nav className="mr-auto">
-          <Nav.Link href="#home">Centered nav only</Nav.Link>
+          <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="#link">Link</Nav.Link>
           <Nav.Link disabled href="#disabled">
             Disabled
           </Nav.Link>
-          <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">
-              Another action
-            </NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">
-              Something else
-            </NavDropdown.Item>
+          <NavDropdown title="Account" id="basic-nav-dropdown">
+            {!login && (
+              <NavDropdown.Item>
+                <Link className="nav-link" to={"/login"}>
+                  Login
+                </Link>
+              </NavDropdown.Item>
+            )}
+            {!login && (
+              <NavDropdown.Item>
+                <Link className="nav-link" to={"/create-account"}>
+                  Create Account
+                </Link>
+              </NavDropdown.Item>
+            )}
+            {login && (
+              <NavDropdown.Item>
+                <Link className="nav-link">Logout</Link>{" "}
+              </NavDropdown.Item>
+            )}
+            {login && (
+              <NavDropdown.Item>
+                <Link className="nav-link" to={"/profile"}>
+                  Profile
+                </Link>
+              </NavDropdown.Item>
+            )}
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>
