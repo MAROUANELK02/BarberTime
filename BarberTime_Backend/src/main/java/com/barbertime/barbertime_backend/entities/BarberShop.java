@@ -3,7 +3,9 @@ package com.barbertime.barbertime_backend.entities;
 import com.barbertime.barbertime_backend.enums.ENeighborhood;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,14 +26,14 @@ public class BarberShop {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idBarberShop;
 
-    @NotEmpty
-    @Size(min = 4, max = 40)
+    @NotBlank
     @Column(unique = true)
+    @Size(min = 4, max = 40)
     private String name;
 
-    @NotEmpty
-    @Size(min = 4, max = 100)
+    @NotBlank
     @Column(unique = true)
+    @Size(min = 4, max = 100)
     private String address;
 
     @Size(min = 10, max = 20)
@@ -41,7 +43,7 @@ public class BarberShop {
     @Enumerated(EnumType.STRING)
     private ENeighborhood neighborhood;
 
-    @NotEmpty
+    @NotBlank
     @Column(unique = true)
     private String authorizationNumber;
 
@@ -49,11 +51,11 @@ public class BarberShop {
 
     private String dayOff;
 
-    @NotEmpty
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime startTime;
 
-    @NotEmpty
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime endTime;
 
@@ -76,4 +78,7 @@ public class BarberShop {
 
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
     private List<Review> reviews;
+
+    @OneToMany(mappedBy = "barberShop", fetch = FetchType.EAGER)
+    private List<FileData> images;
 }

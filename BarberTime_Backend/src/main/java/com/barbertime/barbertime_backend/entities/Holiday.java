@@ -3,6 +3,7 @@ package com.barbertime.barbertime_backend.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,7 +22,7 @@ public class Holiday {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idHoliday;
 
-    @NotEmpty
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate holidayDate;
 

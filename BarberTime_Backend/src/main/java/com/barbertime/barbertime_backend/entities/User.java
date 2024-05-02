@@ -2,52 +2,50 @@ package com.barbertime.barbertime_backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @Entity
-@Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public abstract class User {
+    @Id @GeneratedValue(strategy = GenerationType.TABLE)
     private Long idUser;
 
-    @NotEmpty
-    @Size(min = 4, max = 40)
+    @NotBlank
+    @Size(min = 3, max = 30)
     private String firstName;
 
-    @NotEmpty
-    @Size(min = 4, max = 40)
+    @NotBlank
+    @Size(min = 3, max = 30)
     private String lastName;
 
-    @NotEmpty
+    @NotBlank
     @Size(min = 10)
     private String telNumber;
 
     @Email
-    @NotEmpty
-    @Column(unique = true)
     private String email;
 
-    @NotEmpty
+    @NotBlank
     @Column(unique = true)
     private String username;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> role = new ArrayList<>();
 
-    public User(Long userId, String firstName, String lastName, String telNumber, String email, String username, String password) {
-        this.idUser = userId;
+    public User(String firstName, String lastName, String telNumber, String email, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.telNumber = telNumber;

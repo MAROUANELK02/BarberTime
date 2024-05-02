@@ -5,8 +5,10 @@ import com.barbertime.barbertime_backend.dtos.req.*;
 import com.barbertime.barbertime_backend.dtos.res.*;
 import com.barbertime.barbertime_backend.entities.*;
 import com.barbertime.barbertime_backend.repositories.HairdresserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +35,6 @@ public class MappersImpl implements Mappers {
     @Override
     public Appointment toAppointment(AppointmentReqDTO appointmentDTO) {
         return Appointment.builder()
-                .idAppointment(appointmentDTO.getIdAppointment())
                 .date(appointmentDTO.getDate())
                 .time(appointmentDTO.getTime())
                 .status(appointmentDTO.getStatus())
@@ -60,13 +61,15 @@ public class MappersImpl implements Mappers {
         if(barberShop.getBarberServices() != null)
             build.setServices(barberShop.getBarberServices().stream().map(this::toBarberServiceDTO)
                     .collect(Collectors.toList()));
+        if(barberShop.getImages() != null)
+            build.setImages(barberShop.getImages().stream().map(this::toFileDataResDTO)
+                    .collect(Collectors.toList()));
         return build;
     }
 
     @Override
     public BarberShop toBarberShop(BarberShopReqDTO barberShopDTO) {
         return BarberShop.builder()
-                .idBarberShop(barberShopDTO.getIdBarberShop())
                 .name(barberShopDTO.getName())
                 .address(barberShopDTO.getAddress())
                 .phone(barberShopDTO.getPhone())
@@ -81,7 +84,9 @@ public class MappersImpl implements Mappers {
 
     @Override
     public CustomerResDTO toCustomerResDTO(Customer customer) {
-        RoleDTO roleDTO = toRoleDTO(customer.getRole());
+        List<RoleDTO> roleDTO = customer.getRole().stream()
+                .map(this::toRoleDTO)
+                .collect(Collectors.toList());
         return new CustomerResDTO(customer.getIdUser(), customer.getFirstName(),
                 customer.getLastName(), customer.getTelNumber(), customer.getEmail(),
                 customer.getUsername(), roleDTO);
@@ -89,7 +94,7 @@ public class MappersImpl implements Mappers {
 
     @Override
     public Customer toCustomer(CustomerReqDTO customerDTO) {
-        return new Customer(customerDTO.getIdUser(), customerDTO.getFirstName(),
+        return new Customer(customerDTO.getFirstName(),
                 customerDTO.getLastName(), customerDTO.getTelNumber(), customerDTO.getEmail(),
                 customerDTO.getUsername(), customerDTO.getPassword());
     }
@@ -133,7 +138,6 @@ public class MappersImpl implements Mappers {
     @Override
     public Holiday toHoliday(HolidayReqDTO holidayDTO) {
         return Holiday.builder()
-                .idHoliday(holidayDTO.getIdHoliday())
                 .holidayDate(holidayDTO.getHolidayDate())
                 .reason(holidayDTO.getReason())
                 .build();
@@ -141,7 +145,9 @@ public class MappersImpl implements Mappers {
 
     @Override
     public OwnerResDTO toOwnerResDTO(Owner owner) {
-        RoleDTO roleDTO = toRoleDTO(owner.getRole());
+        List<RoleDTO> roleDTO = owner.getRole().stream()
+                .map(this::toRoleDTO)
+                .collect(Collectors.toList());
         return new OwnerResDTO(owner.getIdUser(), owner.getFirstName(),
                 owner.getLastName(), owner.getTelNumber(), owner.getEmail(),
                 owner.getUsername(), roleDTO, owner.getCin());
@@ -149,7 +155,7 @@ public class MappersImpl implements Mappers {
 
     @Override
     public Owner toOwner(OwnerReqDTO ownerDTO) {
-        return new Owner(ownerDTO.getIdUser(), ownerDTO.getFirstName(),
+        return new Owner(ownerDTO.getFirstName(),
                 ownerDTO.getLastName(), ownerDTO.getTelNumber(), ownerDTO.getEmail(),
                 ownerDTO.getUsername(), ownerDTO.getPassword(), ownerDTO.getCin());
     }
@@ -168,20 +174,6 @@ public class MappersImpl implements Mappers {
                 .idRole(roleDTO.getIdRole())
                 .roleName(roleDTO.getRoleName())
                 .build();
-    }
-
-    @Override
-    public UserResDTO toUserResDTO(User user) {
-        return new UserResDTO(user.getIdUser(), user.getFirstName(),
-                user.getLastName(), user.getTelNumber(), user.getEmail(),
-                user.getUsername(), toRoleDTO(user.getRole()));
-    }
-
-    @Override
-    public User toUser(UserReqDTO userDTO) {
-        return new User(userDTO.getIdUser(), userDTO.getFirstName(),
-                userDTO.getLastName(), userDTO.getTelNumber(), userDTO.getEmail(),
-                userDTO.getUsername(), userDTO.getPassword());
     }
 
     @Override
@@ -216,9 +208,22 @@ public class MappersImpl implements Mappers {
     @Override
     public Review toReview(ReviewReqDTO reviewDTO) {
         return Review.builder()
-                .idReview(reviewDTO.getIdReview())
                 .rating(reviewDTO.getRating())
                 .comment(reviewDTO.getComment())
                 .build();
+    }
+
+    @Override
+    public FileDataResDTO toFileDataResDTO(FileData fileData) {
+        FileDataResDTO fileDataResDTO = new FileDataResDTO();
+        BeanUtils.copyProperties(fileData, fileDataResDTO);
+        return fileDataResDTO;
+    }
+
+    @Override
+    public Admin toAdmin(AdminDTO adminDTO) {
+        return new Admin(adminDTO.getFirstName(),
+                adminDTO.getLastName(), adminDTO.getTelNumber(), adminDTO.getEmail(),
+                adminDTO.getUsername(), adminDTO.getPassword());
     }
 }

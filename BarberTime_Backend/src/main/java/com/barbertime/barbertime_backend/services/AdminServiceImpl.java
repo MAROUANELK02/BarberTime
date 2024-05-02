@@ -1,5 +1,6 @@
 package com.barbertime.barbertime_backend.services;
 
+import com.barbertime.barbertime_backend.dtos.AdminDTO;
 import com.barbertime.barbertime_backend.dtos.BarberServiceDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.CustomerResDTO;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -28,6 +30,8 @@ public class AdminServiceImpl implements AdminService {
     private BarberShopRepository barberShopRepository;
     private OwnerRepository ownerRepository;
     private RoleRepository roleRepository;
+    private AdminRepository adminRepository;
+    private PasswordEncoder passwordEncoder;
     private Mappers mappers;
 
     @Override
@@ -53,6 +57,16 @@ public class AdminServiceImpl implements AdminService {
                             .build());
         }
         log.info("All roles saved");
+    }
+
+    @Override
+    public void saveAdmin(AdminDTO adminDTO) {
+        log.info("Saving admin");
+        Admin admin = mappers.toAdmin(adminDTO);
+        admin.getRole().add(roleRepository.findByRoleName(ERole.ROLE_ADMIN));
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        adminRepository.save(admin);
+        log.info("Admin saved");
     }
 
     @Override

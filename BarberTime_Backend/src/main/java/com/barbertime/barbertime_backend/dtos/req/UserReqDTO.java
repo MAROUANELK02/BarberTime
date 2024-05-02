@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserReqDTO {
-    private Long idUser;
+public abstract class UserReqDTO {
     private String firstName;
     private String lastName;
     private String telNumber;

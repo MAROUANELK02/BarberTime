@@ -20,10 +20,10 @@ public interface Mappers {
     Owner toOwner(OwnerReqDTO ownerDTO);
     RoleDTO toRoleDTO(Role role);
     Role toRole(RoleDTO roleDTO);
-    UserResDTO toUserResDTO(User user);
-    User toUser(UserReqDTO userDTO);
     BarberServiceDTO toBarberServiceDTO(BarberService barberService);
     BarberService toBarberService(BarberServiceDTO barberServiceDTO);
     ReviewResDTO toReviewResDTO(Review review);
     Review toReview(ReviewReqDTO reviewDTO);
+    FileDataResDTO toFileDataResDTO(FileData fileData);
+    Admin toAdmin(AdminDTO adminDTO);
 }

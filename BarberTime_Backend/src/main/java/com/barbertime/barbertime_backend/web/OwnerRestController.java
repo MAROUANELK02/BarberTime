@@ -13,8 +13,15 @@ import com.barbertime.barbertime_backend.mappers.Mappers;
 import com.barbertime.barbertime_backend.services.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +30,8 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/owner")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@PreAuthorize("hasRole('OWNER')")
 public class OwnerRestController {
     private OwnerService ownerService;
 
@@ -189,6 +198,45 @@ public class OwnerRestController {
                                                        @RequestParam(defaultValue = "0") int page,
                                                        @RequestParam(defaultValue = "3") int size) {
         return ownerService.getHolidaysByBarberShop(idBarberShop, page, size);
+    }
+
+    @PostMapping("/barberShop/{idBarberShop}/image")
+    public void saveImageOfBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
+                                      @RequestBody MultipartFile image) {
+        try {
+            ownerService.saveImageOfBarberShop(idBarberShop, image);
+        } catch (BarberShopNotFoundException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/barberShop/{idBarberShop}/images")
+    public List<byte[]> getImagesOfBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop) {
+        try {
+            return ownerService.getImagesOfBarberShop(idBarberShop);
+        } catch (BarberShopNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/image/{idImage}")
+    public ResponseEntity<byte[]> getImageById(@PathVariable(name = "idImage") Long idImage) {
+        byte[] image = ownerService.getImageById(idImage);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>(image, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/barberShop/{idBarberShop}/images")
+    public void saveImagesOfBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
+                                      @RequestBody List<MultipartFile> images) {
+        try {
+            for (MultipartFile image : images) {
+                ownerService.saveImageOfBarberShop(idBarberShop, image);
+            }
+        } catch (BarberShopNotFoundException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.barbertime.barbertime_backend.services;
 
+import com.barbertime.barbertime_backend.dtos.AdminDTO;
 import com.barbertime.barbertime_backend.dtos.BarberServiceDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.CustomerResDTO;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 public interface AdminService {
     void saveAllServices();
     void saveAllRoles();
+    void saveAdmin(AdminDTO adminDTO);
     Page<CustomerResDTO> getAllCustomers(int page, int size);
     Page<OwnerResDTO> getAllOwners(int page, int size);
     Page<BarberShopResDTO> getAllBarberShops(int page, int size);

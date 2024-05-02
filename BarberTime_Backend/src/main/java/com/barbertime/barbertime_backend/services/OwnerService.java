@@ -6,13 +6,18 @@ import com.barbertime.barbertime_backend.entities.Hairdresser;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
 public interface OwnerService {
     OwnerResDTO createOwner(OwnerReqDTO ownerDTO);
     BarberShopResDTO createBarberShop(BarberShopReqDTO barberShopDTO);
+    void saveImageOfBarberShop(Long idBarberShop, MultipartFile image) throws BarberShopNotFoundException, IOException;
+    List<byte[]> getImagesOfBarberShop(Long idBarberShop) throws BarberShopNotFoundException;
+    byte[] getImageById(Long idImage);
     BarberShopResDTO updateBarberShop(Long idBarberShop,BarberShopReqDTO barberShopDTO) throws BarberShopNotFoundException;
     void deleteBarberShop(Long idBarberShop) throws BarberShopNotFoundException;
     BarberShopResDTO getBarberShopByOwnerId(Long idOwner) throws OwnerNotFoundException;

@@ -13,11 +13,14 @@ import com.barbertime.barbertime_backend.exceptions.CustomerNotFoundException;
 import com.barbertime.barbertime_backend.services.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/customer")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@PreAuthorize("hasRole('USER')")
 public class CustomerRestController {
     private CustomerService customerService;
 
@@ -28,8 +31,8 @@ public class CustomerRestController {
 
     @GetMapping("/appointments/{idCustomer}")
     public Page<AppointmentResDTO> getAppointments(@PathVariable(name = "idCustomer") Long idCustomer,
-                                                   @RequestParam int page,
-                                                   @RequestParam int size) {
+                                                   @RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "3") int size) {
         return customerService.getAppointments(idCustomer, page, size);
     }
 
@@ -53,9 +56,10 @@ public class CustomerRestController {
         }
     }
 
-    @PatchMapping("/")
-    public CustomerResDTO updateCustomer(@RequestBody CustomerReqDTO customerDTO) {
-        return customerService.updateCustomer(customerDTO);
+    @PatchMapping("/{idCustomer}")
+    public CustomerResDTO updateCustomer(@PathVariable(name = "idCustomer") Long idCustomer,
+            @RequestBody CustomerReqDTO customerDTO) {
+        return customerService.updateCustomer(idCustomer, customerDTO);
     }
 
     @DeleteMapping("/{idCustomer}")
@@ -64,15 +68,15 @@ public class CustomerRestController {
     }
 
     @GetMapping("/barberShops")
-    public Page<BarberShopResDTO> getAllBarberShops(@RequestParam int page,
-                                                    @RequestParam int size) {
+    public Page<BarberShopResDTO> getAllBarberShops(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "3") int size) {
         return customerService.getAllBarberShops(page, size);
     }
 
     @GetMapping("/barberShops/location")
     public Page<BarberShopResDTO> getAllBarberShopsByLocation(@RequestParam ENeighborhood location,
-                                                              @RequestParam int page,
-                                                              @RequestParam int size) {
+                                                              @RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "3") int size) {
         return customerService.getAllBarberShopsByLocation(location, page, size);
     }
 

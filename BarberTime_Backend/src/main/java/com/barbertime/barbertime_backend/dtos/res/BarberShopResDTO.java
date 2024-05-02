@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -29,4 +28,5 @@ public class BarberShopResDTO {
     private int ratings;
     private OwnerResDTO ownerDTO;
     private List<BarberServiceDTO> services;
+    private List<FileDataResDTO> images;
 }

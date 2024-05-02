@@ -1,7 +1,7 @@
 package com.barbertime.barbertime_backend.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -13,7 +13,7 @@ import lombok.*;
 @Setter
 @ToString
 public class Owner extends User {
-    @NotEmpty
+    @NotBlank
     @Size(min = 4)
     @Column(unique = true)
     private String cin;
@@ -21,9 +21,8 @@ public class Owner extends User {
     @OneToOne(mappedBy = "owner", fetch = FetchType.LAZY)
     private BarberShop barberShop;
 
-    public Owner(Long userId, String firstName, String lastName, String telNumber, String email,
-                 String username, String password, String cin) {
-        super(userId, firstName, lastName, telNumber, email, username, password);
+    public Owner(String firstName, String lastName, String telNumber, String email, String username, String password, String cin) {
+        super(firstName, lastName, telNumber, email, username, password);
         this.cin = cin;
     }
 }

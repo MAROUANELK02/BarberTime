@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,12 +39,14 @@ public class CustomerServiceImpl implements CustomerService {
     private BarberShopRepository barberShopRepository;
     private ReviewRepository reviewRepository;
     private HolidayRepository holidayRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public CustomerResDTO createCustomer(CustomerReqDTO customerDTO) {
         log.info("Creating customer");
         Customer customer = mappers.toCustomer(customerDTO);
-        customer.setRole(roleRepository.findByRoleName(ERole.ROLE_USER));
+        customer.getRole().add(roleRepository.findByRoleName(ERole.ROLE_USER));
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customerRepository.save(customer);
         log.info("Customer created");
         return mappers.toCustomerResDTO(customer);
@@ -73,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RuntimeException("Barber shop is closed on this time");
 
         Customer customer = customerRepository.findById(idCustomer)
-                .orElseThrow(() -> new CustomerNotFoundException(idCustomer));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
         appointment.setBarberShop(barberShop);
         appointment.setCustomer(customer);
         Appointment save = appointmentRepository.save(appointment);
@@ -84,15 +87,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerResDTO getCustomer(Long idCustomer) throws CustomerNotFoundException {
         return mappers.toCustomerResDTO(customerRepository.findById(idCustomer)
-                .orElseThrow(() -> new CustomerNotFoundException(idCustomer)));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found")));
     }
 
     @Override
-    public CustomerResDTO updateCustomer(CustomerReqDTO customerDTO) {
+    public CustomerResDTO updateCustomer(Long customerId, CustomerReqDTO customerDTO) {
         log.info("Updating customer");
         try {
-            Customer customerFound = customerRepository.findById(customerDTO.getIdUser())
-                    .orElseThrow(() -> new CustomerNotFoundException(customerDTO.getIdUser()));
+            Customer customerFound = customerRepository.findById(customerId)
+                    .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
             if(customerDTO.getFirstName() != null)
                 customerFound.setFirstName(customerDTO.getFirstName());
             if(customerDTO.getLastName() != null)
@@ -141,7 +144,7 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Adding review");
         Review review = mappers.toReview(reviewReqDTO);
         review.setCustomer(customerRepository.findById(customerId)
-                .orElseThrow(() -> new CustomerNotFoundException(customerId)));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found")));
         review.setBarberShop(barberShopRepository.findById(barberShopId)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found")));
         Review save = reviewRepository.save(review);

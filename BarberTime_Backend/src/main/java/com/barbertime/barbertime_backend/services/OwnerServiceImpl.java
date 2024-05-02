@@ -13,11 +13,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,13 +34,17 @@ public class OwnerServiceImpl implements OwnerService {
     private HolidayRepository holidayRepository;
     private OwnerRepository ownerRepository;
     private BarberServiceRepository barberServiceRepository;
+    private FileDataRepository fileDataRepository;
+    private ImagesService imagesService;
     private Mappers mappers;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public OwnerResDTO createOwner(OwnerReqDTO ownerDTO) {
         log.info("Creating owner");
         Owner owner = mappers.toOwner(ownerDTO);
-        owner.setRole(roleRepository.findByRoleName(ERole.ROLE_OWNER));
+        owner.getRole().add(roleRepository.findByRoleName(ERole.ROLE_OWNER));
+        owner.setPassword(passwordEncoder.encode(owner.getPassword()));
         ownerRepository.save(owner);
         log.info("Owner created");
         return mappers.toOwnerResDTO(owner);
@@ -57,6 +63,46 @@ public class OwnerServiceImpl implements OwnerService {
         log.info("Barber shop created");
         return mappers.toBarberShopResDTO(barberShop);
     }
+
+    @Override
+    public void saveImageOfBarberShop(Long idBarberShop, MultipartFile image) throws BarberShopNotFoundException, IOException {
+        log.info("Saving image of barber shop");
+        BarberShop barberShop = barberShopRepository.findById(idBarberShop)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+        imagesService.uploadImageToStorage(barberShop, image);
+        log.info("Image of barber shop saved");
+    }
+
+    @Override
+    public List<byte[]> getImagesOfBarberShop(Long idBarberShop) throws BarberShopNotFoundException {
+        log.info("Getting images of barber shop");
+        BarberShop barberShop = barberShopRepository.findById(idBarberShop)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+        List<FileData> images = fileDataRepository.findAllByBarberShopIdBarberShop(barberShop.getIdBarberShop());
+        if (images.isEmpty()) {
+            throw new BarberShopNotFoundException("No images found for this barber shop");
+        }
+        List<byte[]> imagesBytes = new ArrayList<>();
+        for (FileData image : images) {
+            try {
+                imagesBytes.add(imagesService.downloadImageFromStorage(image.getId()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return imagesBytes;
+    }
+
+    @Override
+    public byte[] getImageById(Long idImage) {
+        log.info("Getting image by id");
+        try {
+            return imagesService.downloadImageFromStorage(idImage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @Override
     public BarberShopResDTO updateBarberShop(Long idBarberShop,BarberShopReqDTO barberShopDTO) throws BarberShopNotFoundException {
@@ -195,13 +241,13 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public void assignServiceToBarberShop(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException {
-        log.info("Adding service");
+        log.info("Adding service to barber shop");
         BarberShop barberShop = barberShopRepository.findById(barberShopId)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         barberShop.getBarberServices().add(barberServiceRepository.findById(idService)
                 .orElseThrow(() -> new BarberShopServiceNotFoundException("Service not found")));
         barberShopRepository.save(barberShop);
-        log.info("Service added");
+        log.info("Service added to barber shop");
     }
 
     @Override

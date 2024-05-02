@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
 import java.time.LocalTime;
 
 @AllArgsConstructor
@@ -14,7 +13,6 @@ import java.time.LocalTime;
 @Data
 @Builder
 public class BarberShopReqDTO {
-    private Long idBarberShop;
     private String name;
     private String address;
     private String phone;

@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Customer extends User {
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
@@ -21,19 +22,7 @@ public class Customer extends User {
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Review> reviews;
 
-    public Customer(Long userId, String firstName, String lastName, String telNumber, String email,
-                    String username, String password) {
-        super(userId, firstName, lastName, telNumber, email, username, password);
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "User{" +
-                super.toString() +
-                "}, " +
-                "appointments=" + appointments +
-                ", reviews=" + reviews +
-                '}';
+    public Customer(String firstName, String lastName, String telNumber, String email, String username, String password) {
+        super(firstName, lastName, telNumber, email, username, password);
     }
 }
