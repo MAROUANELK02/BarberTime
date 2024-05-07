@@ -1,3 +1,4 @@
+/*
 package com.barbertime.barbertime_backend.security;
 
 import com.barbertime.barbertime_backend.security.jwt.AuthEntryPointJwt;
@@ -83,3 +84,4 @@ public class WebSecurityConfig {
         return source;
     }
 }
+*/

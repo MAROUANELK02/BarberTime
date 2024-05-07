@@ -1,3 +1,4 @@
+/*
 package com.barbertime.barbertime_backend.security.controllers;
 
 import com.barbertime.barbertime_backend.dtos.res.UserResDTO;
@@ -33,3 +34,4 @@ public class SignUp {
                 signupChangePass.getConfirmedPassword());
     }
 }
+*/

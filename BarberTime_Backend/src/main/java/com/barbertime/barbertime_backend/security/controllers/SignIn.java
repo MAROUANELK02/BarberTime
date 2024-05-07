@@ -1,3 +1,4 @@
+/*
 package com.barbertime.barbertime_backend.security.controllers;
 
 import com.barbertime.barbertime_backend.security.jwt.JwtUtils;
@@ -56,3 +57,4 @@ public class SignIn {
                         roles));
     }
 }
+*/

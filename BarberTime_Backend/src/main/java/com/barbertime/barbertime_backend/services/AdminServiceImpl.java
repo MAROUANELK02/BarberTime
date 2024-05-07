@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -31,7 +31,7 @@ public class AdminServiceImpl implements AdminService {
     private OwnerRepository ownerRepository;
     private RoleRepository roleRepository;
     private AdminRepository adminRepository;
-    private PasswordEncoder passwordEncoder;
+    //private PasswordEncoder passwordEncoder;
     private Mappers mappers;
 
     @Override
@@ -64,7 +64,8 @@ public class AdminServiceImpl implements AdminService {
         log.info("Saving admin");
         Admin admin = mappers.toAdmin(adminDTO);
         admin.getRole().add(roleRepository.findByRoleName(ERole.ROLE_ADMIN));
-        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        //admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        admin.setPassword(admin.getPassword());
         adminRepository.save(admin);
         log.info("Admin saved");
     }

@@ -9,7 +9,6 @@ import com.barbertime.barbertime_backend.dtos.res.HairdresserResDTO;
 import com.barbertime.barbertime_backend.dtos.res.HolidayResDTO;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
-import com.barbertime.barbertime_backend.mappers.Mappers;
 import com.barbertime.barbertime_backend.services.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +30,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping("/api/owner")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@PreAuthorize("hasRole('OWNER')")
+//@PreAuthorize("hasRole('OWNER')")
 public class OwnerRestController {
     private OwnerService ownerService;
 

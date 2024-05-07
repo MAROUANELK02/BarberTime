@@ -1,3 +1,4 @@
+/*
 package com.barbertime.barbertime_backend.security.services;
 
 import com.barbertime.barbertime_backend.entities.User;
@@ -21,3 +22,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return UserDetailsImpl.build(user);
     }
 }
+*/
