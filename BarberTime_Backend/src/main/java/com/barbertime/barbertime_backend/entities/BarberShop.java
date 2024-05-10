@@ -60,6 +60,7 @@ public class BarberShop {
     private LocalTime endTime;
 
     private int ratings;
+    private int totalVoters;
 
     @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
     private List<Appointment> appointments;

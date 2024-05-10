@@ -26,6 +26,7 @@ public class BarberShopResDTO {
     private LocalTime startTime;
     private LocalTime endTime;
     private int ratings;
+    private int totalVoters;
     private OwnerResDTO ownerDTO;
     private List<BarberServiceDTO> services;
     private List<FileDataResDTO> images;

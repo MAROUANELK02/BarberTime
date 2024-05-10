@@ -157,6 +157,7 @@ public class CustomerServiceImpl implements CustomerService {
                 ratings += r.getRating();
             }
             barberShop.setRatings(ratings / reviews.size());
+            barberShop.setTotalVoters(reviews.size());
             barberShopRepository.save(barberShop);
         }
         log.info("Review added");
@@ -174,10 +175,5 @@ public class CustomerServiceImpl implements CustomerService {
     public BarberShopResDTO getBarberShop(Long idBarberShop) throws BarberShopNotFoundException {
         return mappers.toBarberShopResDTO(barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found")));
-    }
-
-    @Override
-    public double getRating(Long idBarberShop) {
-        return reviewRepository.findAllByBarberShopIdBarberShop(idBarberShop).size();
     }
 }

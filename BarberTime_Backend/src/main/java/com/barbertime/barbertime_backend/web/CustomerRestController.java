@@ -33,11 +33,6 @@ public class CustomerRestController {
         }
     }
 
-    @GetMapping("/rating/{idBarberShop}")
-    public double getRating(@PathVariable(name = "idBarberShop") Long idBarberShop) {
-        return customerService.getRating(idBarberShop);
-    }
-
     @PostMapping("/")
     public CustomerResDTO createCustomer(@RequestBody CustomerReqDTO customerDTO) {
         return customerService.createCustomer(customerDTO);

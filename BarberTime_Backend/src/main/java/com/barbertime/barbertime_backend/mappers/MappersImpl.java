@@ -56,6 +56,7 @@ public class MappersImpl implements Mappers {
                 .startTime(barberShop.getStartTime())
                 .endTime(barberShop.getEndTime())
                 .ratings(barberShop.getRatings())
+                .totalVoters(barberShop.getTotalVoters())
                 .ownerDTO(toOwnerResDTO(barberShop.getOwner()))
                 .build();
         if(barberShop.getBarberServices() != null)
