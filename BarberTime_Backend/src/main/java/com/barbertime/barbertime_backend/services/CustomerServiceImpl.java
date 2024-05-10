@@ -169,4 +169,15 @@ public class CustomerServiceImpl implements CustomerService {
         return reviewRepository.findAllByCustomerIdUser(idCustomer, PageRequest.of(page, size))
                 .map(mappers::toReviewResDTO);
     }
+
+    @Override
+    public BarberShopResDTO getBarberShop(Long idBarberShop) throws BarberShopNotFoundException {
+        return mappers.toBarberShopResDTO(barberShopRepository.findById(idBarberShop)
+                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found")));
+    }
+
+    @Override
+    public double getRating(Long idBarberShop) {
+        return reviewRepository.findAllByBarberShopIdBarberShop(idBarberShop).size();
+    }
 }

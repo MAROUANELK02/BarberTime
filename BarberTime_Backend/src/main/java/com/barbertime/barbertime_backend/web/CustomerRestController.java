@@ -24,6 +24,20 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerRestController {
     private CustomerService customerService;
 
+    @GetMapping("/barberShops/{idBarberShop}")
+    public BarberShopResDTO getBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop) {
+        try {
+            return customerService.getBarberShop(idBarberShop);
+        } catch (BarberShopNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/rating/{idBarberShop}")
+    public double getRating(@PathVariable(name = "idBarberShop") Long idBarberShop) {
+        return customerService.getRating(idBarberShop);
+    }
+
     @PostMapping("/")
     public CustomerResDTO createCustomer(@RequestBody CustomerReqDTO customerDTO) {
         return customerService.createCustomer(customerDTO);

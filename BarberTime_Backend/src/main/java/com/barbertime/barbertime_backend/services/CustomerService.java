@@ -23,4 +23,6 @@ public interface CustomerService {
     Page<BarberShopResDTO> getAllBarberShopsByLocation(ENeighborhood location, int page, int size);
     ReviewResDTO addReview(ReviewReqDTO reviewReqDTO, Long customerId, Long barberShopId) throws CustomerNotFoundException, BarberShopNotFoundException;
     Page<ReviewResDTO> getReviews(Long idCustomer, int page, int size);
+    BarberShopResDTO getBarberShop(Long idBarberShop) throws BarberShopNotFoundException;
+    double getRating(Long idBarberShop);
 }
