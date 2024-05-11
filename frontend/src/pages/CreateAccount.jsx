@@ -11,7 +11,7 @@ const CreateAccount = () => {
       <h3 className="mb-4">You Are ?</h3>
       <div className="d-flex justify-content-center">
         <Link className="nav-link" to={"/create-account-client"}>
-          <div className="card mx-3 p-4">
+          <div className="card mx-3 p-4 card1">
             <div className="card-body text-center">
               <p>
                 <HiOutlineFaceSmile style={{ fontSize: "4em" }} />
@@ -21,7 +21,7 @@ const CreateAccount = () => {
           </div>
         </Link>
         <Link className="nav-link" to={"/create-account-barber"}>
-          <div className="card mx-3 p-4">
+          <div className="card mx-3 p-4 card1">
             <div className="card-body text-center">
               <p>
                 <FaScissors style={{ fontSize: "4em" }} />

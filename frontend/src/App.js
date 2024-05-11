@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import CreateAccount from "./pages/CreateAccount";
 import CreateAccountClient from "./pages/CreateAccountClient";
 import CreateAccountBarber from "./pages/CreateAccountBarber";
+import BarberShop from "./pages/BarberShop";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           path="/create-account-barber"
           element={<CreateAccountBarber />}
         ></Route>
+        <Route path="/barber-shop/:id" element={<BarberShop />}></Route>
       </Routes>
     </>
   );

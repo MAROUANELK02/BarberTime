@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-export default function Card({ course }) {
+export default function Card({ barberShop }) {
   //const {} = course;
 
-  const [courseBG, setCourseBG] = useState("text-white bg-dark");
-
   return (
-    <li className={`card ${courseBG} mb-3`} style={{ width: 250 }}>
-      <div className="card-header">TITLE</div>
+    <li className={`card text-white bg-dark mb-3`} style={{ width: 250 }}>
+      <div className="card-header">{barberShop.name}</div>
       <img
         src=""
         alt="course img"
@@ -24,8 +23,11 @@ export default function Card({ course }) {
         quibusdam alias corporis, illo quos.
       </p>
       <div className="card-footer d-flex justify-content-between">
-        <h6>12MAD</h6>
-        <Button>Hi</Button>
+        <h6>{barberShop.neighborhood}</h6>
+
+        <Link to={"barber-shop/" + barberShop.idBarberShop}>
+          <Button>Reserver</Button>
+        </Link>
       </div>
     </li>
   );
