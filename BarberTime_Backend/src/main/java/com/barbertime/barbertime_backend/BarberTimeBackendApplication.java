@@ -95,11 +95,11 @@ public class BarberTimeBackendApplication {
             ownerService.addHolidayRangeToBarberShop(holiday3, 3L);
 
             CustomerReqDTO customer1 = new CustomerReqDTO( "Alice", "Johnson",
-                    "+0987654321", "alice@example.com", "alice1234", "alice");
+                    "+0987654321", "alice@gamil.com", "alice1234", "alice");
             CustomerReqDTO customer2 = new CustomerReqDTO( "Mark", "Davis",
-                    "+6789032145", "mark@example.com", "mark1234", "mark");
+                    "+6789032145", "marl@gamil.com", "mark1234", "mark");
             CustomerReqDTO customer3 = new CustomerReqDTO( "Jessica", "Miller",
-                    "+0293847561", "jessica@example.com", "jessica1234", "jessica");
+                    "+0293847561", "jessica@gamil.com", "jessica1234", "jessica");
 
             CustomerResDTO customer4 = customerService.createCustomer(customer1);
             CustomerResDTO customer5 = customerService.createCustomer(customer2);
@@ -107,13 +107,13 @@ public class BarberTimeBackendApplication {
 
             AppointmentReqDTO appointment1 = new AppointmentReqDTO(
                     LocalDate.of(2024, 5, 2),
-                    LocalTime.of(10, 0));
+                    LocalTime.of(10, 0), EService.COUPE);
             AppointmentReqDTO appointment2 = new AppointmentReqDTO(
                     LocalDate.of(2024, 5, 3),
-                    LocalTime.of(11, 0));
+                    LocalTime.of(11, 0), EService.COIFFURE);
             AppointmentReqDTO appointment3 = new AppointmentReqDTO(
                     LocalDate.of(2024, 5, 4),
-                    LocalTime.of(12, 0));
+                    LocalTime.of(12, 0), EService.MASSAGE);
 
             customerService.saveAppointment(customer4.getIdUser(), barberShop4.getIdBarberShop(), appointment1);
             customerService.saveAppointment(customer5.getIdUser(), barberShop5.getIdBarberShop(), appointment2);

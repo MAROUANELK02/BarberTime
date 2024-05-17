@@ -7,10 +7,7 @@ import com.barbertime.barbertime_backend.dtos.res.AppointmentResDTO;
 import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.CustomerResDTO;
 import com.barbertime.barbertime_backend.dtos.res.ReviewResDTO;
-import com.barbertime.barbertime_backend.entities.Appointment;
-import com.barbertime.barbertime_backend.entities.BarberShop;
-import com.barbertime.barbertime_backend.entities.Customer;
-import com.barbertime.barbertime_backend.entities.Review;
+import com.barbertime.barbertime_backend.entities.*;
 import com.barbertime.barbertime_backend.enums.ENeighborhood;
 import com.barbertime.barbertime_backend.enums.ERole;
 import com.barbertime.barbertime_backend.enums.EStatus;
@@ -43,6 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
     private BarberShopRepository barberShopRepository;
     private ReviewRepository reviewRepository;
     private HolidayRepository holidayRepository;
+    private BarberServiceRepository barberServiceRepository;
     private EmailSenderService emailSenderService;
     //private PasswordEncoder passwordEncoder;
 
@@ -96,6 +94,9 @@ public class CustomerServiceImpl implements CustomerService {
         }
         Customer customer = customerRepository.findById(idCustomer)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
+
+        BarberService barberService = barberServiceRepository.findByBarberShopIdBarberShopAndServiceName(idBarber, appointmentReqDTO.getService());
+        appointment.setBarberService(barberService);
         appointment.setBarberShop(barberShop);
         appointment.setCustomer(customer);
         Appointment save = appointmentRepository.save(appointment);

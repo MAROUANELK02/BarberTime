@@ -27,6 +27,7 @@ public class MappersImpl implements Mappers {
                 .date(appointment.getDate())
                 .time(appointment.getTime())
                 .status(appointment.getStatus())
+                .service(appointment.getBarberService().getServiceName())
                 .customerDTO(toCustomerResDTO(appointment.getCustomer()))
                 .barberShopDTO(toBarberShopResDTO(appointment.getBarberShop()))
                 .build();
@@ -38,6 +39,7 @@ public class MappersImpl implements Mappers {
                 .date(appointmentDTO.getDate())
                 .time(appointmentDTO.getTime())
                 //.status(appointmentDTO.getStatus())
+                .barberService(new BarberService(null, appointmentDTO.getService(), 0, null))
                 .build();
     }
 
