@@ -8,6 +8,8 @@ import CreateAccount from "./pages/CreateAccount";
 import CreateAccountClient from "./pages/CreateAccountClient";
 import CreateAccountBarber from "./pages/CreateAccountBarber";
 import BarberShop from "./pages/BarberShop";
+import CreateAccountBarber2 from "./pages/CreateAccountBarber2";
+import CreateAccountBarber3 from "./pages/CreateAccountBarber3";
 
 function App() {
   return (
@@ -26,6 +28,14 @@ function App() {
         <Route
           path="/create-account-barber"
           element={<CreateAccountBarber />}
+        ></Route>
+        <Route
+          path="/create-account-barber2"
+          element={<CreateAccountBarber2 />}
+        ></Route>
+        <Route
+          path="/create-account-barber3"
+          element={<CreateAccountBarber3 />}
         ></Route>
         <Route path="/barber-shop/:id" element={<BarberShop />}></Route>
       </Routes>

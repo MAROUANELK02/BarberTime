@@ -20,14 +20,11 @@ const Filters = () => {
     fetchLocations();
   }, []);
   return (
-    <div
-      className="card h-25 p-5 m-5 bg-primary"
-      style={{ background: "blue" }}
-    >
+    <div className="card h-25 p-5 m-5 bg-light">
       Filters
       <div className="d-flex justify-content-center">
         <Dropdown className="me-4">
-          <Dropdown.Toggle variant="light" id="dropdown-basic">
+          <Dropdown.Toggle variant="primary" id="dropdown-basic">
             Choisi service
           </Dropdown.Toggle>
 
@@ -38,7 +35,7 @@ const Filters = () => {
           </Dropdown.Menu>
         </Dropdown>
         <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
+          <Dropdown.Toggle variant="primary" id="dropdown-basic">
             Select location
           </Dropdown.Toggle>
 

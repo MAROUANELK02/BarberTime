@@ -16,12 +16,12 @@ const CreateAccount = () => {
               <p>
                 <HiOutlineFaceSmile style={{ fontSize: "4em" }} />
               </p>
-              <h4>Client</h4>
+              <h4>Customer</h4>
             </div>
           </div>
         </Link>
         <Link className="nav-link" to={"/create-account-barber"}>
-          <div className="card mx-3 p-4 card1">
+          <div className="card mx-3 py-4 px-5 card1">
             <div className="card-body text-center">
               <p>
                 <FaScissors style={{ fontSize: "4em" }} />

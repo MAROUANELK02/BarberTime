@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { FaStar } from "react-icons/fa";
 
 const BarberShop = () => {
   const { id } = useParams();
@@ -8,10 +9,10 @@ const BarberShop = () => {
   const fetchBarberShop = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/customer/barberShops"
+        "http://localhost:5000/api/customer/barberShops/" + id
       );
-      console.log(res.data.content);
-      setBarberShop(res.data.content);
+      console.log(res.data);
+      setBarberShop(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -34,8 +35,13 @@ const BarberShop = () => {
             </div>
             <div className="col-md-6">
               <div className="small mb-1">SKU: BST-498</div>
-              <h1 className="display-5 fw-bolder">Shop item template</h1>
+              <h1 className="display-5 fw-bolder">{barberShop.name}</h1>
               <div className="fs-5 mb-5">
+                <div>
+                  {[...Array(barberShop.ratings)].map((a) => (
+                    <FaStar className="text-warning" />
+                  ))}
+                </div>
                 <span className="text-decoration-line-through">$45.00</span>
                 <span>$40.00</span>
               </div>
