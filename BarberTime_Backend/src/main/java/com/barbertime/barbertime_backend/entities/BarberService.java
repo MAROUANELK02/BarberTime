@@ -21,9 +21,11 @@ public class BarberService {
     private Long idService;
 
     @Enumerated(EnumType.STRING)
-    @Column(unique = true)
     private EService serviceName;
 
     @NotNull
     private double price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private BarberShop barberShop;
 }

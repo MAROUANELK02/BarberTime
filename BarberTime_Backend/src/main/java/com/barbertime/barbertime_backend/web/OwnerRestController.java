@@ -1,5 +1,6 @@
 package com.barbertime.barbertime_backend.web;
 
+import com.barbertime.barbertime_backend.dtos.BarberServiceDTO;
 import com.barbertime.barbertime_backend.dtos.req.BarberShopReqDTO;
 import com.barbertime.barbertime_backend.dtos.req.HairdresserReqDTO;
 import com.barbertime.barbertime_backend.dtos.req.HolidayRangeReqDTO;
@@ -122,22 +123,21 @@ public class OwnerRestController {
         }
     }
 
-    @PostMapping("/barberShop/{barberShopId}/service/{idService}")
+    @PostMapping("/service/{barberShopId}")
     public void assignServiceToBarberShop(@PathVariable(name = "barberShopId") Long barberShopId,
-                                          @PathVariable(name = "idService") Long idService) {
+                                          @RequestBody BarberServiceDTO barberServiceDTO) {
         try {
-            ownerService.assignServiceToBarberShop(barberShopId, idService);
-        } catch (BarberShopNotFoundException | BarberShopServiceNotFoundException e) {
+            ownerService.createService(barberServiceDTO, barberShopId);
+        } catch (BarberShopNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @DeleteMapping("/barberShop/{barberShopId}/service/{idService}")
-    public void removeServiceFromBarberShop(@PathVariable(name = "barberShopId") Long barberShopId,
-                                            @PathVariable(name = "idService") Long idService) {
+    @DeleteMapping("/service/{idService}")
+    public void removeServiceFromBarberShop(@PathVariable(name = "idService") Long idService) {
         try {
-            ownerService.removeServiceFromBarberShop(barberShopId, idService);
-        } catch (BarberShopNotFoundException | BarberShopServiceNotFoundException e) {
+            ownerService.removeServiceFromBarberShop(idService);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
