@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/customer")
@@ -31,6 +33,11 @@ public class CustomerRestController {
         } catch (BarberShopNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/reviews/{idBarberShop}")
+    public List<ReviewResDTO> getReviewsByBarberShopId(@PathVariable(name = "idBarberShop") Long idBarberShop) {
+        return customerService.getReviewsByBarberShopId(idBarberShop);
     }
 
     @PostMapping("/")
@@ -98,13 +105,6 @@ public class CustomerRestController {
         } catch (CustomerNotFoundException | BarberShopNotFoundException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @GetMapping("/reviews/{idCustomer}")
-    public Page<ReviewResDTO> getReviews(@PathVariable(name = "idCustomer") Long idCustomer,
-                                         @RequestParam(defaultValue = "0") int page,
-                                         @RequestParam(defaultValue = "3") int size) {
-        return customerService.getReviews(idCustomer, page, size);
     }
 
 }

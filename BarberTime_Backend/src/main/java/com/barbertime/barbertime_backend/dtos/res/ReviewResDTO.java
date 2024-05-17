@@ -14,5 +14,4 @@ public class ReviewResDTO {
     private String comment;
     private int rating;
     private CustomerResDTO customerDTO;
-    private BarberShopResDTO barberShopDTO;
 }
