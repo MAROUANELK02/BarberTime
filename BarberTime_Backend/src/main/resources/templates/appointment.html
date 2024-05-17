@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Appointment</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add custom CSS for styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .appointment-details {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body class="container">
+    <div class="appointment-details">
+        <h1 class="my-3">Appointment Details</h1>
+        <div class="card mb-3">
+            <div class="card-body">
+                <p class="card-text" th:text="'Date: ' + ${appointment.date}"></p>
+                <p class="card-text" th:text="'Time: ' + ${appointment.time}"></p>
+                <p class="card-text" th:text="'Status: ' + ${appointment.status}"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="barber-details">
+        <h2 class="my-3">Barber Details</h2>
+        <div class="card mb-3">
+            <div class="card-body">
+                <p class="card-text" th:text="'Name: ' + ${barberShop.name}"></p>
+                <p class="card-text" th:text="'Location: ' + ${barberShop.address}"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="customer-details">
+        <h2 class="my-3">Customer Details</h2>
+        <div class="card mb-3">
+            <div class="card-body">
+                <p class="card-text" th:text="'Name: ' + ${customer.firstName} + ' ' + ${customer.lastName}"></p>
+                <p class="card-text" th:text="'Email: ' + ${customer.email}"></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

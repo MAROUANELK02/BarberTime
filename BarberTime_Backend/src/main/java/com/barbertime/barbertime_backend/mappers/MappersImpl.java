@@ -37,7 +37,7 @@ public class MappersImpl implements Mappers {
         return Appointment.builder()
                 .date(appointmentDTO.getDate())
                 .time(appointmentDTO.getTime())
-                .status(appointmentDTO.getStatus())
+                //.status(appointmentDTO.getStatus())
                 .build();
     }
 
@@ -202,7 +202,6 @@ public class MappersImpl implements Mappers {
                 .rating(review.getRating())
                 .comment(review.getComment())
                 .customerDTO(toCustomerResDTO(review.getCustomer()))
-                .barberShopDTO(toBarberShopResDTO(review.getBarberShop()))
                 .build();
     }
 

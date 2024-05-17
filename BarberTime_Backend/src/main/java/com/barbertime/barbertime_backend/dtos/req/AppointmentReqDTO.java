@@ -16,5 +16,5 @@ import java.time.LocalTime;
 public class AppointmentReqDTO {
     private LocalDate date;
     private LocalTime time;
-    private EStatus status;
+    //private EStatus status;
 }

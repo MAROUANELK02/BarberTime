@@ -13,10 +13,13 @@ import com.barbertime.barbertime_backend.entities.Customer;
 import com.barbertime.barbertime_backend.entities.Review;
 import com.barbertime.barbertime_backend.enums.ENeighborhood;
 import com.barbertime.barbertime_backend.enums.ERole;
+import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.BarberShopNotFoundException;
 import com.barbertime.barbertime_backend.exceptions.CustomerNotFoundException;
 import com.barbertime.barbertime_backend.mappers.Mappers;
 import com.barbertime.barbertime_backend.repositories.*;
+import com.barbertime.barbertime_backend.security.Email.EmailSenderService;
+import com.google.zxing.WriterException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +28,7 @@ import org.springframework.data.domain.PageRequest;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -39,6 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
     private BarberShopRepository barberShopRepository;
     private ReviewRepository reviewRepository;
     private HolidayRepository holidayRepository;
+    private EmailSenderService emailSenderService;
     //private PasswordEncoder passwordEncoder;
 
     @Override
@@ -63,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
     public AppointmentResDTO saveAppointment(Long idCustomer, Long idBarber, AppointmentReqDTO appointmentReqDTO) throws CustomerNotFoundException, BarberShopNotFoundException {
         log.info("Saving appointment");
         Appointment appointment = mappers.toAppointment(appointmentReqDTO);
-
+        appointment.setStatus(EStatus.CONFIRMED);
         holidayRepository.findAllByBarberShopIdBarberShop(idBarber).forEach(holiday -> {
             if(holiday.getHolidayDate().equals(appointment.getDate()))
                 throw new RuntimeException("Barber shop is closed on this date");
@@ -76,11 +81,33 @@ public class CustomerServiceImpl implements CustomerService {
                 .isAfter(barberShop.getEndTime().minusHours(1)))
             throw new RuntimeException("Barber shop is closed on this time");
 
+        List<Appointment> appointments = appointmentRepository.findAllByBarberShopIdBarberShopAndDateAndTime(idBarber,appointment.getDate(),appointment.getTime());
+        int size = appointments.size();
+        if(size > 0) {
+            if(size >= barberShop.getCapacity()) {
+                throw new RuntimeException("Barber shop is full on this time");
+            }else {
+                for(Appointment appointment1 : appointments) {
+                    if(appointment1.getCustomer().getIdUser().equals(idCustomer)) {
+                        throw new RuntimeException("You already have an appointment on this time");
+                    }
+                }
+            }
+        }
         Customer customer = customerRepository.findById(idCustomer)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
         appointment.setBarberShop(barberShop);
         appointment.setCustomer(customer);
         Appointment save = appointmentRepository.save(appointment);
+        String qrCodeData = "http://localhost:5000/appointment/" + save.getIdAppointment();
+        try {
+            String qrCodePath = "QRCode.png";
+            emailSenderService.generateQRCodeImage(qrCodeData, 350, 350, qrCodePath);
+            emailSenderService.sendEmailWithAttachment(customer.getEmail(), "Your Appointment", "Please check your appointment details using the attached QR code.", qrCodePath);
+        } catch (WriterException | IOException e) {
+            log.error("Could not generate QR code", e);
+        }
+
         log.info("Appointment saved");
         return mappers.toAppointmentResDTO(save);
     }
@@ -175,5 +202,11 @@ public class CustomerServiceImpl implements CustomerService {
     public BarberShopResDTO getBarberShop(Long idBarberShop) throws BarberShopNotFoundException {
         return mappers.toBarberShopResDTO(barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found")));
+    }
+
+    public List<ReviewResDTO> getReviewsByBarberShopId(Long idBarberShop) {
+        return reviewRepository.findAllByBarberShopIdBarberShop(idBarberShop).stream()
+                .map(mappers::toReviewResDTO)
+                .toList();
     }
 }

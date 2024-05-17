@@ -102,13 +102,13 @@ public class BarberTimeBackendApplication {
 
             AppointmentReqDTO appointment1 = new AppointmentReqDTO(
                     LocalDate.of(2024, 5, 2),
-                    LocalTime.of(10, 0), EStatus.CONFIRMED);
+                    LocalTime.of(10, 0));
             AppointmentReqDTO appointment2 = new AppointmentReqDTO(
                     LocalDate.of(2024, 5, 3),
-                    LocalTime.of(11, 0), EStatus.CONFIRMED);
+                    LocalTime.of(11, 0));
             AppointmentReqDTO appointment3 = new AppointmentReqDTO(
                     LocalDate.of(2024, 5, 4),
-                    LocalTime.of(12, 0), EStatus.CONFIRMED);
+                    LocalTime.of(12, 0));
 
             customerService.saveAppointment(customer4.getIdUser(), barberShop4.getIdBarberShop(), appointment1);
             customerService.saveAppointment(customer5.getIdUser(), barberShop5.getIdBarberShop(), appointment2);
