@@ -67,8 +67,10 @@ const CreateAccountBarber3 = () => {
                       <h5 className="d-flex justify-content-between">
                         {days.map((d) => (
                           <span
-                            class={`badge text-bg-${
-                              selectedDays.includes(d) ? "primary" : "secondary"
+                            class={`btn btn-${
+                              selectedDays.includes(d)
+                                ? "primary"
+                                : "outline-primary"
                             }`}
                             style={{ cursor: "pointer" }}
                             onClick={() => handleSelectDate(d)}
@@ -79,17 +81,32 @@ const CreateAccountBarber3 = () => {
                       </h5>
                     </div>
                     <div class="col-12"></div>
-                    <div class="col-12">
-                      <div class="d-grid">
-                        <Link to={"/create-account-barber2"}>
-                          <button
-                            class="btn btn-primary btn-lg"
-                            type="submit"
-                            style={{ width: "100%" }}
-                          >
-                            Next
-                          </button>
-                        </Link>
+                    <div className="row justify-content-between">
+                      <div className="col-sm">
+                        <div className="">
+                          <Link to={"/create-account-barber2"}>
+                            <button
+                              className="btn btn-secondary btn-lg"
+                              type="submit"
+                              style={{ width: "100%" }}
+                            >
+                              Back
+                            </button>
+                          </Link>
+                        </div>
+                      </div>
+                      <div className="col-10 p-0">
+                        <div className="">
+                          <Link to={"/create-account-barber4"}>
+                            <button
+                              className="btn btn-primary btn-lg"
+                              type="submit"
+                              style={{ width: "100%" }}
+                            >
+                              Next
+                            </button>
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
