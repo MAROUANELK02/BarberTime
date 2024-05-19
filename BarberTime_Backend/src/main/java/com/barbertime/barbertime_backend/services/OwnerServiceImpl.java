@@ -1,5 +1,6 @@
 package com.barbertime.barbertime_backend.services;
 
+import com.barbertime.barbertime_backend.dtos.BarberServiceDTO;
 import com.barbertime.barbertime_backend.dtos.req.*;
 import com.barbertime.barbertime_backend.dtos.res.*;
 import com.barbertime.barbertime_backend.entities.*;
@@ -40,7 +41,7 @@ public class OwnerServiceImpl implements OwnerService {
     //private PasswordEncoder passwordEncoder;
 
     @Override
-    public OwnerResDTO createOwner(OwnerReqDTO ownerDTO) {
+    public void createOwner(OwnerReqDTO ownerDTO) {
         log.info("Creating owner");
         Owner owner = mappers.toOwner(ownerDTO);
         owner.getRole().add(roleRepository.findByRoleName(ERole.ROLE_OWNER));
@@ -48,7 +49,14 @@ public class OwnerServiceImpl implements OwnerService {
         owner.setPassword(owner.getPassword());
         ownerRepository.save(owner);
         log.info("Owner created");
-        return mappers.toOwnerResDTO(owner);
+        mappers.toOwnerResDTO(owner);
+    }
+
+    public void createService(List<BarberService> services, BarberShop barberShop) {
+        log.info("Creating services");
+        services.forEach(barberService -> barberService.setBarberShop(barberShop));
+        barberServiceRepository.saveAll(services);
+        log.info("Services created");
     }
 
     @Override
@@ -58,9 +66,8 @@ public class OwnerServiceImpl implements OwnerService {
         createOwner(barberShopDTO.getOwnerDTO());
         Owner owner = ownerRepository.findByCin(barberShopDTO.getOwnerDTO().getCin());
         barberShop.setOwner(owner);
-        barberShopRepository.save(barberShop);
-        owner.setBarberShop(barberShop);
-        ownerRepository.save(owner);
+        BarberShop save = barberShopRepository.save(barberShop);
+        createService(barberShop.getBarberServices(), save);
         log.info("Barber shop created");
         return mappers.toBarberShopResDTO(barberShop);
     }
@@ -241,24 +248,20 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public void assignServiceToBarberShop(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException {
+    public void createService(BarberServiceDTO barberServiceDTO, Long idBarberShop) throws BarberShopNotFoundException {
         log.info("Adding service to barber shop");
-        BarberShop barberShop = barberShopRepository.findById(barberShopId)
+        BarberShop barberShop = barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
-        barberShop.getBarberServices().add(barberServiceRepository.findById(idService)
-                .orElseThrow(() -> new BarberShopServiceNotFoundException("Service not found")));
-        barberShopRepository.save(barberShop);
+        BarberService barberService = mappers.toBarberService(barberServiceDTO);
+        barberService.setBarberShop(barberShop);
+        barberServiceRepository.save(barberService);
         log.info("Service added to barber shop");
     }
 
     @Override
-    public void removeServiceFromBarberShop(Long barberShopId, Long idService) throws BarberShopNotFoundException, BarberShopServiceNotFoundException {
+    public void removeServiceFromBarberShop(Long idService) {
         log.info("Removing service");
-        BarberShop barberShop = barberShopRepository.findById(barberShopId)
-                .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
-        barberShop.getBarberServices().remove(barberServiceRepository.findById(idService)
-                .orElseThrow(() -> new BarberShopServiceNotFoundException("Service not found")));
-        barberShopRepository.save(barberShop);
+        barberServiceRepository.deleteById(idService);
         log.info("Service removed");
     }
 

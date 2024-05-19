@@ -1,5 +1,6 @@
 package com.barbertime.barbertime_backend.dtos.res;
 
+import com.barbertime.barbertime_backend.enums.EService;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,4 +21,5 @@ public class AppointmentResDTO {
     private EStatus status;
     private CustomerResDTO customerDTO;
     private BarberShopResDTO barberShopDTO;
+    private EService service;
 }

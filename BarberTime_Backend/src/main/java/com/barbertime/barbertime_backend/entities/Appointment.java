@@ -41,4 +41,7 @@ public class Appointment {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private BarberShop barberShop;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private BarberService barberService;
 }

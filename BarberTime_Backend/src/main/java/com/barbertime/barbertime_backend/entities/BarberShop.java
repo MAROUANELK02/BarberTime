@@ -68,18 +68,18 @@ public class BarberShop {
     @OneToOne
     private Owner owner;
 
-    @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Hairdresser> hairdressers;
 
-    @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Holiday> holidays;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "barberShop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<BarberService> barberServices;
 
-    @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "barberShop", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "barberShop", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "barberShop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<FileData> images;
 }
