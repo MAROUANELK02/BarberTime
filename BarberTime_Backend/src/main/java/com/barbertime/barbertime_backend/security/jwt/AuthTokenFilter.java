@@ -1,4 +1,3 @@
-/*
 package com.barbertime.barbertime_backend.security.jwt;
 
 import io.jsonwebtoken.JwtException;
@@ -67,4 +66,3 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         return null;
     }
 }
-*/

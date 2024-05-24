@@ -40,13 +40,13 @@ public class BarberTimeBackendApplication {
                     "admin", "admin"));
 
             OwnerReqDTO owner1 = new OwnerReqDTO( "John", "Doe", "+1234567890",
-                    "john.doe@example.com", "john1234", "john", "ok1234");
+                    "lasmak2002@gmail.com", "john1234", "john", "ok1234");
 
             OwnerReqDTO owner2 = new OwnerReqDTO("Jane", "Smith", "+1987654321",
-                    "jane.smith@example.com", "jane1234", "jane", "ok4567");
+                    "testseller085@gmail.com", "jane1234", "jane", "ok4567");
 
             OwnerReqDTO owner3 = new OwnerReqDTO("Michael", "Johnson", "+1122334455",
-                    "michael.johnson@example.com", "michael1234", "michael", "ok7890");
+                    "marouanelk02@gmail.com", "michael1234", "michael", "ok7890");
 
             BarberShopReqDTO barberShop1 = new BarberShopReqDTO( "Best Cuts", "123 Main St",
                     "+7894581632", ENeighborhood.Beausejour, "auth123", "Monday",

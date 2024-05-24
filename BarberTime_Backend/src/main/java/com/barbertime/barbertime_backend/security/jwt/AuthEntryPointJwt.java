@@ -1,4 +1,3 @@
-/*
 package com.barbertime.barbertime_backend.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,4 +33,3 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         mapper.writeValue(response.getOutputStream(), body);
     }
 }
-*/

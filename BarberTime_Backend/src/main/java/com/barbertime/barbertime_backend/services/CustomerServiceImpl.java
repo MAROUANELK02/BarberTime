@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -42,14 +42,14 @@ public class CustomerServiceImpl implements CustomerService {
     private HolidayRepository holidayRepository;
     private BarberServiceRepository barberServiceRepository;
     private EmailSenderService emailSenderService;
-    //private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public CustomerResDTO createCustomer(CustomerReqDTO customerDTO) {
         log.info("Creating customer");
         Customer customer = mappers.toCustomer(customerDTO);
         customer.getRole().add(roleRepository.findByRoleName(ERole.ROLE_USER));
-        //customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setPassword(customer.getPassword());
         customerRepository.save(customer);
         log.info("Customer created");

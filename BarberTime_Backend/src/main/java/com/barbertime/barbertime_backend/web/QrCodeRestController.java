@@ -5,6 +5,7 @@ import com.barbertime.barbertime_backend.entities.BarberShop;
 import com.barbertime.barbertime_backend.entities.Customer;
 import com.barbertime.barbertime_backend.repositories.AppointmentRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

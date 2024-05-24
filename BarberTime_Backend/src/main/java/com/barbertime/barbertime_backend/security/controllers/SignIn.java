@@ -1,4 +1,3 @@
-/*
 package com.barbertime.barbertime_backend.security.controllers;
 
 import com.barbertime.barbertime_backend.security.jwt.JwtUtils;
@@ -7,6 +6,7 @@ import com.barbertime.barbertime_backend.security.payload.response.UserInfoRespo
 import com.barbertime.barbertime_backend.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @AllArgsConstructor
+@Slf4j
 @RequestMapping("/api/auth")
 public class SignIn {
     private AuthenticationManager authenticationManager;
@@ -50,6 +51,7 @@ public class SignIn {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
+        log.info("User with username: " + userDetails.getUsername() + " has logged in");
         return ResponseEntity.ok(new UserInfoResponse(jwt,
                         userDetails.getId(),
                         userDetails.getUsername(),
@@ -57,4 +59,3 @@ public class SignIn {
                         roles));
     }
 }
-*/
