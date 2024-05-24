@@ -67,13 +67,17 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Saving appointment");
         Appointment appointment = mappers.toAppointment(appointmentReqDTO);
         appointment.setStatus(EStatus.CONFIRMED);
-        holidayRepository.findAllByBarberShopIdBarberShop(idBarber).forEach(holiday -> {
-            if(holiday.getHolidayDate().equals(appointment.getDate()))
-                throw new RuntimeException("Barber shop is closed on this date");
-        });
 
         BarberShop barberShop = barberShopRepository.findById(idBarber)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+        Customer customer = customerRepository.findById(idCustomer)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
+
+        Holiday holiday = holidayRepository.findByBarberShopIdBarberShopAndHolidayDate(idBarber, appointment.getDate());
+
+        if(holiday != null) {
+                throw new RuntimeException("Holiday on this date");
+        }
 
         if(appointment.getTime().isBefore(barberShop.getStartTime()) || appointment.getTime()
                 .isAfter(barberShop.getEndTime().minusHours(1)))
@@ -92,9 +96,6 @@ public class CustomerServiceImpl implements CustomerService {
                 }
             }
         }
-        Customer customer = customerRepository.findById(idCustomer)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
-
         BarberService barberService = barberServiceRepository.findByBarberShopIdBarberShopAndServiceName(idBarber, appointmentReqDTO.getService());
         appointment.setBarberService(barberService);
         appointment.setBarberShop(barberShop);

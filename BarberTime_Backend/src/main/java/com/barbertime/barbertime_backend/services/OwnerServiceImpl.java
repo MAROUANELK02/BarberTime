@@ -219,7 +219,9 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public Page<HolidayResDTO> getHolidaysByBarberShop(Long idBarberShop, int page, int size) {
         log.info("Getting holidays by barber shop");
-        return holidayRepository.findAllByBarberShopIdBarberShop(idBarberShop,
+        LocalDate currentDate = LocalDate.now();
+        return holidayRepository.findAllByBarberShopIdBarberShopAndHolidayDateAfter(idBarberShop,
+                        currentDate,
                         PageRequest.of(page, size)).map(mappers::toHolidayResDTO);
     }
 

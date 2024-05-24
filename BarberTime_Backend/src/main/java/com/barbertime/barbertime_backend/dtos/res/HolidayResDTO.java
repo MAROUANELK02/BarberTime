@@ -15,5 +15,4 @@ public class HolidayResDTO {
     private Long idHoliday;
     private LocalDate holidayDate;
     private String reason;
-    private BarberShopResDTO barberShopDTO;
 }

@@ -136,7 +136,6 @@ public class MappersImpl implements Mappers {
                 .idHoliday(holiday.getIdHoliday())
                 .holidayDate(holiday.getHolidayDate())
                 .reason(holiday.getReason())
-                .barberShopDTO(toBarberShopResDTO(holiday.getBarberShop()))
                 .build();
     }
 
