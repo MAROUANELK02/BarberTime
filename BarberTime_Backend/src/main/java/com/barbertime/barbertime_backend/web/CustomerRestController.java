@@ -40,11 +40,6 @@ public class CustomerRestController {
         return customerService.getReviewsByBarberShopId(idBarberShop);
     }
 
-    @PostMapping("/")
-    public CustomerResDTO createCustomer(@RequestBody CustomerReqDTO customerDTO) {
-        return customerService.createCustomer(customerDTO);
-    }
-
     @GetMapping("/appointments/{idCustomer}")
     public Page<AppointmentResDTO> getAppointments(@PathVariable(name = "idCustomer") Long idCustomer,
                                                    @RequestParam(defaultValue = "0") int page,

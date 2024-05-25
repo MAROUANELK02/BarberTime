@@ -35,11 +35,6 @@ import java.util.Optional;
 public class OwnerRestController {
     private OwnerService ownerService;
 
-    @PostMapping("/barberShop")
-    public BarberShopResDTO createBarberShop(@RequestBody BarberShopReqDTO barberShopDTO) {
-        return ownerService.createBarberShop(barberShopDTO);
-    }
-
     @PatchMapping("/barberShop/{idBarberShop}")
     public BarberShopResDTO updateBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
                                              @RequestBody BarberShopReqDTO barberShopDTO) {
