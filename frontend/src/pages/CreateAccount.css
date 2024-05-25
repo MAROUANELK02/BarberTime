@@ -2,3 +2,7 @@
   background-color: #2ca0d2;
   transition: background-color 0.3s ease;
 }
+.nav-link:hover .btn {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
