@@ -20,5 +20,6 @@ public class AppointmentResDTO {
     private LocalTime time;
     private EStatus status;
     private CustomerResDTO customerDTO;
+    private BarberShopResDTO barberShopResDTO;
     private EService service;
 }

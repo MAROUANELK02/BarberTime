@@ -29,6 +29,7 @@ public class MappersImpl implements Mappers {
                 .status(appointment.getStatus())
                 .service(appointment.getBarberService().getServiceName())
                 .customerDTO(toCustomerResDTO(appointment.getCustomer()))
+                .barberShopResDTO(toBarberShopResDTO(appointment.getBarberShop()))
                 .build();
     }
 
