@@ -1,4 +1,3 @@
-/*
 package com.barbertime.barbertime_backend.security;
 
 import com.barbertime.barbertime_backend.security.jwt.AuthEntryPointJwt;
@@ -65,6 +64,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/**").permitAll()
+                        .requestMatchers("/appointment/**").permitAll()
                         .anyRequest().authenticated()
                 );
         httpSecurity.authenticationProvider(authenticationProvider());
@@ -84,4 +84,3 @@ public class WebSecurityConfig {
         return source;
     }
 }
-*/

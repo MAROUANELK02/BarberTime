@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -42,14 +42,14 @@ public class CustomerServiceImpl implements CustomerService {
     private HolidayRepository holidayRepository;
     private BarberServiceRepository barberServiceRepository;
     private EmailSenderService emailSenderService;
-    //private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public CustomerResDTO createCustomer(CustomerReqDTO customerDTO) {
         log.info("Creating customer");
         Customer customer = mappers.toCustomer(customerDTO);
         customer.getRole().add(roleRepository.findByRoleName(ERole.ROLE_USER));
-        //customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customer.setPassword(customer.getPassword());
         customerRepository.save(customer);
         log.info("Customer created");
@@ -67,13 +67,17 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Saving appointment");
         Appointment appointment = mappers.toAppointment(appointmentReqDTO);
         appointment.setStatus(EStatus.CONFIRMED);
-        holidayRepository.findAllByBarberShopIdBarberShop(idBarber).forEach(holiday -> {
-            if(holiday.getHolidayDate().equals(appointment.getDate()))
-                throw new RuntimeException("Barber shop is closed on this date");
-        });
 
         BarberShop barberShop = barberShopRepository.findById(idBarber)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
+        Customer customer = customerRepository.findById(idCustomer)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
+
+        Holiday holiday = holidayRepository.findByBarberShopIdBarberShopAndHolidayDate(idBarber, appointment.getDate());
+
+        if(holiday != null) {
+                throw new RuntimeException("Holiday on this date");
+        }
 
         if(appointment.getTime().isBefore(barberShop.getStartTime()) || appointment.getTime()
                 .isAfter(barberShop.getEndTime().minusHours(1)))
@@ -92,9 +96,6 @@ public class CustomerServiceImpl implements CustomerService {
                 }
             }
         }
-        Customer customer = customerRepository.findById(idCustomer)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
-
         BarberService barberService = barberServiceRepository.findByBarberShopIdBarberShopAndServiceName(idBarber, appointmentReqDTO.getService());
         appointment.setBarberService(barberService);
         appointment.setBarberShop(barberShop);

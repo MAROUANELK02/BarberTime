@@ -29,7 +29,6 @@ public class MappersImpl implements Mappers {
                 .status(appointment.getStatus())
                 .service(appointment.getBarberService().getServiceName())
                 .customerDTO(toCustomerResDTO(appointment.getCustomer()))
-                .barberShopDTO(toBarberShopResDTO(appointment.getBarberShop()))
                 .build();
     }
 
@@ -136,7 +135,6 @@ public class MappersImpl implements Mappers {
                 .idHoliday(holiday.getIdHoliday())
                 .holidayDate(holiday.getHolidayDate())
                 .reason(holiday.getReason())
-                .barberShopDTO(toBarberShopResDTO(holiday.getBarberShop()))
                 .build();
     }
 

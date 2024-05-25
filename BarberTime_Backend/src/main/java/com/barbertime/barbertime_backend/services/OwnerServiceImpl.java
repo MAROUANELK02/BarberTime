@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,14 +38,14 @@ public class OwnerServiceImpl implements OwnerService {
     private FileDataRepository fileDataRepository;
     private ImagesService imagesService;
     private Mappers mappers;
-    //private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void createOwner(OwnerReqDTO ownerDTO) {
         log.info("Creating owner");
         Owner owner = mappers.toOwner(ownerDTO);
         owner.getRole().add(roleRepository.findByRoleName(ERole.ROLE_OWNER));
-        //owner.setPassword(passwordEncoder.encode(owner.getPassword()));
+        owner.setPassword(passwordEncoder.encode(owner.getPassword()));
         owner.setPassword(owner.getPassword());
         ownerRepository.save(owner);
         log.info("Owner created");
@@ -219,7 +219,9 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public Page<HolidayResDTO> getHolidaysByBarberShop(Long idBarberShop, int page, int size) {
         log.info("Getting holidays by barber shop");
-        return holidayRepository.findAllByBarberShopIdBarberShop(idBarberShop,
+        LocalDate currentDate = LocalDate.now();
+        return holidayRepository.findAllByBarberShopIdBarberShopAndHolidayDateAfter(idBarberShop,
+                        currentDate,
                         PageRequest.of(page, size)).map(mappers::toHolidayResDTO);
     }
 

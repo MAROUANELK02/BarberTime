@@ -1,4 +1,3 @@
-/*
 package com.barbertime.barbertime_backend.security.services;
 
 import com.barbertime.barbertime_backend.entities.User;
@@ -83,4 +82,3 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 }
-*/

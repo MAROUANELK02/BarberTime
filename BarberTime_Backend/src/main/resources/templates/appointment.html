@@ -38,6 +38,8 @@
             <div class="card-body">
                 <p class="card-text" th:text="'Date: ' + ${appointment.date}"></p>
                 <p class="card-text" th:text="'Time: ' + ${appointment.time}"></p>
+                <p class="card-text" th:text="'Service: ' + ${appointment.barberService.serviceName}"></p>
+                <p class="card-text" th:text="'Price: ' + ${appointment.barberService.price} + ' DHS'"></p>
                 <p class="card-text" th:text="'Status: ' + ${appointment.status}"></p>
             </div>
         </div>
