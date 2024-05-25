@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
-import neighborhoods from "./../components/neighborhoods";
+import neighborhoods from "../../components/neighborhoods";
 
-const CreateAccountBarber2 = () => {
+const BarberShop = () => {
   const [neghborhood, setNeghborhood] = useState("Select neighborhood");
   return (
-    <section className="bg-primary py-3 py-md-5 py-xl-8">
-      <div className="container">
+    <section className="card">
+      <div className="card-body">
+        <div className="card-title">
+          <h4>BarberShop Informations</h4>
+        </div>
         <div className="row gy-4 align-items-center">
           <div className="col-12 col-md-8 col-xl-8 mx-auto">
             <div className="card border-0 rounded-4">
               <div className="card-body p-3 p-md-4 p-xl-5">
                 <div className="row">
-                  <div className="col-12">
-                    <div className="mb-4">
-                      <h3>BarberShop Informations</h3>
-                    </div>
-                  </div>
+                  <div className="col-12"></div>
                 </div>
                 <form action="#!">
                   <div className="row gy-3 ">
@@ -152,4 +151,4 @@ const CreateAccountBarber2 = () => {
   );
 };
 
-export default CreateAccountBarber2;
+export default BarberShop;

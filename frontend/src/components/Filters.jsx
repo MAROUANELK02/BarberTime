@@ -20,7 +20,7 @@ const Filters = () => {
     fetchLocations();
   }, []);
   return (
-    <div className="card h-25 p-5 m-5 bg-light">
+    <div className="card h-25 p-5 m-5 bg-light shadow">
       Filters
       <div className="d-flex justify-content-center">
         <Dropdown className="me-4">

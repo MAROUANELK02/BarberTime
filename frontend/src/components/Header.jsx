@@ -8,7 +8,13 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const [login, setLogin] = useState(false);
   return (
-    <Navbar bg="light" expand="lg" variant="light">
+    <Navbar
+      bg="light"
+      expand="lg"
+      variant="light"
+      className=" m-2"
+      style={{ backgroundColor: "white" }}
+    >
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse
         id="basic-navbar-nav"

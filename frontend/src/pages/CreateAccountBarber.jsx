@@ -83,14 +83,15 @@ const CreateAccountBarber = () => {
                     <div class="col-12">
                       <div class="form-floating mb-3">
                         <input
-                          type="text"
+                          type="email"
                           class="form-control"
-                          name="phone"
-                          id="phone"
+                          name="email"
+                          id="email"
+                          placeholder="name@example.com"
                           required
                         />
-                        <label for="password" class="form-label">
-                          Phone number
+                        <label for="email" class="form-label">
+                          Phone Number
                         </label>
                       </div>
                     </div>
