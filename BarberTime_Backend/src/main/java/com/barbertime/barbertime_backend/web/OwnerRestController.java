@@ -167,6 +167,13 @@ public class OwnerRestController {
         }
     }
 
+    @GetMapping("/hairdresser/{idBarberShop}")
+    public Page<HairdresserResDTO> getHairdressersByBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
+                                                              @RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "3") int size) {
+        return ownerService.getHairdressersByBarberShop(idBarberShop, page, size);
+    }
+
     @PostMapping("/holiday/{idBarberShop}")
     public List<HolidayResDTO> addHolidayRangeToBarberShop(@RequestBody HolidayRangeReqDTO holidayReqDTO,
                                                       @PathVariable(name = "idBarberShop") Long idBarberShop) {

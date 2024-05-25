@@ -49,4 +49,6 @@ public interface OwnerService {
     HairdresserResDTO updateHairdresser(Long idHairdresser, HairdresserReqDTO hairdresserDTO) throws HairdresserNotFoundException;
     HairdresserResDTO assignHairdresserToBarberShop(HairdresserReqDTO hairdresserDTO, Long idBarberShop) throws BarberShopNotFoundException, HairdresserNotFoundException;
     void removeHairdresserFromBarberShop(Long idHairdresser, Long idBarberShop) throws BarberShopNotFoundException, HairdresserNotFoundException;
+
+    Page<HairdresserResDTO> getHairdressersByBarberShop(Long idBarberShop, int page, int size);
 }
