@@ -6,7 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface BarberShopRepository extends JpaRepository<BarberShop, Long> {
     BarberShop findByOwnerIdUser(Long ownerId);
     Page<BarberShop> findAllByNeighborhood(ENeighborhood neighborhood, Pageable pageable);
+    List<BarberShop> findAllByBarberServicesIdService(Long idService);
 }
