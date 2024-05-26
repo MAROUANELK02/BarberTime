@@ -13,7 +13,11 @@ import com.barbertime.barbertime_backend.security.services.AccountService;
 import com.barbertime.barbertime_backend.services.CustomerService;
 import com.barbertime.barbertime_backend.services.OwnerService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin(origins = "*",maxAge = 3600)
 @AllArgsConstructor
@@ -25,8 +29,11 @@ public class SignUp {
     private OwnerService ownerService;
 
     @PostMapping("/register")
-    public int sendEmailForRegister(@RequestBody SignupCheck signupCheck) {
-            return accountService.sendMail(signupCheck.getEmail());
+    public ResponseEntity<Map<String, Integer>> sendEmailForRegister(@RequestBody SignupCheck signupCheck) {
+        int verificationCode = accountService.sendMail(signupCheck.getEmail());
+        Map<String, Integer> response = new HashMap<>();
+        response.put("verificationCode", verificationCode);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/changePassword")
