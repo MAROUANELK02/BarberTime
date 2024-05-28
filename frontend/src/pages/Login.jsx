@@ -14,11 +14,12 @@ const Login = () => {
                 <h1>BarberTime</h1>
                 <hr class="border-primary-subtle mb-4" />
                 <h2 class="h1 mb-4">
-                  We make digital products that drive you to stand out.
+                  Elevate your barber experience with our digital reservation
+                  system.
                 </h2>
                 <p class="lead mb-5">
-                  We write words, take photos, make videos, and interact with
-                  artificial intelligence.
+                  Seamlessly book appointments, manage your schedule, and
+                  enhance your grooming routine.
                 </p>
                 <div class="text-endx">
                   <svg

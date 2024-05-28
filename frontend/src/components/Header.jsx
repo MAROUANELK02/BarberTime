@@ -23,7 +23,6 @@ const Header = () => {
         <Nav className="mr-auto">
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="/barber-shop-space">BarberShop Space</Nav.Link>
-          <Nav.Link href="#link">Link</Nav.Link>
           <Nav.Link href="#disabled">About us</Nav.Link>
           <NavDropdown title="Account" id="basic-nav-dropdown">
             {!login && (

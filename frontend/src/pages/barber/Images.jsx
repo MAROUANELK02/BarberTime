@@ -70,34 +70,6 @@ const Images = () => {
                         ))}
                       </div>
                     </div>
-                    <div className="row justify-content-between">
-                      <div className="col-sm">
-                        <div className="">
-                          <Link to={"/create-account-barber4"}>
-                            <button
-                              className="btn btn-secondary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Back
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="col-10 p-0">
-                        <div className="">
-                          <Link to={"/create-account-barber3"}>
-                            <button
-                              className="btn btn-primary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Submit
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </form>
               </div>

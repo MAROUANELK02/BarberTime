@@ -14,7 +14,7 @@ import WorkTime from "./barber/WorkTime";
 const BarberShopSpace = () => {
   return (
     <div>
-      <div className="row" style={{ height: "100vh" }}>
+      <div className="row" style={{ height: "85vh" }}>
         <div className="col-2 card shadow">
           <NavBar />
         </div>

@@ -1,10 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { RxUpdate } from "react-icons/rx";
+import axios from "axios";
 
 const Profile = () => {
+  const [owner, setOwner] = useState({});
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [cin, setCin] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/owner/barberShop/2"
+        );
+        const data = response.data.ownerDTO;
+        setOwner(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching holidays:", error);
+      }
+    };
+
+    fetchData();
+
+    // Clean-up function if needed
+    return () => {
+      // Perform clean-up tasks here if necessary
+    };
+  }, []);
   return (
-    <section class="card">
+    <section class="card" style={{ minHeight: "95%" }}>
       <div className="card-body">
         <div className="card-title">
           <h4>Profile</h4>
@@ -23,10 +53,15 @@ const Profile = () => {
                             <input
                               type="text"
                               class="form-control"
-                              name="email"
-                              id="email"
-                              placeholder="name@example.com"
+                              placeholder="First Name"
                               required
+                              value={owner.firstName}
+                              onChange={(e) =>
+                                setOwner({
+                                  ...owner,
+                                  firstName: e.target.value,
+                                })
+                              }
                             />
                             <label for="email" class="form-label">
                               First name
@@ -38,10 +73,15 @@ const Profile = () => {
                             <input
                               type="text"
                               class="form-control"
-                              name="email"
-                              id="email"
-                              placeholder="name@example.com"
+                              placeholder=""
                               required
+                              value={owner.lastName}
+                              onChange={(e) =>
+                                setOwner({
+                                  ...owner,
+                                  lastName: e.target.value,
+                                })
+                              }
                             />
                             <label for="email" class="form-label">
                               Last name
@@ -53,10 +93,15 @@ const Profile = () => {
                             <input
                               type="text"
                               class="form-control"
-                              name="cin"
-                              id="cin"
-                              placeholder="name@example.com"
+                              placeholder=""
                               required
+                              value={owner.cin}
+                              onChange={(e) =>
+                                setOwner({
+                                  ...owner,
+                                  cin: e.target.value,
+                                })
+                              }
                             />
                             <label for="cin" class="form-label">
                               CIN
@@ -69,10 +114,15 @@ const Profile = () => {
                           <input
                             type="email"
                             class="form-control"
-                            name="email"
-                            id="email"
-                            placeholder="name@example.com"
+                            placeholder=""
                             required
+                            value={owner.email}
+                            onChange={(e) =>
+                              setOwner({
+                                ...owner,
+                                email: e.target.value,
+                              })
+                            }
                           />
                           <label for="email" class="form-label">
                             Email
@@ -82,34 +132,24 @@ const Profile = () => {
                       <div class="col-12">
                         <div class="form-floating mb-3">
                           <input
-                            type="email"
+                            placeholder="Phone Number"
+                            type="text"
                             class="form-control"
-                            name="email"
-                            id="email"
-                            placeholder="name@example.com"
                             required
+                            value={owner.telNumber}
+                            onChange={(e) =>
+                              setOwner({
+                                ...owner,
+                                telNumber: e.target.value,
+                              })
+                            }
                           />
-                          <label for="email" class="form-label">
+                          <label for="phone" class="form-label">
                             Phone Number
                           </label>
                         </div>
                       </div>
 
-                      <div class="col-12">
-                        <div class="form-floating mb-3">
-                          <input
-                            type="password"
-                            class="form-control"
-                            name="password"
-                            id="password"
-                            placeholder="Password"
-                            required
-                          />
-                          <label for="password" class="form-label">
-                            Password
-                          </label>
-                        </div>
-                      </div>
                       <div class="col-12"></div>
                       <div class="col-12">
                         <div class="d-grid">

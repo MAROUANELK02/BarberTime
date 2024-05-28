@@ -1,10 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import neighborhoods from "../../components/neighborhoods";
+import { RxUpdate } from "react-icons/rx";
+import axios from "axios";
 
 const BarberShop = () => {
-  const [neghborhood, setNeghborhood] = useState("Select neighborhood");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [authorizationNumber, setAuthorizationNumber] = useState("");
+  const [neighborhood, setNeighborhood] = useState("Select neighborhood");
+
+  const handleUpdate = async () => {
+    try {
+      const response = await axios.patch(
+        "http://localhost:5000/api/owner/barberShop/2",
+        {
+          name: name,
+          phone: phone,
+          address: address,
+          authorizationNumber: authorizationNumber,
+          neighborhood: neighborhood,
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/owner/barberShop/2"
+        );
+        const data = response.data;
+        setName(data.name);
+        setPhone(data.phone);
+        setAddress(data.address);
+        setAuthorizationNumber(data.authorizationNumber);
+        setNeighborhood(data.neighborhood.replace(/_/g, " "));
+
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching holidays:", error);
+      }
+    };
+
+    fetchData();
+
+    return () => {};
+  }, []);
   return (
     <section className="card">
       <div className="card-body">
@@ -26,9 +74,9 @@ const BarberShop = () => {
                           <input
                             type="text"
                             className="form-control"
-                            name="email"
-                            id="email"
                             placeholder="name@example.com"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             required
                           />
                           <label htmlFor="email" className="form-label">
@@ -42,9 +90,9 @@ const BarberShop = () => {
                           <input
                             type="text"
                             className="form-control"
-                            name="cin"
-                            id="cin"
                             placeholder="name@example.com"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                             required
                           />
                           <label htmlFor="cin" className="form-label">
@@ -58,9 +106,9 @@ const BarberShop = () => {
                         <input
                           type="text"
                           className="form-control"
-                          name="email"
-                          id="email"
                           placeholder="name@example.com"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
                           required
                         />
                         <label htmlFor="email" className="form-label">
@@ -73,9 +121,11 @@ const BarberShop = () => {
                         <input
                           type="text"
                           className="form-control"
-                          name="password"
-                          id="password"
                           placeholder="Password"
+                          value={authorizationNumber}
+                          onChange={(e) =>
+                            setAuthorizationNumber(e.target.value)
+                          }
                           required
                         />
                         <label htmlFor="password" className="form-label">
@@ -90,7 +140,7 @@ const BarberShop = () => {
                           id="dropdown-basic"
                           style={{ width: "100%" }}
                         >
-                          {neghborhood}
+                          {neighborhood}
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu
@@ -103,7 +153,7 @@ const BarberShop = () => {
                           {neighborhoods.map((n) => (
                             <Dropdown.Item
                               href="#/action-1"
-                              onClick={() => setNeghborhood(n.name)}
+                              onClick={() => setNeighborhood(n.name)}
                             >
                               {n.name}
                             </Dropdown.Item>
@@ -113,30 +163,16 @@ const BarberShop = () => {
                     </div>
                     <div className="col-12"></div>
                     <div className="row justify-content-between">
-                      <div className="col-sm">
+                      <div className="p-0 ms-2">
                         <div className="">
-                          <Link to={"/create-account-barber"}>
-                            <button
-                              className="btn btn-secondary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Back
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="col-10 p-0">
-                        <div className="">
-                          <Link to={"/create-account-barber3"}>
-                            <button
-                              className="btn btn-primary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Next
-                            </button>
-                          </Link>
+                          <button
+                            className="btn btn-primary btn-lg"
+                            type="submit"
+                            style={{ width: "100%" }}
+                            onClick={() => handleUpdate()}
+                          >
+                            Update <RxUpdate className="ms-1" />
+                          </button>
                         </div>
                       </div>
                     </div>
