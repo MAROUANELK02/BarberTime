@@ -1,8 +1,32 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaScissors } from "react-icons/fa6";
+import axios from "axios";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/signin",
+        {
+          username,
+          password,
+        }
+      );
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("id", response.data.id);
+      console.log(response.data.token, response.data.id);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <section class="bg-primary py-3 py-md-5 py-xl-8">
       <div class="container">
@@ -53,20 +77,20 @@ const Login = () => {
                     </div>
                   </div>
                 </div>
-                <form action="#!">
+                <form>
                   <div class="row gy-3 overflow-hidden">
                     <div class="col-12">
                       <div class="form-floating mb-3">
                         <input
-                          type="email"
+                          type="text"
                           class="form-control"
-                          name="email"
-                          id="email"
                           placeholder="name@example.com"
                           required
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
                         />
                         <label for="email" class="form-label">
-                          Email
+                          Username
                         </label>
                       </div>
                     </div>
@@ -75,10 +99,10 @@ const Login = () => {
                         <input
                           type="password"
                           class="form-control"
-                          name="password"
-                          id="password"
                           placeholder="Password"
                           required
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                         <label for="password" class="form-label">
                           Password
@@ -104,7 +128,10 @@ const Login = () => {
                     </div>
                     <div class="col-12">
                       <div class="d-grid">
-                        <button class="btn btn-primary btn-lg" type="submit">
+                        <button
+                          class="btn btn-primary btn-lg"
+                          onClick={handleLogin}
+                        >
                           Log in now
                         </button>
                       </div>

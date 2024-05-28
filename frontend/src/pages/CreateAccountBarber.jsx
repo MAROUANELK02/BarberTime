@@ -1,7 +1,24 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreateAccountBarber = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [cin, setCin] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const next = () => {
+    localStorage.setItem(
+      "owner",
+      JSON.stringify({ firstName, lastName, cin, email, phoneNumber, password })
+    );
+    navigate("/create-account-barber2");
+  };
+
   return (
     <section class="bg-primary py-3 py-md-5 py-xl-8">
       <div class="container">
@@ -24,10 +41,10 @@ const CreateAccountBarber = () => {
                           <input
                             type="text"
                             class="form-control"
-                            name="email"
-                            id="email"
                             placeholder="name@example.com"
                             required
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
                           />
                           <label for="email" class="form-label">
                             First name
@@ -39,10 +56,10 @@ const CreateAccountBarber = () => {
                           <input
                             type="text"
                             class="form-control"
-                            name="email"
-                            id="email"
                             placeholder="name@example.com"
                             required
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                           />
                           <label for="email" class="form-label">
                             Last name
@@ -54,10 +71,10 @@ const CreateAccountBarber = () => {
                           <input
                             type="text"
                             class="form-control"
-                            name="cin"
-                            id="cin"
                             placeholder="name@example.com"
                             required
+                            value={cin}
+                            onChange={(e) => setCin(e.target.value)}
                           />
                           <label for="cin" class="form-label">
                             CIN
@@ -70,10 +87,10 @@ const CreateAccountBarber = () => {
                         <input
                           type="email"
                           class="form-control"
-                          name="email"
-                          id="email"
                           placeholder="name@example.com"
                           required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                         <label for="email" class="form-label">
                           Email
@@ -83,12 +100,12 @@ const CreateAccountBarber = () => {
                     <div class="col-12">
                       <div class="form-floating mb-3">
                         <input
-                          type="email"
+                          type="text"
                           class="form-control"
-                          name="email"
-                          id="email"
                           placeholder="name@example.com"
                           required
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
                         />
                         <label for="email" class="form-label">
                           Phone Number
@@ -100,10 +117,10 @@ const CreateAccountBarber = () => {
                         <input
                           type="password"
                           class="form-control"
-                          name="password"
-                          id="password"
                           placeholder="Password"
                           required
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                         <label for="password" class="form-label">
                           Password
@@ -113,15 +130,13 @@ const CreateAccountBarber = () => {
                     <div class="col-12"></div>
                     <div class="col-12">
                       <div class="d-grid">
-                        <Link to={"/create-account-barber2"}>
-                          <button
-                            class="btn btn-primary btn-lg"
-                            type="submit"
-                            style={{ width: "100%" }}
-                          >
-                            Next
-                          </button>
-                        </Link>
+                        <button
+                          class="btn btn-primary btn-lg"
+                          style={{ width: "100%" }}
+                          onClick={next}
+                        >
+                          Next
+                        </button>
                       </div>
                     </div>
                   </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreateAccountBarber3 = () => {
   const days = [
@@ -13,6 +13,10 @@ const CreateAccountBarber3 = () => {
   ];
 
   const [selectedDays, setSelectedDays] = useState([]);
+  const [startingTime, setStartingTime] = useState("");
+  const [endingTime, setEndingTime] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSelectDate = (day) => {
     if (selectedDays.includes(day)) {
@@ -21,6 +25,19 @@ const CreateAccountBarber3 = () => {
       setSelectedDays([...selectedDays, day]);
     }
   };
+
+  const next = () => {
+    let currentOwner = JSON.parse(localStorage.getItem("owner") || "{}");
+    const newOwner = {
+      startingTime,
+      endingTime,
+      selectedDays,
+    };
+    const updatedOwner = { ...currentOwner, ...newOwner };
+    localStorage.setItem("owner", JSON.stringify(updatedOwner));
+    navigate("/create-account-barber4");
+  };
+
   return (
     <section class="bg-primary py-3 py-md-5 py-xl-8 m">
       <div class="container" style={{ minHeight: "80vh" }}>
@@ -44,7 +61,8 @@ const CreateAccountBarber3 = () => {
                           <input
                             type="time"
                             class="form-control"
-                            //value="10:05 AM"
+                            value={startingTime}
+                            onChange={(e) => setStartingTime(e.target.value)}
                           />
                         </div>
                       </div>
@@ -56,7 +74,8 @@ const CreateAccountBarber3 = () => {
                           <input
                             type="time"
                             class="form-control"
-                            //value="10:05 AM"
+                            value={endingTime}
+                            onChange={(e) => setEndingTime(e.target.value)}
                           />
                         </div>
                       </div>
@@ -97,15 +116,13 @@ const CreateAccountBarber3 = () => {
                       </div>
                       <div className="col-10 p-0">
                         <div className="">
-                          <Link to={"/create-account-barber4"}>
-                            <button
-                              className="btn btn-primary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Next
-                            </button>
-                          </Link>
+                          <button
+                            className="btn btn-primary btn-lg"
+                            style={{ width: "100%" }}
+                            onClick={next}
+                          >
+                            Next
+                          </button>
                         </div>
                       </div>
                     </div>

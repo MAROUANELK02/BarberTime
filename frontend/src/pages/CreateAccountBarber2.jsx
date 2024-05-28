@@ -1,10 +1,31 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import neighborhoods from "./../components/neighborhoods";
 
 const CreateAccountBarber2 = () => {
   const [neghborhood, setNeghborhood] = useState("Select neighborhood");
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [authorizationNumber, setAuthorizationNumber] = useState("");
+  const navigate = useNavigate();
+
+  const next = () => {
+    let currentOwner = JSON.parse(localStorage.getItem("owner") || "{}");
+
+    const newOwner = {
+      name,
+      phoneNumber2: phoneNumber,
+      address,
+      authorizationNumber,
+      neghborhood,
+    };
+    const updatedOwner = { ...currentOwner, ...newOwner };
+    localStorage.setItem("owner", JSON.stringify(updatedOwner));
+    navigate("/create-account-barber3");
+  };
+
   return (
     <section className="bg-primary py-3 py-md-5 py-xl-8">
       <div className="container">
@@ -27,10 +48,10 @@ const CreateAccountBarber2 = () => {
                           <input
                             type="text"
                             className="form-control"
-                            name="email"
-                            id="email"
                             placeholder="name@example.com"
                             required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                           />
                           <label htmlFor="email" className="form-label">
                             Name
@@ -43,10 +64,10 @@ const CreateAccountBarber2 = () => {
                           <input
                             type="text"
                             className="form-control"
-                            name="cin"
-                            id="cin"
                             placeholder="name@example.com"
                             required
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
                           />
                           <label htmlFor="cin" className="form-label">
                             Phone Number
@@ -59,10 +80,10 @@ const CreateAccountBarber2 = () => {
                         <input
                           type="text"
                           className="form-control"
-                          name="email"
-                          id="email"
                           placeholder="name@example.com"
                           required
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
                         />
                         <label htmlFor="email" className="form-label">
                           Address
@@ -74,10 +95,12 @@ const CreateAccountBarber2 = () => {
                         <input
                           type="text"
                           className="form-control"
-                          name="password"
-                          id="password"
                           placeholder="Password"
                           required
+                          value={authorizationNumber}
+                          onChange={(e) =>
+                            setAuthorizationNumber(e.target.value)
+                          }
                         />
                         <label htmlFor="password" className="form-label">
                           Authorization Number
@@ -129,15 +152,13 @@ const CreateAccountBarber2 = () => {
                       </div>
                       <div className="col-10 p-0">
                         <div className="">
-                          <Link to={"/create-account-barber3"}>
-                            <button
-                              className="btn btn-primary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Next
-                            </button>
-                          </Link>
+                          <button
+                            className="btn btn-primary btn-lg"
+                            style={{ width: "100%" }}
+                            onClick={next}
+                          >
+                            Next
+                          </button>
                         </div>
                       </div>
                     </div>

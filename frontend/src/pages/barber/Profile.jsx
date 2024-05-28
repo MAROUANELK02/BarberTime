@@ -16,7 +16,13 @@ const Profile = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/owner/barberShop/2"
+          "http://localhost:5000/api/owner/barberShop/" +
+            localStorage.getItem("id"),
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         const data = response.data.ownerDTO;
         setOwner(data);

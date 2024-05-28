@@ -14,20 +14,33 @@ const Holidays = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const url =
-    "http://localhost:5000/api/owner/holiday/1?page=" + (page - 1) + "&size=5";
+    "http://localhost:5000/api/owner/holiday/" +
+    localStorage.getItem("id") +
+    "?page=" +
+    (page - 1) +
+    "&size=5";
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleSave = async () => {
-    console.log(reason, startingDate, endingDate);
     try {
-      const response = await axios.post(url, {
-        reason: reason,
-        startDate: startingDate,
-        endDate: endingDate,
-      });
-      console.log(response.data);
+      const response = await axios.post(
+        "http://localhost:5000/api/owner/holiday/2",
+        {
+          reason: reason,
+          startDate: startingDate,
+          endDate: endingDate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      //console.log(response.data);
+      fetchData();
+      handleClose();
     } catch (error) {
       console.error("Error fetching holidays:", error);
     }
@@ -38,9 +51,17 @@ const Holidays = () => {
       return;
     try {
       const response = await axios.delete(
-        "http://localhost:5000/api/owner/holiday/" + id + "/barberShop/1"
+        "http://localhost:5000/api/owner/holiday/" +
+          id +
+          "/barberShop/" +
+          localStorage.getItem("id"),
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
-      console.log(response.data);
+      //console.log(response.data);
       fetchData();
     } catch (error) {
       console.error("Error fetching holidays:", error);
@@ -49,7 +70,11 @@ const Holidays = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const data = response.data.content;
       setHolidays(data);
       setTotalPages(response.data.totalPages);
@@ -62,7 +87,11 @@ const Holidays = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(url);
+        const response = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         const data = response.data.content;
         setHolidays(data);
         setTotalPages(response.data.totalPages);

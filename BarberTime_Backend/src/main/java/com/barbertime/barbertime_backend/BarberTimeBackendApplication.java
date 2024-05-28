@@ -40,7 +40,7 @@ public class BarberTimeBackendApplication {
                     "admin", "admin"));
 
             OwnerReqDTO owner1 = new OwnerReqDTO( "John", "Doe", "+1234567890",
-                    "lasmak2002@gmail.com", "john1234", "john", "ok1234");
+                    "lasmak2002@gmail.com", "anas", "anas", "ok1234");
 
             OwnerReqDTO owner2 = new OwnerReqDTO("Jane", "Smith", "+1987654321",
                     "testseller085@gmail.com", "jane1234", "jane", "ok4567");
@@ -116,6 +116,7 @@ public class BarberTimeBackendApplication {
                     LocalTime.of(12, 0), EService.MASSAGE);
 
             customerService.saveAppointment(customer4.getIdUser(), barberShop4.getIdBarberShop(), appointment1);
+            
             customerService.saveAppointment(customer5.getIdUser(), barberShop5.getIdBarberShop(), appointment2);
             customerService.saveAppointment(customer6.getIdUser(), barberShop6.getIdBarberShop(), appointment3);
 

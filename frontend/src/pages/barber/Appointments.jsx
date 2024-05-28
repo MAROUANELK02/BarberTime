@@ -12,7 +12,12 @@ const Appointments = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/owner/barberShop/1/appointments?page=0&size=3"
+          "http://localhost:5000/api/owner/barberShop/1/appointments?page=0&size=3",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         const data = response.data.content;
         console.log(data);
@@ -46,12 +51,17 @@ const Appointments = () => {
   const handleConfirmation = async (id, status) => {
     try {
       console.log(status);
-      const response = await axios.patch(
+      await axios.patch(
         "http://localhost:5000/api/owner/appointment/" +
           id +
           "/status?status=" +
           status,
-        {}
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
       fetchData();
@@ -65,7 +75,12 @@ const Appointments = () => {
       const response = await axios.get(
         "http://localhost:5000/api/owner/barberShop/1/appointments?page=" +
           (page - 1) +
-          "&size=3"
+          "&size=3",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       const data = response.data.content;
       setAppointments(data);

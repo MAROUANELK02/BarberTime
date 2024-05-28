@@ -5,6 +5,7 @@ import axios from "axios";
 import { RxUpdate } from "react-icons/rx";
 const Services = () => {
   const [selectedServices, setSelectedServices] = useState([]);
+  const [ids, setIds] = useState([]);
 
   const handleSelectService = (service) => {
     if (selectedServices.some((s) => s.serviceName === service)) {
@@ -31,24 +32,69 @@ const Services = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/owner/barberShop/2"
-        );
-        const data = response.data.services;
-
-        setSelectedServices(data);
-        console.log(selectedServices);
-      } catch (error) {
-        console.error("Error fetching holidays:", error);
-      }
-    };
-
     fetchData();
 
     return () => {};
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/owner/barberShop/" +
+          localStorage.getItem("id"),
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+      const data = response.data.services;
+      setSelectedServices(data);
+      let tab = [];
+      data.map((s) => tab.push(s.idService));
+      setIds(tab);
+      console.log("the selected services");
+      console.log(selectedServices);
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+    }
+  };
+
+  const handleUpdateServices = async () => {
+    for (const id of ids) {
+      // try {
+      //   axios.delete("http://localhost:5000/api/owner/service/" + id, {
+      //     headers: {
+      //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+      //     },
+      //   });
+      // } catch (error) {
+      //   console.error("Error fetching holidays:", error);
+      // }
+    }
+    console.log(selectedServices);
+    // for (const service of selectedServices) {
+    // try {
+    //   axios.post(
+    //     "http://localhost:5000/api/owner/service/" + localStorage.getItem("id"),
+    //     {
+    //       serviceName: "MASSAGE",
+    //       price: 100,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //       },
+    //     }
+    //   );
+    // } catch (error) {
+    //   console.error("Error fetching holidays:", error);
+    // }
+    // }
+    fetchData();
+  };
+
   return (
     <section class="card">
       <div class="card-body">
@@ -148,15 +194,13 @@ const Services = () => {
                     <div className="row justify-content-between">
                       <div className=" p-0">
                         <div className="">
-                          <Link to={"/create-account-barber5"}>
-                            <button
-                              className="btn btn-primary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Update <RxUpdate className="ms-1" />
-                            </button>
-                          </Link>
+                          <div
+                            className="btn btn-primary btn-lg"
+                            style={{ width: "100%" }}
+                            onClick={handleUpdateServices}
+                          >
+                            Update <RxUpdate className="ms-1" />
+                          </div>
                         </div>
                       </div>
                     </div>
