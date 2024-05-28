@@ -10,6 +10,7 @@ import com.barbertime.barbertime_backend.dtos.res.ReviewResDTO;
 import com.barbertime.barbertime_backend.entities.*;
 import com.barbertime.barbertime_backend.enums.ENeighborhood;
 import com.barbertime.barbertime_backend.enums.ERole;
+import com.barbertime.barbertime_backend.enums.EService;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.BarberShopNotFoundException;
 import com.barbertime.barbertime_backend.exceptions.CustomerNotFoundException;
@@ -26,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -209,6 +211,19 @@ public class CustomerServiceImpl implements CustomerService {
     public List<ReviewResDTO> getReviewsByBarberShopId(Long idBarberShop) {
         return reviewRepository.findAllByBarberShopIdBarberShop(idBarberShop).stream()
                 .map(mappers::toReviewResDTO)
+                .toList();
+    }
+
+    @Override
+    public List<BarberShopResDTO> getBarberShopsByService(EService service) {
+        log.info("Getting barber shops by service");
+        List<BarberShop> barberShops = new ArrayList<>();
+        List<BarberService> services = barberServiceRepository.findAllByServiceName(service);
+        services.forEach(s -> {
+            barberShops.addAll(barberShopRepository.findAllByBarberServicesIdService(s.getIdService()));
+        });
+        return barberShops.stream()
+                .map(mappers::toBarberShopResDTO)
                 .toList();
     }
 }

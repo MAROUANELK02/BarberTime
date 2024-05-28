@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
     public UserResDTO changePassword(String email, String password, String confirmedPassword) {
         if(password.equals(confirmedPassword)) {
 
-            User user = userRepository.findByEmailContains(email);
+            User user = userRepository.findByEmail(email);
 
             boolean hasAdminRole = user.getRole().stream().anyMatch(role ->
                     role.getRoleName().equals(ERole.ROLE_ADMIN));

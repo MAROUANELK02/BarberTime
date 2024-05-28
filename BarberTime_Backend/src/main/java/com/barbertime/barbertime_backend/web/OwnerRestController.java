@@ -35,11 +35,6 @@ import java.util.Optional;
 public class OwnerRestController {
     private OwnerService ownerService;
 
-    @PostMapping("/barberShop")
-    public BarberShopResDTO createBarberShop(@RequestBody BarberShopReqDTO barberShopDTO) {
-        return ownerService.createBarberShop(barberShopDTO);
-    }
-
     @PatchMapping("/barberShop/{idBarberShop}")
     public BarberShopResDTO updateBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
                                              @RequestBody BarberShopReqDTO barberShopDTO) {
@@ -170,6 +165,13 @@ public class OwnerRestController {
         } catch (BarberShopNotFoundException | HairdresserNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/hairdresser/{idBarberShop}")
+    public Page<HairdresserResDTO> getHairdressersByBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
+                                                              @RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "3") int size) {
+        return ownerService.getHairdressersByBarberShop(idBarberShop, page, size);
     }
 
     @PostMapping("/holiday/{idBarberShop}")

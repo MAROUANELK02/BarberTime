@@ -315,4 +315,10 @@ public class OwnerServiceImpl implements OwnerService {
             log.info("Hairdresser removed from barber shop");
         }
     }
+
+    @Override
+    public Page<HairdresserResDTO> getHairdressersByBarberShop(Long idBarberShop, int page, int size) {
+        return hairdresserRepository.findAllByBarberShopIdBarberShop(idBarberShop, PageRequest.of(page, size))
+                .map(mappers::toHairdresserResDTO);
+    }
 }

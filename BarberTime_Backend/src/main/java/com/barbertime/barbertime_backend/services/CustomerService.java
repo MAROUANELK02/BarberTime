@@ -8,6 +8,7 @@ import com.barbertime.barbertime_backend.dtos.res.BarberShopResDTO;
 import com.barbertime.barbertime_backend.dtos.res.CustomerResDTO;
 import com.barbertime.barbertime_backend.dtos.res.ReviewResDTO;
 import com.barbertime.barbertime_backend.enums.ENeighborhood;
+import com.barbertime.barbertime_backend.enums.EService;
 import com.barbertime.barbertime_backend.exceptions.BarberShopNotFoundException;
 import com.barbertime.barbertime_backend.exceptions.CustomerNotFoundException;
 import org.springframework.data.domain.Page;
@@ -27,4 +28,5 @@ public interface CustomerService {
     Page<ReviewResDTO> getReviews(Long idCustomer, int page, int size);
     BarberShopResDTO getBarberShop(Long idBarberShop) throws BarberShopNotFoundException;
     List<ReviewResDTO> getReviewsByBarberShopId(Long idBarberShop);
+    List<BarberShopResDTO> getBarberShopsByService(EService service);
 }
