@@ -12,7 +12,9 @@ const Appointments = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/owner/barberShop/1/appointments?page=0&size=3",
+          "http://localhost:5000/api/owner/barberShop/" +
+            localStorage.getItem("id") +
+            "/appointments?page=0&size=3",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -73,7 +75,9 @@ const Appointments = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/owner/barberShop/1/appointments?page=" +
+        "http://localhost:5000/api/owner/barberShop/" +
+          localStorage.getItem("id") +
+          "/appointments?page=" +
           (page - 1) +
           "&size=3",
         {
@@ -90,13 +94,40 @@ const Appointments = () => {
     }
   };
 
+  const getAppointmentsByDate = async (date) => {
+    console.log(date);
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/owner/barberShop/" +
+          localStorage.getItem("id") +
+          "/appointmentsPerDate?page=" +
+          (page - 1) +
+          "&size=3&date=" +
+          date,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = response.data.content;
+      setAppointments(data);
+      setTotalPages(response.data.totalPages);
+      setAppointments(data);
+    } catch (error) {}
+  };
+
   return (
     <div className="card" style={{ minHeight: "94%" }}>
       <div className="card-body position-relative">
         <h4 className="card-title">Appointments</h4>
         <div className="row mb-4">
           <div className="col-5 mx-auto">
-            <input type="date" className="form-control" />
+            <input
+              type="date"
+              className="form-control"
+              onChange={(e) => getAppointmentsByDate(e.target.value)}
+            />
           </div>
         </div>
         <div className="row">

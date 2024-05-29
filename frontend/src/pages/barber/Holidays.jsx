@@ -38,7 +38,6 @@ const Holidays = () => {
           },
         }
       );
-      //console.log(response.data);
       fetchData();
       handleClose();
     } catch (error) {

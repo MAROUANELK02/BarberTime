@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  }, [login]);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    setLogin(false);
+    navigate("/login");
+  };
+
   return (
     <Navbar
       bg="light"
@@ -40,15 +56,8 @@ const Header = () => {
               </NavDropdown.Item>
             )}
             {login && (
-              <NavDropdown.Item>
+              <NavDropdown.Item onClick={logout}>
                 <Link className="nav-link">Logout</Link>{" "}
-              </NavDropdown.Item>
-            )}
-            {login && (
-              <NavDropdown.Item>
-                <Link className="nav-link" to={"/profile"}>
-                  Profile
-                </Link>
               </NavDropdown.Item>
             )}
           </NavDropdown>

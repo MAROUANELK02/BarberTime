@@ -7,16 +7,27 @@ const Services = () => {
   const [selectedServices, setSelectedServices] = useState([]);
   const [ids, setIds] = useState([]);
 
-  const handleSelectService = (service) => {
-    if (selectedServices.some((s) => s.serviceName === service)) {
-      setSelectedServices(
-        selectedServices.filter((s) => s.serviceName !== service)
-      );
-    } else {
-      setSelectedServices([
-        ...selectedServices,
-        { serviceName: service, price: 0 },
-      ]);
+  const handleSelectService = async (service) => {
+    try {
+      if (selectedServices.some((s) => s.serviceName === service)) {
+        selectedServices.map(async (s) => {
+          if (service === s.serviceName) {
+            await deleteService(s.idService);
+          }
+        });
+        setSelectedServices(
+          selectedServices.filter((s) => s.serviceName !== service)
+        );
+      } else {
+        console.log(service);
+        addService(service);
+        setSelectedServices([
+          ...selectedServices,
+          { serviceName: service, price: 0 },
+        ]);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -31,6 +42,45 @@ const Services = () => {
     );
   };
 
+  const deleteService = async (id) => {
+    console.log(id);
+    try {
+      const response = await axios.delete(
+        "http://localhost:5000/api/owner/service/" + id,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+      alert("This service aleary has an appointment");
+      fetchData();
+    }
+  };
+
+  const addService = async (service) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/owner/service/" + localStorage.getItem("id"),
+        {
+          serviceName: service,
+          price: 0,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      fetchData();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
 
@@ -40,8 +90,7 @@ const Services = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/owner/barberShop/" +
-          localStorage.getItem("id"),
+        "http://localhost:5000/api/owner/barberShop/" + 3,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -62,37 +111,24 @@ const Services = () => {
   };
 
   const handleUpdateServices = async () => {
-    for (const id of ids) {
-      // try {
-      //   axios.delete("http://localhost:5000/api/owner/service/" + id, {
+    console.log(selectedServices);
+    try {
+      // axios.post(
+      //   "http://localhost:5000/api/owner/service/" + localStorage.getItem("id"),
+      //   {
+      //     idService: 24,
+      //     serviceName: "COUPE",
+      //     price: 555,
+      //   },
+      //   {
       //     headers: {
       //       Authorization: `Bearer ${localStorage.getItem("token")}`,
       //     },
-      //   });
-      // } catch (error) {
-      //   console.error("Error fetching holidays:", error);
-      // }
+      //   }
+      // );
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
     }
-    console.log(selectedServices);
-    // for (const service of selectedServices) {
-    // try {
-    //   axios.post(
-    //     "http://localhost:5000/api/owner/service/" + localStorage.getItem("id"),
-    //     {
-    //       serviceName: "MASSAGE",
-    //       price: 100,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //       },
-    //     }
-    //   );
-    // } catch (error) {
-    //   console.error("Error fetching holidays:", error);
-    // }
-    // }
-    fetchData();
   };
 
   return (
