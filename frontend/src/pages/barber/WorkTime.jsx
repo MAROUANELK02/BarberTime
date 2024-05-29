@@ -14,16 +14,40 @@ const WorkTime = () => {
     "Sunday",
   ];
 
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [dayOff, setDayOff] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-
-  const [selectedDays, setSelectedDays] = useState([]);
-  const handleSelectDate = (day) => {
-    console.log(startTime, endTime, selectedDays);
-    if (selectedDays.includes(day)) {
-      setSelectedDays(selectedDays.filter((d) => d !== day));
-    } else {
-      setSelectedDays([...selectedDays, day]);
+  const [authorizationNumber, setAuthorizationNumber] = useState("");
+  const [neighborhood, setNeighborhood] = useState("Select neighborhood");
+  const [barberShopId, setBarberShopId] = useState(0);
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.patch(
+        "http://localhost:5000/api/owner/barberShop/" + barberShopId,
+        {
+          name: name,
+          phone: phone,
+          address: address,
+          authorizationNumber: authorizationNumber,
+          neighborhood: neighborhood.replace(/\s/g, "_"),
+          dayOff: dayOff,
+          startTime: startTime,
+          endTime: endTime,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response.data);
+      alert("Updated successfully");
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
     }
   };
 
@@ -31,7 +55,8 @@ const WorkTime = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/owner/barberShop/2",
+          "http://localhost:5000/api/owner/barberShop/" +
+            localStorage.getItem("id"),
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -39,12 +64,16 @@ const WorkTime = () => {
           }
         );
         const data = response.data;
-        setSelectedDays(data.dayOff);
-        setStartTime(data.startTime.slice(0, 5));
-        setEndTime(data.endTime.slice(0, 5));
-        console.log(startTime, endTime, selectedDays);
-
-        console.log(data);
+        setBarberShopId(data.idBarberShop);
+        setName(data.name);
+        setPhone(data.phone);
+        setAddress(data.address);
+        setAuthorizationNumber(data.authorizationNumber);
+        setDayOff(data.dayOff);
+        setStartTime(data.startTime);
+        setEndTime(data.endTime);
+        setNeighborhood(data.neighborhood.replace(/_/g, " "));
+        console.log(barberShopId);
       } catch (error) {
         console.error("Error fetching holidays:", error);
       }
@@ -64,7 +93,7 @@ const WorkTime = () => {
           <div class="col-12  col-xl-10 mx-auto">
             <div class="card border-0 rounded-4">
               <div class="card-body p-3 p-md-4 p-xl-5">
-                <form action="#!">
+                <form>
                   <div class="row gy-3 ">
                     <div class="col-12 d-flex mb-3">
                       <div class="col-6">Starting Time</div>
@@ -100,12 +129,10 @@ const WorkTime = () => {
                         {days.map((d) => (
                           <span
                             class={`btn btn-${
-                              selectedDays.includes(d)
-                                ? "primary"
-                                : "outline-primary"
+                              dayOff === d ? "primary" : "outline-primary"
                             }`}
                             style={{ cursor: "pointer" }}
-                            onClick={() => handleSelectDate(d)}
+                            onClick={() => setDayOff(d)}
                           >
                             {d}
                           </span>
@@ -116,15 +143,13 @@ const WorkTime = () => {
                     <div className="row justify-content-between">
                       <div className=" ms-2">
                         <div className="">
-                          <Link to={"/create-account-barber4"}>
-                            <button
-                              className="btn btn-primary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Update <RxUpdate className="ms-1" />
-                            </button>
-                          </Link>
+                          <button
+                            className="btn btn-primary btn-lg"
+                            style={{ width: "100%" }}
+                            onClick={(e) => handleUpdate(e)}
+                          >
+                            Update <RxUpdate className="ms-1" />
+                          </button>
                         </div>
                       </div>
                     </div>
