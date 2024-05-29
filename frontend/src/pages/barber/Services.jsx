@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import services from "../../components/services";
 import axios from "axios";
 import { RxUpdate } from "react-icons/rx";
