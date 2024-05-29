@@ -20,13 +20,13 @@ const BarberShop = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-            "http://localhost:5000/api/owner/barberShop/" +
+          "http://localhost:5000/api/owner/barberShop/" +
             localStorage.getItem("id"),
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         const data = response.data;
         setBarberShopId(data.idBarberShop);
@@ -42,7 +42,6 @@ const BarberShop = () => {
       } catch (error) {
         console.error("Error fetching holidays:", error);
       }
-
     };
 
     fetchData();
@@ -57,10 +56,10 @@ const BarberShop = () => {
           phone: phone,
           address: address,
           authorizationNumber: authorizationNumber,
-          neighborhood: neighborhood.replace(/\s/g, '_'),
+          neighborhood: neighborhood.replace(/\s/g, "_"),
           dayOff: dayOff,
           startTime: startTime,
-          endTime: endTime
+          endTime: endTime,
         },
         {
           headers: {
@@ -87,7 +86,7 @@ const BarberShop = () => {
                 <div className="row">
                   <div className="col-12"></div>
                 </div>
-                <form action="#!">
+                <form>
                   <div className="row gy-3 ">
                     <div className="col-12 d-flex">
                       <div className="w-100">
@@ -173,7 +172,6 @@ const BarberShop = () => {
                         >
                           {neighborhoods.map((n) => (
                             <Dropdown.Item
-                              href="#/action-1"
                               onClick={() => setNeighborhood(n.name)}
                             >
                               {n.name}
@@ -188,7 +186,6 @@ const BarberShop = () => {
                         <div className="">
                           <button
                             className="btn btn-primary btn-lg"
-                            type="submit"
                             style={{ width: "100%" }}
                             onClick={() => handleUpdate()}
                           >
