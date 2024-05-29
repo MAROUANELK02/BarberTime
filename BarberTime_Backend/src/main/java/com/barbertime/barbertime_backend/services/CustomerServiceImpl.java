@@ -105,7 +105,8 @@ public class CustomerServiceImpl implements CustomerService {
         Appointment save = appointmentRepository.save(appointment);
         String qrCodeData = "http://localhost:5000/appointment/" + save.getIdAppointment();
         try {
-            String qrCodePath = "QRCode.png";
+            // Include the appointment ID in the file name
+            String qrCodePath = "QRCode_" + save.getIdAppointment() + ".png";
             emailSenderService.generateQRCodeImage(qrCodeData, 350, 350, qrCodePath);
             emailSenderService.sendEmailWithAttachment(customer.getEmail(), "Your Appointment", "Please check your appointment details using the attached QR code.", qrCodePath);
         } catch (WriterException | IOException e) {

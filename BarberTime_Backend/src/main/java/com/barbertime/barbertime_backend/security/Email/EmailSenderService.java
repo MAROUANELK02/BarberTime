@@ -52,10 +52,14 @@ public class EmailSenderService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("marouanelk02@gmail.com");
+            // Définir l'expéditeur comme "BarberTime"
+            helper.setFrom("BarberTime Plateforme <noreply@barbertime.com>");
             helper.setTo(toEmail);
             helper.setSubject(subject);
-            helper.setText(body);
+
+            // Ajouter un message personnalisé en français
+            String customBody = "Cher client,\n\n" + body + "\n\nCordialement,\nL'équipe BarberTime";
+            helper.setText(customBody);
 
             FileSystemResource file = new FileSystemResource(new File(attachmentPath));
             helper.addAttachment("QRCode.png", file);
