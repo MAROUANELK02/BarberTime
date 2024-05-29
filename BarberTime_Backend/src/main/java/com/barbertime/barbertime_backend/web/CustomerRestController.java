@@ -23,7 +23,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/customer")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('OWNER')")
+//@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('OWNER')")
 public class CustomerRestController {
     private CustomerService customerService;
 

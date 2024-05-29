@@ -111,17 +111,21 @@ public class OwnerServiceImpl implements OwnerService {
         }
     }
 
-
     @Override
     public BarberShopResDTO updateBarberShop(Long idBarberShop,BarberShopReqDTO barberShopDTO) throws BarberShopNotFoundException {
         log.info("Updating barber shop");
         BarberShop barberFound = barberShopRepository.findById(idBarberShop)
                 .orElseThrow(() -> new BarberShopNotFoundException("Barber shop not found"));
         BarberShop barberShop = mappers.toBarberShop(barberShopDTO);
-        barberShop.setIdBarberShop(barberFound.getIdBarberShop());
-        barberShop.setBarberServices(barberFound.getBarberServices());
-        barberShop.setOwner(barberFound.getOwner());
-        BarberShop save = barberShopRepository.save(barberShop);
+        barberFound.setAddress(barberShop.getAddress());
+        barberFound.setAuthorizationNumber(barberShop.getAuthorizationNumber());
+        barberFound.setDayOff(barberShop.getDayOff());
+        barberFound.setStartTime(barberShop.getStartTime());
+        barberFound.setEndTime(barberShop.getEndTime());
+        barberFound.setName(barberShop.getName());
+        barberFound.setPhone(barberShop.getPhone());
+        barberFound.setNeighborhood(barberShop.getNeighborhood());
+        BarberShop save = barberShopRepository.save(barberFound);
         log.info("Barber shop updated");
         return mappers.toBarberShopResDTO(save);
     }

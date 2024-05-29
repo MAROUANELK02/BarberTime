@@ -72,7 +72,7 @@ public class MappersImpl implements Mappers {
 
     @Override
     public BarberShop toBarberShop(BarberShopReqDTO barberShopDTO) {
-        return BarberShop.builder()
+        BarberShop barberShop =  BarberShop.builder()
                 .name(barberShopDTO.getName())
                 .address(barberShopDTO.getAddress())
                 .phone(barberShopDTO.getPhone())
@@ -80,11 +80,15 @@ public class MappersImpl implements Mappers {
                 .authorizationNumber(barberShopDTO.getAuthorizationNumber())
                 .dayOff(barberShopDTO.getDayOff())
                 .startTime(barberShopDTO.getStartTime())
-                .endTime(barberShopDTO.getEndTime())
-                .owner(toOwner(barberShopDTO.getOwnerDTO()))
-                .barberServices(barberShopDTO.getServices().stream().map(this::toBarberService)
-                        .collect(Collectors.toList()))
-                .build();
+                .endTime(barberShopDTO.getEndTime()).build();
+        if (barberShopDTO.getOwnerDTO() != null) {
+            barberShop.setOwner(toOwner(barberShopDTO.getOwnerDTO()));
+        }
+        if(barberShopDTO.getServices() != null) {
+            barberShop.setBarberServices(barberShopDTO.getServices().stream().map(this::toBarberService)
+                    .collect(Collectors.toList()));
+        }
+        return barberShop;
     }
 
     @Override
