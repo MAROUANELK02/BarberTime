@@ -125,6 +125,15 @@ public class OwnerServiceImpl implements OwnerService {
         barberFound.setName(barberShop.getName());
         barberFound.setPhone(barberShop.getPhone());
         barberFound.setNeighborhood(barberShop.getNeighborhood());
+        if(barberShop.getOwner() != null) {
+            Owner owner = ownerRepository.findByCin(barberShopDTO.getOwnerDTO().getCin());
+            owner.setFirstName(barberShopDTO.getOwnerDTO().getFirstName());
+            owner.setLastName(barberShopDTO.getOwnerDTO().getLastName());
+            owner.setTelNumber(barberShopDTO.getOwnerDTO().getTelNumber());
+            owner.setEmail(barberShopDTO.getOwnerDTO().getEmail());
+            owner.setUsername(barberShopDTO.getOwnerDTO().getUsername());
+            barberFound.setOwner(owner);
+        }
         BarberShop save = barberShopRepository.save(barberFound);
         log.info("Barber shop updated");
         return mappers.toBarberShopResDTO(save);

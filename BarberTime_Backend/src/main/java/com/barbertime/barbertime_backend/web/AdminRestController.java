@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping("/api/admin")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('OWNER')")
+//@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('OWNER')")
 public class AdminRestController {
     private AdminService adminService;
 
