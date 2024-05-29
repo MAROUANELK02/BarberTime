@@ -9,19 +9,58 @@ const BarberShop = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [dayOff, setDayOff] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [authorizationNumber, setAuthorizationNumber] = useState("");
   const [neighborhood, setNeighborhood] = useState("Select neighborhood");
+  const [barberShopId, setBarberShopId] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+            "http://localhost:5000/api/owner/barberShop/" +
+            localStorage.getItem("id"),
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+        );
+        const data = response.data;
+        setBarberShopId(data.idBarberShop);
+        setName(data.name);
+        setPhone(data.phone);
+        setAddress(data.address);
+        setAuthorizationNumber(data.authorizationNumber);
+        setDayOff(data.dayOff);
+        setStartTime(data.startTime);
+        setEndTime(data.endTime);
+        setNeighborhood(data.neighborhood.replace(/_/g, " "));
+        console.log(barberShopId);
+      } catch (error) {
+        console.error("Error fetching holidays:", error);
+      }
+
+    };
+
+    fetchData();
+  }, []);
 
   const handleUpdate = async () => {
     try {
       const response = await axios.patch(
-        "http://localhost:5000/api/owner/barberShop/2",
+        "http://localhost:5000/api/owner/barberShop/" + barberShopId,
         {
           name: name,
           phone: phone,
           address: address,
           authorizationNumber: authorizationNumber,
-          neighborhood: neighborhood,
+          neighborhood: neighborhood.replace(/\s/g, '_'),
+          dayOff: dayOff,
+          startTime: startTime,
+          endTime: endTime
         },
         {
           headers: {
@@ -35,34 +74,6 @@ const BarberShop = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/owner/barberShop/2",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        const data = response.data;
-        setName(data.name);
-        setPhone(data.phone);
-        setAddress(data.address);
-        setAuthorizationNumber(data.authorizationNumber);
-        setNeighborhood(data.neighborhood.replace(/_/g, " "));
-
-        console.log(data);
-      } catch (error) {
-        console.error("Error fetching holidays:", error);
-      }
-    };
-
-    fetchData();
-
-    return () => {};
-  }, []);
   return (
     <section className="card">
       <div className="card-body">
