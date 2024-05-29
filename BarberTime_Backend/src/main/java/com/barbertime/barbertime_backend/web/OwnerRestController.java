@@ -21,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.management.ServiceNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
@@ -133,6 +134,16 @@ public class OwnerRestController {
         try {
             ownerService.removeServiceFromBarberShop(idService);
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PatchMapping("/service/{idService}")
+    public void editServiceFromBarberShop(@PathVariable(name = "idService") Long idService,
+                                         @RequestBody BarberServiceDTO barberServiceDTO) {
+        try {
+            ownerService.editService(idService, barberServiceDTO);
+        } catch (ServiceNotFoundException e) {
             throw new RuntimeException(e);
         }
     }

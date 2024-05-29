@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.management.ServiceNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -278,6 +279,17 @@ public class OwnerServiceImpl implements OwnerService {
         log.info("Removing service");
         barberServiceRepository.deleteById(idService);
         log.info("Service removed");
+    }
+
+    @Override
+    public void editService(Long idService, BarberServiceDTO barberServiceDTO) throws ServiceNotFoundException {
+        log.info("Editing service");
+        BarberService barberService = barberServiceRepository.findById(idService)
+                .orElseThrow(() -> new ServiceNotFoundException("Service not found"));
+        barberService.setServiceName(barberServiceDTO.getServiceName());
+        barberService.setPrice(barberServiceDTO.getPrice());
+        barberServiceRepository.save(barberService);
+        log.info("Service edited");
     }
 
     @Override

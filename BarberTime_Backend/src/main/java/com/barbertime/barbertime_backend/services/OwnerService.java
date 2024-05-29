@@ -6,11 +6,13 @@ import com.barbertime.barbertime_backend.dtos.res.*;
 import com.barbertime.barbertime_backend.entities.BarberService;
 import com.barbertime.barbertime_backend.entities.BarberShop;
 import com.barbertime.barbertime_backend.entities.Hairdresser;
+import com.barbertime.barbertime_backend.enums.EService;
 import com.barbertime.barbertime_backend.enums.EStatus;
 import com.barbertime.barbertime_backend.exceptions.*;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.management.ServiceNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -44,6 +46,7 @@ public interface OwnerService {
 
     void createService(BarberServiceDTO barberServiceDTO, Long idBarberShop) throws BarberShopNotFoundException;
     void removeServiceFromBarberShop(Long idService);
+    void editService(Long idService, BarberServiceDTO barberServiceDTO) throws ServiceNotFoundException;
 
     Hairdresser addHairdresser(HairdresserReqDTO hairdresserDTO);
     HairdresserResDTO updateHairdresser(Long idHairdresser, HairdresserReqDTO hairdresserDTO) throws HairdresserNotFoundException;
