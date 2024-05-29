@@ -111,24 +111,27 @@ const Services = () => {
   };
 
   const handleUpdateServices = async () => {
-    console.log(selectedServices);
-    try {
-      // axios.post(
-      //   "http://localhost:5000/api/owner/service/" + localStorage.getItem("id"),
-      //   {
-      //     idService: 24,
-      //     serviceName: "COUPE",
-      //     price: 555,
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${localStorage.getItem("token")}`,
-      //     },
-      //   }
-      // );
-    } catch (error) {
-      console.error("Error fetching holidays:", error);
-    }
+    selectedServices.map(async (service) => {
+      try {
+        const response = await axios.patch(
+          "http://localhost:5000/api/owner/service/" + service.idService,
+          {
+            serviceName: service.serviceName,
+            price: service.price,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error("Error fetching holidays:", error);
+        alert("This service aleary has an appointment");
+      }
+    });
+    alert("Services updated successfully");
+    //fetchData();
   };
 
   return (
