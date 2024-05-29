@@ -53,6 +53,11 @@ public class CustomerRestController {
         return customerService.getAppointments(idCustomer, page, size);
     }
 
+    @PatchMapping("/appointment/{idAppointment}/cancel")
+    public void cancelAppointment(@PathVariable(name = "idAppointment") Long idAppointment) {
+            customerService.cancelAppointment(idAppointment);
+    }
+
     @PostMapping("/appointment")
     public AppointmentResDTO saveAppointment(@RequestParam Long idCustomer,
                                              @RequestParam Long idBarber,

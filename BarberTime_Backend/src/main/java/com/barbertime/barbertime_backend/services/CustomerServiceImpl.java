@@ -60,7 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Page<AppointmentResDTO> getAppointments(Long idCustomer, int page, int size) {
-        return appointmentRepository.findAllByCustomerIdUser(idCustomer, PageRequest.of(page, size))
+        return appointmentRepository.findAllByCustomerIdUserAndStatus(idCustomer, EStatus.CONFIRMED, PageRequest.of(page, size))
                 .map(mappers::toAppointmentResDTO);
     }
 
@@ -163,6 +163,21 @@ public class CustomerServiceImpl implements CustomerService {
     public Page<BarberShopResDTO> getAllBarberShops(int page, int size) {
         log.info("Getting all barber shops");
         return barberShopRepository.findAll(PageRequest.of(page, size)).map(mappers::toBarberShopResDTO);
+    }
+
+    @Override
+    public void cancelAppointment(Long idAppointment) {
+        log.info("Cancelling appointment");
+        try {
+            Appointment appointment = appointmentRepository.findById(idAppointment).orElse(null);
+            if(appointment != null) {
+                appointment.setStatus(EStatus.CANCELED);
+                appointmentRepository.save(appointment);
+            }
+            log.info("Appointment cancelled");
+        } catch (Exception e) {
+            log.error("Error cancelling appointment", e);
+        }
     }
 
     @Override

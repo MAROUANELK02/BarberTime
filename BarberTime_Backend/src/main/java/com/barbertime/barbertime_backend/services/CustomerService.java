@@ -23,6 +23,7 @@ public interface CustomerService {
     CustomerResDTO updateCustomer(Long customerId, CustomerReqDTO customerDTO);
     void deleteCustomer(Long idCustomer);
     Page<BarberShopResDTO> getAllBarberShops(int page, int size);
+    void cancelAppointment(Long idAppointment);
     Page<BarberShopResDTO> getAllBarberShopsByLocation(ENeighborhood location, int page, int size);
     ReviewResDTO addReview(ReviewReqDTO reviewReqDTO, Long customerId, Long barberShopId) throws CustomerNotFoundException, BarberShopNotFoundException;
     Page<ReviewResDTO> getReviews(Long idCustomer, int page, int size);
