@@ -5,12 +5,26 @@ import axios from "axios";
 
 const Profile = () => {
   const [owner, setOwner] = useState({});
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [cin, setCin] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
+  const [barberShop, setBarberSho] = useState({});
+
+  const handleUpdate = async () => {
+    try {
+      console.log({ ...barberShop, ownerDTO: owner });
+      const response = await axios.patch(
+        "http://localhost:5000/api/owner/barberShop/" +
+          localStorage.getItem("id"),
+        { ...barberShop, ownerDTO: owner },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching holidays:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +40,8 @@ const Profile = () => {
         );
         const data = response.data.ownerDTO;
         setOwner(data);
-        console.log(data);
+        console.log(response.data);
+        setBarberSho(response.data);
       } catch (error) {
         console.error("Error fetching holidays:", error);
       }
@@ -34,10 +49,7 @@ const Profile = () => {
 
     fetchData();
 
-    // Clean-up function if needed
-    return () => {
-      // Perform clean-up tasks here if necessary
-    };
+    return () => {};
   }, []);
   return (
     <section class="card" style={{ minHeight: "95%" }}>
@@ -51,7 +63,7 @@ const Profile = () => {
             <div class="col-12 col-md-8 col-xl-8 mx-auto">
               <div class="card border-0 rounded-4">
                 <div class="   p-xl-5">
-                  <form action="#!">
+                  <>
                     <div class="row gy-3 overflow-hidden">
                       <div class="col-12 d-flex">
                         <div>
@@ -159,20 +171,18 @@ const Profile = () => {
                       <div class="col-12"></div>
                       <div class="col-12">
                         <div class="d-grid">
-                          <Link to={"/create-account-barber2"}>
-                            <button
-                              class="btn btn-primary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Update
-                              <RxUpdate className="ms-1" />
-                            </button>
-                          </Link>
+                          <button
+                            class="btn btn-primary btn-lg"
+                            style={{ width: "100%" }}
+                            onClick={handleUpdate}
+                          >
+                            Update
+                            <RxUpdate className="ms-1" />
+                          </button>
                         </div>
                       </div>
                     </div>
-                  </form>
+                  </>
                 </div>
               </div>
             </div>

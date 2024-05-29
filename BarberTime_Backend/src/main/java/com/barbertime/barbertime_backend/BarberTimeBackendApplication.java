@@ -116,7 +116,7 @@ public class BarberTimeBackendApplication {
                     LocalTime.of(12, 0), EService.MASSAGE);
 
             customerService.saveAppointment(customer4.getIdUser(), barberShop4.getIdBarberShop(), appointment1);
-            
+
             customerService.saveAppointment(customer5.getIdUser(), barberShop5.getIdBarberShop(), appointment2);
             customerService.saveAppointment(customer6.getIdUser(), barberShop6.getIdBarberShop(), appointment3);
 

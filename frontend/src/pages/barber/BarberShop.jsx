@@ -22,6 +22,11 @@ const BarberShop = () => {
           address: address,
           authorizationNumber: authorizationNumber,
           neighborhood: neighborhood,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
       );
       console.log(response.data);
@@ -34,7 +39,12 @@ const BarberShop = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/owner/barberShop/2"
+          "http://localhost:5000/api/owner/barberShop/2",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         const data = response.data;
         setName(data.name);

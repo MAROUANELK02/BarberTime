@@ -21,7 +21,7 @@ const Login = () => {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("id", response.data.id);
       console.log(response.data.token, response.data.id);
-      navigate("/");
+      navigate("/barber-shop-space");
     } catch (error) {
       console.error(error);
     }
