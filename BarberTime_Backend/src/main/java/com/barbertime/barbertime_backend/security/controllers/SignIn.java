@@ -53,9 +53,9 @@ public class SignIn {
 
         log.info("User with username: " + userDetails.getUsername() + " has logged in");
         return ResponseEntity.ok(new UserInfoResponse(jwt,
-                        userDetails.getId(),
-                        userDetails.getUsername(),
-                        userDetails.getEmail(),
-                        roles));
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles));
     }
 }

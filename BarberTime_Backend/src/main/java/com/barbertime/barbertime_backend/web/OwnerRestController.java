@@ -31,7 +31,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping("/api/owner")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('OWNER')")
+//@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('OWNER')")
 public class OwnerRestController {
     private OwnerService ownerService;
 

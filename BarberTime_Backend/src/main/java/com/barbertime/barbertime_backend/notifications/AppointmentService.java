@@ -23,7 +23,15 @@ public class AppointmentService {
         for (Appointment appointment : appointments) {
             String toEmail = appointment.getCustomer().getEmail();
             String subject = "Rappel de rendez-vous";
-            String body = "Vous avez un rendez-vous demain à " + appointment.getTime();
+            String body = "Cher(e) " + appointment.getCustomer().getFirstName() + " " + appointment.getCustomer().getLastName() + ",\n\n"
+                    + "Ceci est un rappel que vous avez un rendez-vous prévu demain à " + appointment.getTime() + ".\n\n"
+                    + "Voici les détails de votre rendez-vous :\n"
+                    + "Date : " + appointment.getDate() + "\n"
+                    + "Heure : " + appointment.getTime() + "\n"
+                    + "Lieu : " + appointment.getBarberShop().getAddress() + "\n\n"
+                    + "Si vous avez besoin de modifier ou d'annuler votre rendez-vous, veuillez nous contacter dès que possible.\n\n"
+                    + "Cordialement,\n\n"
+                    + "BarberTime\n\n";
             emailSenderService.sendEmail(toEmail, subject, body);
         }
     }
