@@ -170,7 +170,7 @@ public class OwnerRestController {
     @GetMapping("/hairdresser/{idBarberShop}")
     public Page<HairdresserResDTO> getHairdressersByBarberShop(@PathVariable(name = "idBarberShop") Long idBarberShop,
                                                               @RequestParam(defaultValue = "0") int page,
-                                                              @RequestParam(defaultValue = "3") int size) {
+                                                              @RequestParam(defaultValue = "6") int size) {
         return ownerService.getHairdressersByBarberShop(idBarberShop, page, size);
     }
 
