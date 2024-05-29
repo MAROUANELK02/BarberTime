@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import Modal from "react-bootstrap/Modal";
-import { FaSave, FaTrashAlt } from "react-icons/fa";
+import { FaPen, FaSave, FaTrashAlt } from "react-icons/fa";
 
 const Hairdressers = () => {
   const [hairdressers, setHairdressers] = React.useState([]);
@@ -12,33 +12,59 @@ const Hairdressers = () => {
   const handleShow = () => setShow(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [id, setID] = useState("");
   const [isUpdate, setIsUpdate] = useState(false);
   useEffect(() => {
     fetchData();
   }, []);
 
   const handleSave = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/owner/hairdresser/barberShop/" +
-          localStorage.getItem("id"),
-        {
-          firstName,
-          lastName,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+    console.log(isUpdate);
+    if (isUpdate) {
+      try {
+        const response = await axios.patch(
+          "http://localhost:5000/api/owner/hairdresser/" + id,
+          {
+            firstName,
+            lastName,
           },
-        }
-      );
-      console.log(response);
-      setShow(false);
-      setFirstName("");
-      setLastName("");
-      fetchData();
-    } catch (error) {
-      console.log(error);
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log(response);
+        setShow(false);
+        setFirstName("");
+        setLastName("");
+        fetchData();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/owner/hairdresser/barberShop/" +
+            localStorage.getItem("id"),
+          {
+            firstName,
+            lastName,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log(response);
+        setShow(false);
+        setFirstName("");
+        setLastName("");
+        fetchData();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -67,9 +93,10 @@ const Hairdressers = () => {
   };
 
   const handleModify = (h) => {
+    setIsUpdate(true);
     setFirstName(h.firstName);
     setLastName(h.lastName);
-    setIsUpdate(true);
+    setID(h.idHairdresser);
     setShow(true);
   };
 
@@ -120,7 +147,7 @@ const Hairdressers = () => {
                     className="btn btn-outline-primary mx-2"
                     onClick={() => handleModify(h)}
                   >
-                    Modify
+                    <FaPen />
                   </button>
                   <button
                     className="btn btn-outline-danger"
