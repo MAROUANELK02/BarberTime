@@ -2,12 +2,53 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosClose } from "react-icons/io";
 import { MdFileUpload } from "react-icons/md";
+import axios from "axios";
 
 const CreateAccountBarber5 = () => {
   const [images, setImages] = useState([]);
   const removeImage = (key) => {
     const updatedImages = images.filter((image, index) => index !== key);
     setImages(updatedImages);
+  };
+
+  const next = async (e) => {
+    e.preventDefault();
+    let owner = JSON.parse(localStorage.getItem("owner"));
+    console.log(owner);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/createBarberShop" +
+          localStorage.getItem("id"),
+        {
+          name: owner.name,
+          address: owner.address,
+          phone: owner.phoneNumber,
+          neighborhood: owner.neghborhood,
+          authorizationNumber: owner.authorizationNumber,
+          dayOff: owner.dayOff,
+          startTime: owner.startTime,
+          endTime: owner.endTime,
+          ownerDTO: {
+            firstName: owner.firstName,
+            lastName: owner.lastName,
+            telNumber: owner.phoneNumber2,
+            email: owner.email,
+            username: owner.username,
+            password: owner.password,
+            cin: owner.cin,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
   };
 
   return (
@@ -24,7 +65,7 @@ const CreateAccountBarber5 = () => {
                     </div>
                   </div>
                 </div>
-                <form action="#!">
+                <form>
                   <div class="row gy-3 overflow-hidden">
                     <div class="col-12"></div>
                     <div className="col-12">
@@ -91,15 +132,13 @@ const CreateAccountBarber5 = () => {
                       </div>
                       <div className="col-10 p-0">
                         <div className="">
-                          <Link to={"/create-account-barber3"}>
-                            <button
-                              className="btn btn-primary btn-lg"
-                              type="submit"
-                              style={{ width: "100%" }}
-                            >
-                              Submit
-                            </button>
-                          </Link>
+                          <button
+                            className="btn btn-primary btn-lg"
+                            style={{ width: "100%" }}
+                            onClick={(e) => next(e)}
+                          >
+                            Submit
+                          </button>
                         </div>
                       </div>
                     </div>

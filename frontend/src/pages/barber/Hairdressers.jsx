@@ -153,7 +153,6 @@ const Hairdressers = () => {
       <div className="card-body">
         <h4 className="card-title">Hairdressers</h4>
 
-        <p className="card-text">This is the Hairdressers page</p>
         <div className="p-4">
           <div className="text-center">
             <Button variant="primary" onClick={handleCreate} className="mb-4">
