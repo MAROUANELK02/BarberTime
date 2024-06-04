@@ -34,5 +34,5 @@
 <h2>Pour les propriétaires (Application web)</h2>
 
 <h3>Owner Dashboard</h3>
-<img src="./images/ownerDashboard.png" alt="Owner Dashboard" width="200px"></img>
+<img src="./images/ownerDashboard.png" alt="Owner Dashboard"></img>
 <p>Tableau de bord du propriétaire où les propriétaires peuvent gérer leurs salons de coiffure, y compris l'ajout de nouveaux services, la gestion des coiffeurs et la visualisation des réservations.</p>
