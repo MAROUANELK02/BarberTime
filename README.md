@@ -1,5 +1,5 @@
 ﻿<h1>BarberTime</h1>
-<p>BarberTime est une application qui facilite la réservation de services de coiffure. Elle offre une interface utilisateur pour les clients et une interface web pour les propriétaires de salons de coiffure.</p>
+<p>BarberTime est une application qui facilite la réservation de services de coiffure. Elle offre une application mobile pour les clients et une interface web pour les propriétaires de salons de coiffure.</p>
 
 <h2>Pour les clients (Application mobile)</h2>
 
