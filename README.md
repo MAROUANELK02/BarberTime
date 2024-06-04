@@ -13,7 +13,7 @@
 
 <h3>See A Barber Shop</h3>
 <img src="./images/seeABarberShop.jpg" alt="See A Barber Shop" width="200px"></img>
-<p>Page de détails d'un salon de coiffure. Les clients peuvent voir les informations détaillées du salon, y compris les services offerts et les coiffeurs disponibles.</p>
+<p>Page de détails d'un salon de coiffure. Les clients peuvent voir les informations détaillées du salon, y compris les services offerts.</p>
 
 <h3>Search By Service</h3>
 <img src="./images/searchByService.jpg" alt="Search By Service" width="200px"></img>
