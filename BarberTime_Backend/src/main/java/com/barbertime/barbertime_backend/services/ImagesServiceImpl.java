@@ -44,7 +44,7 @@ public class ImagesServiceImpl implements ImagesService {
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         String newFileName = UUID.randomUUID().toString() + fileExtension;
 
-        String storagePath = "C:/Users/lasma/Documents/PI/BarberTime/BarberTime_Backend/src/main/resources/static/images/";
+        String storagePath = "absolute_path_to_the_project/BarberTime/BarberTime_Backend/src/main/resources/static/images/";
         File newFile = new File(storagePath + newFileName);
 
         file.transferTo(newFile);
