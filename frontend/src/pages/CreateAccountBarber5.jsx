@@ -17,13 +17,12 @@ const CreateAccountBarber5 = () => {
     console.log(owner);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/createBarberShop" +
-          localStorage.getItem("id"),
+        "http://localhost:5000/api/createBarberShop",
         {
           name: owner.name,
           address: owner.address,
           phone: owner.phoneNumber,
-          neighborhood: owner.neghborhood,
+          neighborhood: owner.neighborhood ? owner.neighborhood.replace(/\s/g, '_') : '',
           authorizationNumber: owner.authorizationNumber,
           dayOff: owner.dayOff,
           startTime: owner.startTime,
@@ -36,11 +35,6 @@ const CreateAccountBarber5 = () => {
             username: owner.username,
             password: owner.password,
             cin: owner.cin,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
