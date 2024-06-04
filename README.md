@@ -70,7 +70,7 @@ docker run --name myadmin -d --link some-mysql:db -p 8080:80 phpmyadmin/phpmyadm
 
 You need to have an email and key for SMTP usage in the .properties file:
 
-spring.mail.username=your-email
+spring.mail.username=your-email <br/>
 spring.mail.password=your-key
 
 ### 3. Set Absolute Path for Image Storage
@@ -90,20 +90,21 @@ Start the backend service.
 ### 6. Run the Web Frontend
 
 Navigate to the web frontend directory and run:
+```sh
 npm install
 npm start
-
+```
 ### 7. Configure and Run the Mobile Application
 
 Specify the IP address of your computer in the mobile/App/Config/apiConfig.js file:
 
-export const API_BASE_URL = 'http://192.168.1.10:5000';
+export const API_BASE_URL = 'http://your_IP_address:5000';
 
 Then, navigate to the mobile application directory and run:
-
+```sh
 npm install
 npm start
-
+```
 Use the Expo app to view the mobile application.
 
 
