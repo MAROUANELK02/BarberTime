@@ -61,7 +61,6 @@ Owner dashboard where owners can manage their barbershops, including adding new 
 
 Use the following Docker commands to set up and run the MySQL database:
 
-```sh
 docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=barber_time -e MYSQL_USER=test -e MYSQL_PASSWORD=test -p 3306:3306 -d mysql:latest
 docker run --name myadmin -d --link some-mysql:db -p 8080:80 phpmyadmin/phpmyadmin
 
